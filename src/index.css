@@ -1,4 +1,7 @@
-/* #005a8c */
+/* #0f0f23
+#4E4FEB
+#068FFF
+#EEEEEE */
 @import url("https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@100..900&display=swap");
 
 * {
@@ -13,8 +16,8 @@ body {
   margin: 0;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  background-color: #00111b;
-  color: white;
+  background-color: #0f0f23;
+  color: #eeeeee;
 }
 
 body[data-theme="light"] {
