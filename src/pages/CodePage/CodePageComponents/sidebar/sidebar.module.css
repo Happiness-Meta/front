@@ -1,0 +1,167 @@
+.sidebarSpace {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 250px;
+  height: calc(100vh - 50px);
+
+  transition: 0.3s;
+}
+
+.sidebarToggle {
+  overflow: hidden;
+  width: 0;
+  opacity: 0;
+}
+
+.search_input {
+  width: 200px;
+  height: 30px;
+  padding: 0 10px;
+  border: none;
+  border-radius: 5px;
+  background-color: rgb(127 127 127 / 10%);
+}
+
+.filesSpace {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+  margin-top: 10px;
+}
+
+.filesHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 90%;
+  height: 30px;
+}
+
+.TitleSpace {
+  width: 100px;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.expandStatusF,
+.expandStatusT {
+  display: flex;
+  align-items: center;
+  height: 100%;
+  border-radius: 50%;
+  color: gray;
+  transition: 0.3s;
+}
+
+.expandStatusF:hover {
+  transform: rotate(-90deg);
+}
+
+.expandStatusT:hover {
+  transform: rotate(90deg);
+}
+
+.filesTitle {
+  width: 70px;
+  font-weight: bold;
+}
+
+.filesAddSpace {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 60px;
+  height: 100%;
+}
+
+.addFile:hover,
+.addFolder:hover {
+  background-color: rgba(128, 128, 128, 0.5);
+}
+
+.addFile {
+  position: relative;
+  width: 30px;
+  height: 30px;
+  border-radius: 7px;
+  font-size: 18px;
+}
+
+.addFile:hover::before {
+  content: "New file";
+  font-family: sans-serif;
+  position: absolute;
+  top: -30px;
+  left: 15px;
+  transform: translateX(-50%);
+  width: fit-content;
+  height: fit-content;
+  padding: 6px 8px;
+  border-radius: 10px;
+  background-color: rgb(200, 200, 200);
+  color: black;
+  font-size: 12px;
+  font-weight: bold;
+  z-index: 10;
+}
+
+.addFolder {
+  position: relative;
+  width: 30px;
+  height: 30px;
+  border-radius: 7px;
+  font-size: 22px;
+}
+
+.addFolder:hover::before {
+  content: "New folder";
+  font-family: sans-serif;
+  position: absolute;
+  top: -30px;
+  left: 15px;
+  transform: translateX(-50%);
+  width: fit-content;
+  height: fit-content;
+  padding: 6px 8px;
+  border-radius: 7px;
+  background-color: rgb(200, 200, 200);
+  color: black;
+  font-size: 12px;
+  font-weight: bold;
+  z-index: 10;
+}
+
+.fileContainer {
+  display: flex;
+  flex-direction: column;
+  align-items: start;
+  width: 90%;
+  height: 100%;
+  border-bottom: 0.5px solid rgb(80, 80, 80);
+  overflow: hidden;
+  transition: 0.3s;
+}
+
+.FCExpandStatus {
+  height: 0;
+}
+
+.fileContainer div {
+  display: flex;
+  align-items: center;
+  height: 25px;
+}
+
+.fileIcon {
+  width: 18px;
+}
+
+.fileName {
+  margin-left: 5px;
+  background-color: transparent;
+  border: none;
+}
