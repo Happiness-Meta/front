@@ -2,7 +2,7 @@ import React from "react";
 import styles from "./codePage.module.css";
 import Header from "./CodePageComponents/header/Header";
 import Sidebar from "./CodePageComponents/sidebar/Sidebar";
-import Editor from "./CodePageComponents/editor/Editor";
+import EditorSpace from "./CodePageComponents/editorSpace/EditorSpace";
 
 function CodePage() {
   return (
@@ -10,7 +10,7 @@ function CodePage() {
       <Header />
       <div className={styles.codePage_body}>
         <Sidebar />
-        <Editor />
+        <EditorSpace />
       </div>
     </div>
   );
