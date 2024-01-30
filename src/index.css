@@ -25,12 +25,16 @@ body[data-theme="light"] {
   color: #00111b;
 }
 
-input {
+input,
+button {
   color: white;
+  border-color: white;
 }
 
-body[data-theme="light"] input {
+body[data-theme="light"] input,
+body[data-theme="light"] button {
   color: black;
+  border-color: black;
 }
 
 .material-icons,

@@ -1,20 +1,13 @@
 import React from "react";
 import styles from "./header.module.css";
-import sidebarStore from "../../../../store/sidebarStore";
-import headerStore from "../../../../store/headerStore";
+import sidebarStore from "../../../../store/CodePageStore/sidebarStore";
+import headerStore from "../../../../store/CodePageStore/headerStore";
 import { Link } from "react-router-dom";
+import ModeToggleBtn from "./modeToggleBtn/modeToggleBtn";
 
 function Header() {
   const { sidebar, sidebarToggle } = sidebarStore();
-  const { mode, modeToggle } = headerStore();
-
-  const handleMode = () => {
-    if (document.querySelector("body")!.dataset.theme === "dark") {
-      document.body.dataset.theme = "light";
-    } else {
-      document.body.dataset.theme = "dark";
-    }
-  };
+  const { mode } = headerStore();
 
   return (
     <div className={styles.headerSpace}>
@@ -53,17 +46,7 @@ function Header() {
         </div>
       </div>
       <div className={styles.rightSide_header}>
-        <i
-          className={`${
-            mode ? styles.modeAniT : styles.modeAniF
-          } material-icons`}
-          onClick={() => {
-            modeToggle();
-            handleMode();
-          }}
-        >
-          {mode ? `dark_mode` : `light_mode`}
-        </i>
+        <ModeToggleBtn />
         <div className={styles.accountSpace}>
           <div
             className={styles.accountImg}

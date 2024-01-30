@@ -1,6 +1,6 @@
 import React, { ChangeEvent, useState } from "react";
 import styles from "./sidebar.module.css";
-import sidebarStore from "../../../../store/sidebarStore";
+import sidebarStore from "../../../../store/CodePageStore/sidebarStore";
 
 function Sidebar() {
   const { expandStatus, expandToggle } = sidebarStore();

@@ -1,6 +1,6 @@
 import React from "react";
 import styles from "./editorSpace.module.css";
-import sidebarStore from "../../../../store/sidebarStore";
+import sidebarStore from "../../../../store/CodePageStore/sidebarStore";
 import Editor from "@monaco-editor/react";
 
 function EditorSpace() {
