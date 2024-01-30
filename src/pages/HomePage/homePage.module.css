@@ -1,0 +1,30 @@
+.homePage {
+  /* 지구상 어디든 접근하는 웹 IDE의 새로운 모습 */
+
+  position: absolute;
+  width: 493px;
+  height: 134px;
+  left: 108px;
+  top: 455px;
+
+  font-family: "Noto Sans KR";
+  font-style: normal;
+  font-weight: 500;
+  font-size: 51px;
+  line-height: 130.77%;
+  /* or 67px */
+
+  color: #eeeeee;
+}
+
+/* Earth-IDE-N */
+
+.homePage_ide {
+  font-style: normal;
+  font-weight: 700;
+  font-size: 97px;
+  line-height: 130.77%;
+  /* identical to box height, or 127px */
+
+  color: #068fff;
+}
