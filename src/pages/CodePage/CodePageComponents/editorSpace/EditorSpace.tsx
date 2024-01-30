@@ -19,14 +19,29 @@ function EditorSpace() {
     >
       <div className={styles.leftSpace}>
         <Editor
-          height="90vh"
+          height="100%"
+          width="100%"
+          theme="vs-dark"
           defaultLanguage="javascript"
           defaultValue="// let's write some broken code 😈"
-          // onValidate={handleEditorValidation}
+          options={{
+            selectOnLineNumbers: true,
+            fontSize: 16, // 여기서 폰트 크기를 변경할 수 있습니다.
+          }}
         />
       </div>
       <div className={styles.rightSpace}>
-        <Editor defaultLanguage="javascript" />
+        <Editor
+          height="100%"
+          width="100%"
+          theme="vs-dark"
+          defaultLanguage="javascript"
+          defaultValue="// let's write some broken code 😈"
+          options={{
+            selectOnLineNumbers: true,
+            fontSize: 16, // 여기서 폰트 크기를 변경할 수 있습니다.
+          }}
+        />
       </div>
     </div>
   );
