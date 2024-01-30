@@ -23,6 +23,10 @@
   background-color: rgba(128, 0, 128, 0.2);
 }
 
+.firstEditor {
+  background-color: transparent;
+}
+
 .rightSpace {
   flex: 1;
   display: flex;
