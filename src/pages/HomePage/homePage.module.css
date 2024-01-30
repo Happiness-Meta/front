@@ -1,3 +1,41 @@
+@keyframes twinkling {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+.star {
+  position: absolute;
+  width: 2px;
+  height: 2px;
+  background-color: white;
+  border-radius: 50%;
+  animation: twinkling 1.5s infinite alternate;
+}
+
+.backSky {
+  position: relative;
+  width: 100%;
+  height: 100vh;
+  overflow: hidden;
+  background: #000; /* 별빛 배경을 위한 어두운 배경 설정 */
+}
+
+.homePageContainer {
+  width: 100vw;
+  height: 100vh;
+  position: relative;
+  overflow: hidden;
+  z-index: 3;
+}
+
+.imgcontainer {
+  background: linear-gradient(148.07deg, rgba(0, 0, 0, 0) 26.32%, rgba(0, 0, 0, 0.715) 30.64%);
+}
+
 .homePage {
   /* 지구상 어디든 접근하는 웹 IDE의 새로운 모습 */
 
@@ -24,7 +62,98 @@
   font-weight: 700;
   font-size: 97px;
   line-height: 130.77%;
-  /* identical to box height, or 127px */
-
   color: #068fff;
+}
+
+@keyframes rotateImage {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.homePage_image {
+  position: absolute;
+  width: 1873px;
+  height: 1920px;
+  left: 395px;
+  top: -182px;
+
+  animation: rotateImage 100s linear infinite;
+}
+
+.homepageheader {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  padding-right: 20px;
+  height: 60px;
+}
+.homePageHeader_sign,
+.homePageHeader_start {
+  margin-left: 10px;
+  margin-right: 20px;
+  text-align: center;
+  cursor: pointer;
+}
+
+.homePageHeader_sign {
+  width: 89px;
+  height: 22px;
+  align-items: center;
+  padding: 3px;
+  background: #1e1e26;
+  border: 1px solid #eeeeee;
+  border-radius: 8px;
+}
+
+.homePageHeader_start {
+  /* Rectangle 6 */
+  width: 89px;
+  height: 22px;
+  border: 1px solid #068fff;
+  background: #068fff;
+  border-radius: 8px;
+  padding: 3px;
+}
+
+.backSky {
+  width: 100vw;
+  height: 100vh;
+  position: relative;
+  background: linear-gradient(to right, #111, #0e0f19);
+  overflow: hidden;
+}
+
+/* StarlightBackground.module.css */
+@keyframes twinkling {
+  0% {
+    opacity: 0;
+  }
+  50% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+  }
+}
+
+.star {
+  position: absolute;
+  width: 2px;
+  height: 2px;
+  background: white;
+  border-radius: 50%;
+  opacity: 0.3;
+  animation: twinkling 2s infinite ease-in-out;
+}
+
+.starContainer {
+  position: relative;
+  width: 100%;
+  height: 100vh;
+  overflow: hidden;
+  background: #000; /* 배경색 */
 }
