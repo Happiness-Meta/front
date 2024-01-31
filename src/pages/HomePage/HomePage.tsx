@@ -2,7 +2,7 @@ import React from "react";
 import styles from "./homePage.module.css";
 import { useNavigate } from "react-router-dom";
 function HomePage() {
-  let navigate = useNavigate();
+  const navigate = useNavigate();
   const createStars = (count: number) => {
     return Array.from({ length: count }).map((_, index) => (
       <div
@@ -22,6 +22,9 @@ function HomePage() {
       {createStars(200)}
       <div className={styles.homePageContainer}>
         <header className={styles.homepageheader}>
+          <div className={styles.homePageHeader_guest} onClick={() => navigate("/CodePage")}>
+            Guest
+          </div>
           <div className={styles.homePageHeader_sign} onClick={() => navigate("/LoginPage")}>
             SIGN IN
           </div>
