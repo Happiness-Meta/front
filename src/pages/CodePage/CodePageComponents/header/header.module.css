@@ -1,4 +1,5 @@
 .headerSpace {
+  position: relative;
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -6,12 +7,12 @@
   height: 30px;
   padding: 10px 20px;
 }
-
+/*  */
 .leftSide_header {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  width: 215px;
+  width: 185px;
 }
 
 .sidebarToggle {
@@ -76,7 +77,7 @@
 .IDE_name:hover {
   background-color: rgba(128, 128, 128, 0.5);
 }
-
+/*  */
 .middleSide_header {
   display: flex;
   justify-content: space-between;
@@ -109,12 +110,60 @@
 .runText {
   height: 26px;
 }
-
+/*  */
 .rightSide_header {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  width: 110px;
+  width: fit-content;
+}
+
+.settingsSpace {
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  width: fit-content;
+  border-radius: 20px;
+}
+
+.settingsSpaceOn {
+  padding-left: 10px;
+  background-color: rgba(128, 128, 128, 0.5);
+  animation: settingsSpace 1s forwards;
+}
+
+@keyframes settingsSpace {
+  from {
+    width: 35%;
+  }
+  to {
+    width: 150px;
+  }
+}
+
+.settings,
+.addRemove {
+  width: 35px;
+  height: 35px;
+  border-radius: 50%;
+  transition: 0.3s;
+}
+
+.settings:hover {
+  background-color: rgba(128, 128, 128, 0.5);
+  transform: rotate(180deg);
+}
+
+.settingsContainer {
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  width: fit-content;
+  height: 30px;
+}
+
+.addRemove:hover {
+  background-color: rgba(128, 128, 128, 0.5);
 }
 
 .modeAniF,
