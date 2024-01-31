@@ -49,3 +49,20 @@ body[data-theme="light"] button {
 i {
   cursor: pointer;
 }
+
+.resizeHandle1 {
+  right: 0 !important;
+  width: 5px !important;
+  border-radius: 10px;
+}
+
+.resizeHandle2 {
+  right: -8px !important;
+  width: 5px !important;
+  border-radius: 10px;
+}
+
+.resizeHandle1:hover,
+.resizeHandle2:hover {
+  background-color: gray;
+}

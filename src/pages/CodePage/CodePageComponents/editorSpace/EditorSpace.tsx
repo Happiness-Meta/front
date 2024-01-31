@@ -2,14 +2,12 @@ import React from "react";
 import styles from "./editorSpace.module.css";
 import sidebarStore from "../../../../store/CodePageStore/sidebarStore";
 import Editor from "@monaco-editor/react";
+import headerStore from "../../../../store/CodePageStore/headerStore";
+import { Resizable } from "re-resizable";
 
 function EditorSpace() {
   const { sidebar } = sidebarStore();
-
-  // function handleEditorValidation(markers) {
-  //   // model markers
-  //   markers.forEach((marker) => console.log("onValidate:", marker.message));
-  // }
+  const { mode, codeFontSize } = headerStore();
 
   return (
     <div
@@ -17,29 +15,38 @@ function EditorSpace() {
         styles.editorSpace
       }`}
     >
-      <div className={styles.leftSpace}>
+      <Resizable
+        className={styles.leftSpace}
+        defaultSize={{ width: "50%", height: "100%" }}
+        enable={{ top: false, bottom: false, right: true, left: false }}
+        handleClasses={{ right: "resizeHandle2" }}
+      >
+        <div className={styles.filesMenuSpace}></div>
+        <div className={styles.filePathSpace}></div>
         <Editor
-          height="100%"
+          height="calc(100% - 60px)"
           width="100%"
-          theme="vs-dark"
+          theme={mode ? "vs-light" : "vs-dark"}
           defaultLanguage="javascript"
-          defaultValue="// let's write some broken code 😈"
+          defaultValue="// paint your own world! 🌎"
           options={{
             selectOnLineNumbers: true,
-            fontSize: 16, // 여기서 폰트 크기를 변경할 수 있습니다.
+            fontSize: codeFontSize,
           }}
         />
-      </div>
+      </Resizable>
       <div className={styles.rightSpace}>
+        <div className={styles.filesMenuSpace}></div>
+        <div className={styles.filePathSpace}></div>
         <Editor
-          height="100%"
+          height="calc(100% - 60px)"
           width="100%"
-          theme="vs-dark"
+          theme={mode ? "vs-light" : "vs-dark"}
           defaultLanguage="javascript"
-          defaultValue="// let's write some broken code 😈"
+          defaultValue="// paint your own world! 🌎"
           options={{
             selectOnLineNumbers: true,
-            fontSize: 16, // 여기서 폰트 크기를 변경할 수 있습니다.
+            fontSize: codeFontSize,
           }}
         />
       </div>

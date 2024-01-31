@@ -7,7 +7,8 @@ import ModeToggleBtn from "./modeToggleBtn/modeToggleBtn";
 
 function Header() {
   const { sidebar, sidebarToggle } = sidebarStore();
-  const { mode } = headerStore();
+  const { mode, settings, settingsToggle, incCodeFontSize, decCodeFontSize } =
+    headerStore();
 
   return (
     <div className={styles.headerSpace}>
@@ -31,12 +32,8 @@ function Header() {
         <i className={`${styles.pageShiftingBtn} material-symbols-outlined`}>
           explore
         </i>
-        <Link
-          to="/"
-          className={styles.IDE_name}
-          style={mode ? { color: "black" } : { color: "white" }}
-        >
-          HAPPINESS META
+        <Link to="/" className={styles.IDE_name}>
+          Earth-IDE-N
         </Link>
       </div>
       <div className={styles.middleSide_header}>
@@ -46,6 +43,34 @@ function Header() {
         </div>
       </div>
       <div className={styles.rightSide_header}>
+        <div
+          className={`${settings ? styles.settingsSpaceOn : undefined} ${
+            styles.settingsSpace
+          }`}
+        >
+          {settings ? (
+            <div className={styles.settingsContainer}>
+              <div
+                onClick={incCodeFontSize}
+                className={`${styles.addRemove} material-symbols-outlined`}
+              >
+                add
+              </div>
+              <div
+                onClick={decCodeFontSize}
+                className={`${styles.addRemove} material-symbols-outlined`}
+              >
+                remove
+              </div>
+            </div>
+          ) : null}
+          <i
+            className={`${styles.settings} material-symbols-outlined`}
+            onClick={settingsToggle}
+          >
+            settings
+          </i>
+        </div>
         <ModeToggleBtn />
         <div className={styles.accountSpace}>
           <div

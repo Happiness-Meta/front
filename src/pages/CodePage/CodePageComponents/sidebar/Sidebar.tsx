@@ -20,7 +20,7 @@ function Sidebar() {
         styles.sidebarSpace
       }`}
     >
-      <form>
+      <form className={styles.searchForm}>
         <input
           type="text"
           className={styles.search_input}
