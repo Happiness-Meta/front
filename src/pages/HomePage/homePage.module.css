@@ -92,11 +92,23 @@
   height: 60px;
 }
 .homePageHeader_sign,
-.homePageHeader_start {
+.homePageHeader_start,
+.homePageHeader_guest {
   margin-left: 10px;
-  margin-right: 20px;
+  margin-right: 10px;
   text-align: center;
   cursor: pointer;
+  font-size: 15px;
+}
+
+.homePageHeader_guest {
+  width: 89px;
+  height: 22px;
+  align-items: center;
+  padding: 3px;
+  background: #1e1e26;
+  border: 1px solid #eeeeee;
+  border-radius: 8px;
 }
 
 .homePageHeader_sign {
@@ -104,8 +116,9 @@
   height: 22px;
   align-items: center;
   padding: 3px;
+  color: #068fff;
   background: #1e1e26;
-  border: 1px solid #eeeeee;
+  border: 1px solid #005aa4;
   border-radius: 8px;
 }
 

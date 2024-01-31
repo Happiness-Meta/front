@@ -1,0 +1,7 @@
+.accountImg {
+  width: 30px;
+  height: 30px;
+  border: 1.5px solid;
+  border-radius: 50%;
+  background-color: pink;
+}
