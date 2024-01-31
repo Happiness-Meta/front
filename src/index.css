@@ -26,13 +26,15 @@ body[data-theme="light"] {
 }
 
 input,
-button {
+button,
+a {
   color: white;
   border-color: white;
 }
 
 body[data-theme="light"] input,
-body[data-theme="light"] button {
+body[data-theme="light"] button,
+body[data-theme="light"] a {
   color: black;
   border-color: black;
 }
