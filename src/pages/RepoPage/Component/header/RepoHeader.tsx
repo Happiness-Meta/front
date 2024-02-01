@@ -1,10 +1,10 @@
 import React from "react";
 import styles from "./header.module.css";
-import sidebarStore from "../../../store/CodePageStore/sidebarStore";
-import headerStore from "../../../store/CodePageStore/headerStore";
+import sidebarStore from "../../../../store/CodePageStore/sidebarStore";
+import headerStore from "../../../../store/CodePageStore/headerStore";
 import { Link } from "react-router-dom";
 import ModeToggleBtn from "./modeToggleBtn/ModeToggleBtn";
-import Profile from "../profile/Profile";
+import Profile from "../../Component/profile/Profile";
 
 function Header() {
   const { sidebar, sidebarToggle } = sidebarStore();
