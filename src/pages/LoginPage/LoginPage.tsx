@@ -1,15 +1,17 @@
-// import { Link } from "react-router-dom";
-import headerStore from "../../store/CodePageStore/headerStore";
-import LoginPageStore from "../../store/LoginPageStore/LoginPageStore";
-import ModeToggleBtn from "../CodePage/CodePageComponents/header/modeToggleBtn/modeToggleBtn";
 import styles from "./loginPage.module.css";
+import { Link } from "react-router-dom";
+import LoginPageStore from "../../store/LoginPageStore/LoginPageStore";
+import OauthSpace from "./OauthSpace/OauthSpace";
+import ModeToggleBtn from "../CodePage/CodePageComponents/header/modeToggleBtn/modeToggleBtn";
 
 function LoginPage() {
   const { inUp, inUpToggle } = LoginPageStore();
-  const { mode } = headerStore();
 
   return (
     <div className={styles.LoginPage_body}>
+      <Link to="MyPage" style={{ position: "absolute", top: 0, left: 0 }}>
+        go to 마이페이지
+      </Link>
       <div className={styles.modeToggleBtn}>
         <ModeToggleBtn />
       </div>
@@ -31,15 +33,15 @@ function LoginPage() {
           <form className={styles.inputSpace}>
             <input
               type="text"
-              className={styles.idInput}
+              className={styles.input}
               placeholder="username"
             />
             <input
               type="password"
-              className={styles.pwInput}
+              className={styles.input}
               placeholder="password"
             />
-            <button className={styles.signInBtn}>Sign In</button>
+            <button className={styles.signInUpBtn}>Sign In</button>
           </form>
           <div className={styles.signInBottom}>
             <div className={styles.bottomText}>Don't you have an account?</div>
@@ -54,15 +56,16 @@ function LoginPage() {
           <form className={styles.inputSpace}>
             <input
               type="text"
-              className={styles.idInput}
-              placeholder="Make your username"
+              className={styles.input}
+              placeholder="username"
             />
+            <input type="text" className={styles.input} placeholder="ID" />
             <input
               type="password"
-              className={styles.pwInput}
-              placeholder="Make your password"
+              className={styles.input}
+              placeholder="password"
             />
-            <button className={styles.signInBtn}>Sign Up</button>
+            <button className={styles.signInUpBtn}>Sign Up</button>
           </form>
           <div className={styles.signInBottom}>
             <div className={styles.bottomText}>Let's go for sign in</div>
@@ -72,23 +75,7 @@ function LoginPage() {
           </div>
         </div>
       </div>
-      <div className={styles.oauthSpace}>
-        <div className={styles.oauthContainers}>
-          <img src="/oauthSvg/kakao.svg" className={styles.oauthSymbols} />
-          <div className={styles.oauthTextK}>Login with Kakao</div>
-        </div>
-        <div className={styles.oauthContainers}>
-          <img
-            src={mode ? "/oauthSvg/githubB.svg" : "/oauthSvg/github.svg"}
-            className={styles.oauthSymbols}
-          />
-          <div className={styles.oauthText}>Login with GitHub</div>
-        </div>
-        <div className={styles.oauthContainers}>
-          <img src="/oauthSvg/google.svg" className={styles.oauthSymbols} />
-          <div className={styles.oauthText}>Login with Google</div>
-        </div>
-      </div>
+      <OauthSpace />
     </div>
   );
 }

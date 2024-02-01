@@ -27,7 +27,7 @@ function EditorSpace() {
           height="calc(100% - 60px)"
           width="100%"
           theme={mode ? "vs-light" : "vs-dark"}
-          defaultLanguage="javascript"
+          defaultLanguage="html"
           defaultValue="// paint your own world! 🌎"
           options={{
             selectOnLineNumbers: true,

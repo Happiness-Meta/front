@@ -7,6 +7,7 @@ import LoginPage from "./pages/LoginPage/LoginPage";
 import RepoPage from "./pages/RepoPage/RepoPage";
 import CodePage from "./pages/CodePage/CodePage";
 import Dashboard from "./pages/RepoPage/dashboard/Dashboard";
+import MyPage from "./pages/MyPage/MyPage";
 
 ReactDOM.createRoot(document.getElementById("root")!).render(
   <React.StrictMode>
@@ -15,6 +16,7 @@ ReactDOM.createRoot(document.getElementById("root")!).render(
         <Route path="/" element={<HomePage />} />
         <Route path="/LoginPage" element={<LoginPage />} />
         <Route path="/RepoPage" element={<RepoPage />} />
+        <Route path="/MyPage" element={<MyPage />} />
         <Route path="/codePage" element={<CodePage />} />
         <Route path="/dashboard" element={<Dashboard />} />
       </Routes>
