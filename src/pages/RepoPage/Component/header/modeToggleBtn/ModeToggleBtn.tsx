@@ -1,6 +1,6 @@
 import React from "react";
 import styles from "../header.module.css";
-import headerStore from "../../../../store/CodePageStore/headerStore";
+import headerStore from "../../../../../store/CodePageStore/headerStore";
 
 function ModeToggleBtn() {
   const { mode, modeToggle } = headerStore();
