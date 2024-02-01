@@ -3,7 +3,7 @@ import styles from "./header.module.css";
 import sidebarStore from "../../../../store/CodePageStore/sidebarStore";
 import headerStore from "../../../../store/CodePageStore/headerStore";
 import { Link } from "react-router-dom";
-import ModeToggleBtn from "./modeToggleBtn/modeToggleBtn";
+import ModeToggleBtn from "../../../../globalComponents/modeToggleBtn/modeToggleBtn";
 
 function Header() {
   const { sidebar, sidebarToggle } = sidebarStore();

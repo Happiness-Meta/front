@@ -1,0 +1,38 @@
+.modeAniF,
+.modeAniT {
+  width: 35px;
+  height: 35px;
+  border: 1px solid transparent;
+  border-radius: 50%;
+}
+
+.modeAniF:hover,
+.modeAniT:hover {
+  border-color: rgba(128, 128, 128, 0.5);
+}
+
+.modeAniT {
+  animation: modeAniT 1s forwards;
+}
+
+.modeAniF {
+  animation: modeAniF 1s forwards;
+}
+
+@keyframes modeAniT {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(720deg);
+  }
+}
+
+@keyframes modeAniF {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(-360deg);
+  }
+}

@@ -1,10 +1,9 @@
-import React from "react";
 import styles from "./header.module.css";
 import sidebarStore from "../../../../store/CodePageStore/sidebarStore";
 import headerStore from "../../../../store/CodePageStore/headerStore";
 import { Link } from "react-router-dom";
-import ModeToggleBtn from "./modeToggleBtn/ModeToggleBtn";
 import Profile from "../../Component/profile/Profile";
+import ModeToggleBtn from "../../../../globalComponents/modeToggleBtn/ModeToggleBtn";
 
 function Header() {
   const { sidebar, sidebarToggle } = sidebarStore();
@@ -19,7 +18,9 @@ function Header() {
           style={mode ? { borderColor: "black" } : { borderColor: "white" }}
         >
           <div
-            className={`${sidebar ? styles.sidebarToggleInnerT : styles.sidebarToggleInnerF}`}
+            className={`${
+              sidebar ? styles.sidebarToggleInnerT : styles.sidebarToggleInnerF
+            }`}
             style={
               sidebar
                 ? { backgroundColor: "black", borderColor: "white" }
@@ -27,7 +28,9 @@ function Header() {
             }
           ></div>
         </i>
-        <i className={`${styles.pageShiftingBtn} material-symbols-outlined`}>explore</i>
+        <i className={`${styles.pageShiftingBtn} material-symbols-outlined`}>
+          explore
+        </i>
         <Link
           to="/"
           className={styles.IDE_name}
@@ -41,7 +44,9 @@ function Header() {
         <ModeToggleBtn />
         <div className={styles.accountSpace}>
           <Profile />
-          <div className={`${styles.accountExpand} material-icons`}>expand_more</div>
+          <div className={`${styles.accountExpand} material-icons`}>
+            expand_more
+          </div>
         </div>
       </div>
     </div>

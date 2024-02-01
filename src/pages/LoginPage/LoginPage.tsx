@@ -2,7 +2,7 @@ import styles from "./loginPage.module.css";
 import { Link } from "react-router-dom";
 import LoginPageStore from "../../store/LoginPageStore/LoginPageStore";
 import OauthSpace from "./OauthSpace/OauthSpace";
-import ModeToggleBtn from "../CodePage/CodePageComponents/header/modeToggleBtn/modeToggleBtn";
+import ModeToggleBtn from "../../globalComponents/modeToggleBtn/ModeToggleBtn";
 
 function LoginPage() {
   const { inUp, inUpToggle } = LoginPageStore();

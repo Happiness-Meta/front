@@ -2,7 +2,7 @@ import styles from "./myPageHeader.module.css";
 import sidebarStore from "../../../store/CodePageStore/sidebarStore";
 import headerStore from "../../../store/CodePageStore/headerStore";
 import { Link } from "react-router-dom";
-import ModeToggleBtn from "../../CodePage/CodePageComponents/header/modeToggleBtn/modeToggleBtn";
+import ModeToggleBtn from "../../../globalComponents/modeToggleBtn/ModeToggleBtn";
 
 function MyPageHeader() {
   const { sidebar, sidebarToggle } = sidebarStore();
