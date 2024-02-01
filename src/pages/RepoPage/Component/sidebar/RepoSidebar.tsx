@@ -1,7 +1,7 @@
 import React, { ChangeEvent, useState } from "react";
 import styles from "./sidebar.module.css";
-import sidebarStore from "../../../store/CodePageStore/sidebarStore";
-import Profile from "../profile/Profile";
+import sidebarStore from "../../../../store/CodePageStore/sidebarStore";
+import Profile from "../../Component/profile/Profile";
 import { Link } from "react-router-dom";
 
 function Sidebar() {
@@ -23,13 +23,15 @@ function Sidebar() {
         ></div>
       </div>
       <div className={styles.profileContainer}>
-        <div className={styles.profileHeader}>
-          <Profile />
-        </div>
-        <div className={styles.profilename}>
-          <h3>@Matilda0730</h3>
-          <h5>free plan</h5>
-        </div>
+        <Link to="/RepoPage" className={styles.profileContainer}>
+          <div className={styles.profileHeader}>
+            <Profile />
+          </div>
+          <div className={styles.profilename}>
+            <h3>@Matilda0730</h3>
+            <h5>free plan</h5>
+          </div>
+        </Link>
       </div>
 
       <div className={styles.dashboardContainer}>
@@ -39,17 +41,17 @@ function Sidebar() {
           </Link>
         </div>
         <div>
-          <Link to="/dashboard" className={styles.dashboard}>
+          <Link to="/repositories" className={styles.repositories}>
             <span className="material-symbols-outlined">library_books</span> &nbsp;Repositories
           </Link>
         </div>
         <div>
-          <Link to="/dashboard" className={styles.dashboard}>
+          <Link to="/projects" className={styles.projects}>
             <span className="material-symbols-outlined">list</span> &nbsp;Projects
           </Link>
         </div>
         <div>
-          <Link to="/dashboard" className={styles.dashboard}>
+          <Link to="/settings" className={styles.settings}>
             <span className="material-symbols-outlined">settings</span> &nbsp; Settings
           </Link>
         </div>

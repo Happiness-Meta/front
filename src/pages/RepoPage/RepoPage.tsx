@@ -1,8 +1,8 @@
 import React, { Children } from "react";
 import styles from "./repoPage.module.css";
 
-import RepoSidebar from "./sidebar/RepoSidebar";
-import RepoHeader from "./header/RepoHeader";
+import RepoSidebar from "./Component/sidebar/RepoSidebar";
+import RepoHeader from "./Component/header/RepoHeader";
 
 interface LayoutProps {
   children: React.ReactNode;
