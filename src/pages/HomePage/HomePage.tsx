@@ -28,7 +28,7 @@ function HomePage() {
           <div className={styles.homePageHeader_sign} onClick={() => navigate("/LoginPage")}>
             SIGN IN
           </div>
-          <div className={styles.homePageHeader_start} onClick={() => navigate("/RepoPage")}>
+          <div className={styles.homePageHeader_start} onClick={() => navigate("/dashboard")}>
             Get started
           </div>
         </header>
