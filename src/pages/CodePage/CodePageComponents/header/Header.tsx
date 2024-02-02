@@ -3,12 +3,11 @@ import styles from "./header.module.css";
 import sidebarStore from "../../../../store/CodePageStore/sidebarStore";
 import headerStore from "../../../../store/CodePageStore/headerStore";
 import { Link } from "react-router-dom";
-import ModeToggleBtn from "../../../../globalComponents/modeToggleBtn/modeToggleBtn";
+import ModeToggleBtn from "../../../../globalComponents/modeToggleBtn/ModeToggleBtn";
 
 function Header() {
   const { sidebar, sidebarToggle } = sidebarStore();
-  const { mode, settings, settingsToggle, incCodeFontSize, decCodeFontSize } =
-    headerStore();
+  const { mode } = headerStore();
 
   return (
     <div className={styles.headerSpace}>
@@ -43,34 +42,6 @@ function Header() {
         </div>
       </div>
       <div className={styles.rightSide_header}>
-        <div
-          className={`${settings ? styles.settingsSpaceOn : undefined} ${
-            styles.settingsSpace
-          }`}
-        >
-          {settings ? (
-            <div className={styles.settingsContainer}>
-              <div
-                onClick={incCodeFontSize}
-                className={`${styles.addRemove} material-symbols-outlined`}
-              >
-                add
-              </div>
-              <div
-                onClick={decCodeFontSize}
-                className={`${styles.addRemove} material-symbols-outlined`}
-              >
-                remove
-              </div>
-            </div>
-          ) : null}
-          <i
-            className={`${styles.settings} material-symbols-outlined`}
-            onClick={settingsToggle}
-          >
-            settings
-          </i>
-        </div>
         <ModeToggleBtn />
         <div className={styles.accountSpace}>
           <div

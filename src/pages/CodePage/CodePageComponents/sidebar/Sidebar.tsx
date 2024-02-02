@@ -1,6 +1,7 @@
 import React, { ChangeEvent, useState } from "react";
 import styles from "./sidebar.module.css";
 import sidebarStore from "../../../../store/CodePageStore/sidebarStore";
+import EditorSettingBtn from "./editorSettingBtn/EditorSettingBtn";
 
 function Sidebar() {
   const { expandStatus, expandToggle } = sidebarStore();
@@ -27,42 +28,47 @@ function Sidebar() {
           placeholder="Search"
         ></input>
       </form>
-      <div className={styles.filesSpace}>
-        <div className={styles.filesHeader}>
-          <div className={styles.TitleSpace}>
-            <div
-              className={`material-symbols-outlined ${
-                expandStatus ? styles.expandStatusT : styles.expandStatusF
-              }`}
-              onClick={expandToggle}
-            >
-              {expandStatus ? "chevron_right" : "expand_more"}
+      <div className={styles.sidebarSpace_inner}>
+        <div className={styles.filesSpace}>
+          <div className={styles.filesHeader}>
+            <div className={styles.TitleSpace}>
+              <div
+                className={`material-symbols-outlined ${
+                  expandStatus ? styles.expandStatusT : styles.expandStatusF
+                }`}
+                onClick={expandToggle}
+              >
+                {expandStatus ? "chevron_right" : "expand_more"}
+              </div>
+              <p className={styles.filesTitle}>Files</p>
             </div>
-            <p className={styles.filesTitle}>Files</p>
+            <div className={styles.filesAddSpace}>
+              <div className={`material-symbols-outlined ${styles.addFile}`}>
+                note_add
+              </div>
+              <div className={`material-symbols-outlined ${styles.addFolder}`}>
+                create_new_folder
+              </div>
+            </div>
           </div>
-          <div className={styles.filesAddSpace}>
-            <div className={`material-symbols-outlined ${styles.addFile}`}>
-              note_add
-            </div>
-            <div className={`material-symbols-outlined ${styles.addFolder}`}>
-              create_new_folder
+          <div
+            className={`${expandStatus ? styles.FCExpandStatus : undefined} ${
+              styles.fileContainer
+            }`}
+          >
+            <div>
+              <img src={iconSrc} alt="icon" className={styles.fileIcon}></img>
+              <input
+                type="text"
+                value={fileName}
+                onChange={handleFileName}
+                className={styles.fileName}
+              />
             </div>
           </div>
         </div>
-        <div
-          className={`${expandStatus ? styles.FCExpandStatus : undefined} ${
-            styles.fileContainer
-          }`}
-        >
-          <div>
-            <img src={iconSrc} alt="icon" className={styles.fileIcon}></img>
-            <input
-              type="text"
-              value={fileName}
-              onChange={handleFileName}
-              className={styles.fileName}
-            />
-          </div>
+        <div className={styles.sidebarBottom}>
+          <EditorSettingBtn />
         </div>
       </div>
     </div>

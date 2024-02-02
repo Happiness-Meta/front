@@ -1,0 +1,52 @@
+.settingsSpace {
+  position: relative;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 35px;
+  border-radius: 20px;
+  overflow: hidden;
+  transition: width 0.5s;
+}
+
+.settingsSpaceOn {
+  width: 100px;
+  padding-right: 10px;
+  background-color: rgba(128, 128, 128, 0.5);
+  overflow: hidden;
+}
+
+.settingsLeft {
+  width: 35px;
+  height: 35px;
+}
+
+.settings {
+  width: 35px;
+  height: 35px;
+  border-radius: 50%;
+}
+
+.settings:hover {
+  background-color: rgba(128, 128, 128, 0.5);
+  transform: rotate(180deg);
+  transition: 0.3s;
+}
+
+.settingsRight {
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  width: 60px;
+  height: 30px;
+}
+
+.addRemove {
+  width: 25px;
+  height: 25px;
+  border-radius: 50%;
+}
+
+.addRemove:hover {
+  background-color: rgba(128, 128, 128, 0.5);
+}

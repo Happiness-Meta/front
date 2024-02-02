@@ -118,57 +118,6 @@
   width: 222px;
 }
 
-.settingsSpace {
-  position: relative;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  width: 35px;
-  border-radius: 20px;
-  transition: 0.5s;
-  perspective-origin: right;
-}
-
-.settingsSpaceOn {
-  width: 100px;
-  padding-left: 10px;
-  background-color: rgba(128, 128, 128, 0.5);
-  overflow: hidden;
-}
-
-.settings {
-  position: sticky;
-  right: 0;
-  width: 35px;
-  height: 35px;
-  border-radius: 50%;
-  transition: 0.3s;
-  z-index: 1;
-}
-
-.settings:hover {
-  background-color: rgba(128, 128, 128, 0.5);
-  transform: rotate(180deg);
-}
-
-.settingsContainer {
-  display: flex;
-  justify-content: space-around;
-  align-items: center;
-  width: 60px;
-  height: 30px;
-}
-
-.addRemove {
-  width: 25px;
-  height: 25px;
-  border-radius: 50%;
-}
-
-.addRemove:hover {
-  background-color: rgba(128, 128, 128, 0.5);
-}
-
 .modeAniF,
 .modeAniT {
   width: 35px;

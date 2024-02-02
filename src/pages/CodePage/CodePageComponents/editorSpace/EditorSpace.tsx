@@ -6,8 +6,8 @@ import headerStore from "../../../../store/CodePageStore/headerStore";
 import { Resizable } from "re-resizable";
 
 function EditorSpace() {
-  const { sidebar } = sidebarStore();
-  const { mode, codeFontSize } = headerStore();
+  const { sidebar, codeFontSize } = sidebarStore();
+  const { mode } = headerStore();
 
   return (
     <div
