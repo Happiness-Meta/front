@@ -25,12 +25,12 @@
   width: 35px;
   height: 35px;
   border-radius: 50%;
+  transition: transform 0.3s;
 }
 
 .settings:hover {
   background-color: rgba(128, 128, 128, 0.5);
   transform: rotate(180deg);
-  transition: 0.3s;
 }
 
 .settingsRight {

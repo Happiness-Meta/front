@@ -1,19 +1,35 @@
-import React, { ChangeEvent, useState } from "react";
 import styles from "./sidebar.module.css";
 import sidebarStore from "../../../../store/CodePageStore/sidebarStore";
 import EditorSettingBtn from "./editorSettingBtn/EditorSettingBtn";
+import Tree from "rc-tree";
+import "rc-tree/assets/index.css";
+
+const treeData = [
+  {
+    key: "1",
+    title: "Node 1",
+    children: [
+      { key: "1-1", title: "Node 1-1" },
+      { key: "1-2", title: "Node 1-2" },
+    ],
+  },
+  {
+    key: "2",
+    title: "Node 2",
+  },
+];
 
 function Sidebar() {
   const { expandStatus, expandToggle } = sidebarStore();
   const { sidebar } = sidebarStore();
-  const [fileName, setFileName] = useState("");
+  // const [fileName, setFileName] = useState("");
 
-  const handleFileName = (event: ChangeEvent<HTMLInputElement>) => {
-    setFileName(event.target.value);
-  };
+  // const handleFileName = (event: ChangeEvent<HTMLInputElement>) => {
+  //   setFileName(event.target.value);
+  // };
 
-  const fileExtension = fileName.split(".").pop();
-  const iconSrc = `/svg/${fileExtension}.svg`;
+  // const fileExtension = fileName.split(".").pop();
+  // const iconSrc = `/svg/${fileExtension}.svg`;
 
   return (
     <div
@@ -56,7 +72,14 @@ function Sidebar() {
               styles.fileContainer
             }`}
           >
-            <div>
+            <Tree
+              treeData={treeData}
+              showIcon={true}
+              selectable={true}
+              draggable={true}
+              allowDrop={() => true}
+            ></Tree>
+            {/* <div>
               <img src={iconSrc} alt="icon" className={styles.fileIcon}></img>
               <input
                 type="text"
@@ -64,7 +87,7 @@ function Sidebar() {
                 onChange={handleFileName}
                 className={styles.fileName}
               />
-            </div>
+            </div> */}
           </div>
         </div>
         <div className={styles.sidebarBottom}>

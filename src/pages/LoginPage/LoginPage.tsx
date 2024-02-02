@@ -1,20 +1,14 @@
 import styles from "./loginPage.module.css";
-import { Link } from "react-router-dom";
 import LoginPageStore from "../../store/LoginPageStore/LoginPageStore";
 import OauthSpace from "./OauthSpace/OauthSpace";
-import ModeToggleBtn from "../../globalComponents/modeToggleBtn/ModeToggleBtn";
+import LoginPageHeader from "./header/LoginPageHeader";
 
 function LoginPage() {
-  const { inUp, inUpToggle } = LoginPageStore();
+  const { inUp, inUpToggle, isVisible, visibleToggle } = LoginPageStore();
 
   return (
     <div className={styles.LoginPage_body}>
-      <Link to="MyPage" style={{ position: "absolute", top: 0, left: 0 }}>
-        go to 마이페이지
-      </Link>
-      <div className={styles.modeToggleBtn}>
-        <ModeToggleBtn />
-      </div>
+      <LoginPageHeader />
 
       <div className={styles.guideSpace}>
         <div className={styles.guideText}>
@@ -30,17 +24,35 @@ function LoginPage() {
         ></div>
         <div className={styles.signInSection}>
           <div className={styles.signInText}>Sign In</div>
-          <form className={styles.inputSpace}>
-            <input
-              type="text"
-              className={styles.input}
-              placeholder="username"
-            />
-            <input
-              type="password"
-              className={styles.input}
-              placeholder="password"
-            />
+          <form action="" className={styles.inputSpace}>
+            <div className={styles.inputEachSpace}>
+              <i className={`${styles.inputIcon} material-symbols-outlined`}>
+                person
+              </i>
+              <input
+                name="id"
+                type="text"
+                className={styles.input}
+                placeholder="ID"
+              />
+            </div>
+            <div className={styles.inputEachSpace}>
+              <i className={`${styles.inputIcon} material-symbols-outlined`}>
+                lock
+              </i>
+              <input
+                name="password"
+                type={isVisible ? "text" : "password"}
+                className={styles.input}
+                placeholder="password"
+              />
+              <i
+                className={`${styles.visibility} material-symbols-outlined`}
+                onClick={visibleToggle}
+              >
+                {isVisible ? "visibility" : "visibility_off"}
+              </i>
+            </div>
             <button className={styles.signInUpBtn}>Sign In</button>
           </form>
           <div className={styles.signInBottom}>
@@ -53,18 +65,46 @@ function LoginPage() {
 
         <div className={styles.signUpSection}>
           <div className={styles.signInText}>Sign Up</div>
-          <form className={styles.inputSpace}>
-            <input
-              type="text"
-              className={styles.input}
-              placeholder="username"
-            />
-            <input type="text" className={styles.input} placeholder="ID" />
-            <input
-              type="password"
-              className={styles.input}
-              placeholder="password"
-            />
+          <form action="" className={styles.inputSpace}>
+            <div className={styles.inputEachSpace}>
+              <i className={`${styles.inputIcon} material-symbols-outlined`}>
+                account_circle
+              </i>
+              <input
+                name="username"
+                type="text"
+                className={styles.input}
+                placeholder="username"
+              />
+            </div>
+            <div className={styles.inputEachSpace}>
+              <i className={`${styles.inputIcon} material-symbols-outlined`}>
+                person
+              </i>
+              <input
+                name="id"
+                type="text"
+                className={styles.input}
+                placeholder="ID"
+              />
+            </div>
+            <div className={styles.inputEachSpace}>
+              <i className={`${styles.inputIcon} material-symbols-outlined`}>
+                lock
+              </i>
+              <input
+                name="password"
+                type={isVisible ? "text" : "password"}
+                className={styles.input}
+                placeholder="password"
+              ></input>
+              <i
+                className={`${styles.visibility} material-symbols-outlined`}
+                onClick={visibleToggle}
+              >
+                {isVisible ? "visibility" : "visibility_off"}
+              </i>
+            </div>
             <button className={styles.signInUpBtn}>Sign Up</button>
           </form>
           <div className={styles.signInBottom}>
