@@ -1,0 +1,95 @@
+.recommendcontainer {
+  display: flex;
+}
+
+.repo_wrapper {
+  display: grid;
+  justify-items: center;
+  border: 1px solid #eeeeee;
+  box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.1);
+  border-radius: 20px;
+  width: 235px;
+  height: 195px;
+  justify-items: center;
+  margin: 10px;
+}
+.repocontaier {
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.repodescription_container {
+  width: 200px;
+  height: 50px;
+  margin-left: 32px;
+  margin-bottom: 10px;
+  margin-top: -15px;
+
+  overflow-wrap: break-word;
+  text-align: left;
+}
+
+.repodescription_container p {
+  white-space: break-spaces !important;
+}
+
+.repoimage {
+  width: 20px;
+}
+
+.reponame_container {
+  width: 235px;
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+}
+
+.repoimageContaier {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: #eeeeee;
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+}
+
+.repo_wrapper button {
+  width: 150px;
+  height: 15%;
+  border: none;
+}
+
+.repo_wrapper button:hover {
+  background-color: rgba(128, 128, 128, 0.5);
+}
+.buttoncontainer {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.buttonSun {
+  align-items: center;
+  padding: 3px;
+  color: #068fff;
+  background: #eeeeee;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+}
+
+.buttonSun:hover {
+  background: #068fff;
+  color: #eeeeee;
+}
+
+.buttonNight {
+  align-items: center;
+  padding: 3px;
+  color: #eeeeee;
+  background: #068fff;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+}
