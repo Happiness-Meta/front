@@ -6,11 +6,11 @@ import HomePage from "./pages/HomePage/HomePage";
 import LoginPage from "./pages/LoginPage/LoginPage";
 import RepoPage from "./pages/RepoPage/RepoPage";
 import CodePage from "./pages/CodePage/CodePage";
-import MyPage from "./pages/MyPage/MyPage";
 import Dashboard from "./pages/RepoPage/Page/dashboard/Dashboard";
 import Settings from "./pages/RepoPage/Page/settings/Settings";
 import Projects from "./pages/RepoPage/Page/projects/Projects";
 import Repositories from "./pages/RepoPage/Page/repositories/Repositories";
+import MyPage from "./pages/MyPage/MyPage";
 
 ReactDOM.createRoot(document.getElementById("root")!).render(
   <React.StrictMode>
