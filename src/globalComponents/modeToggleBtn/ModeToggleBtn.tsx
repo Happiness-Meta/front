@@ -1,9 +1,8 @@
-import React from "react";
 import styles from "./modeToggleBtn.module.css";
-import headerStore from "../../store/CodePageStore/headerStore";
+import globalStore from "../../store/globalStore/globalStore";
 
 function ModeToggleBtn() {
-  const { mode, modeToggle } = headerStore();
+  const { mode, modeToggle } = globalStore();
 
   const handleMode = () => {
     if (document.querySelector("body")!.dataset.theme === "dark") {

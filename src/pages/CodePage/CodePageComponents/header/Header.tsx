@@ -2,8 +2,8 @@ import React from "react";
 import styles from "./header.module.css";
 import sidebarStore from "../../../../store/CodePageStore/sidebarStore";
 import headerStore from "../../../../store/CodePageStore/headerStore";
-import { Link } from "react-router-dom";
 import ModeToggleBtn from "../../../../globalComponents/modeToggleBtn/ModeToggleBtn";
+import ExploreBtn from "../../../../globalComponents/exploreBtn/ExploreBtn";
 
 function Header() {
   const { sidebar, sidebarToggle } = sidebarStore();
@@ -28,12 +28,8 @@ function Header() {
             }
           ></div>
         </i>
-        <i className={`${styles.pageShiftingBtn} material-symbols-outlined`}>
-          explore
-        </i>
-        <Link to="/" className={styles.IDE_name}>
-          Earth-IDE-N
-        </Link>
+        <ExploreBtn />
+        <div className={styles.IDE_name}>Earth-IDE-N</div>
       </div>
       <div className={styles.middleSide_header}>
         <div className={styles.runBtn}>

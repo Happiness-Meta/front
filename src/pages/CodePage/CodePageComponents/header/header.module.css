@@ -48,18 +48,6 @@
   width: 30%;
 }
 
-.pageShiftingBtn {
-  width: 35px;
-  height: 35px;
-  border-radius: 7px;
-  transition: 0.3s;
-}
-
-.pageShiftingBtn:hover {
-  background-color: rgba(128, 128, 128, 0.5);
-  transform: rotate(90deg);
-}
-
 .IDE_name {
   display: flex;
   justify-content: center;
@@ -70,12 +58,6 @@
   font-size: 15px;
   font-weight: bold;
   color: #068fff !important;
-  transition: 0.2s;
-  cursor: pointer;
-}
-
-.IDE_name:hover {
-  background-color: rgba(128, 128, 128, 0.5);
 }
 /*  */
 .middleSide_header {

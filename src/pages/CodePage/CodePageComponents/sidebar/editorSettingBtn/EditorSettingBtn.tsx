@@ -14,22 +14,23 @@ function EditorSettingBtn() {
         <i
           className={`${styles.settings} material-symbols-outlined`}
           onClick={settingsToggle}
+          style={settings ? { transform: "rotate(180deg)" } : undefined}
         >
           settings
         </i>
       </div>
       <div className={styles.settingsRight}>
         <div
-          onClick={decCodeFontSize}
-          className={`${styles.addRemove} material-symbols-outlined`}
-        >
-          remove
-        </div>
-        <div
           onClick={incCodeFontSize}
           className={`${styles.addRemove} material-symbols-outlined`}
         >
           add
+        </div>
+        <div
+          onClick={decCodeFontSize}
+          className={`${styles.addRemove} material-symbols-outlined`}
+        >
+          remove
         </div>
       </div>
     </div>
