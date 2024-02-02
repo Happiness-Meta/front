@@ -23,7 +23,7 @@ function Sidebar() {
         ></div>
       </div>
       <div className={styles.profileContainer}>
-        <Link to="/RepoPage" className={styles.profileContainer}>
+        <Link to="/dashboard" className={styles.profileContainer}>
           <div className={styles.profileHeader}>
             <Profile />
           </div>
