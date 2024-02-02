@@ -1,3 +1,4 @@
 .dashboardContainer {
-  display: flex;
+  display: grid;
+  margin-left: 10px;
 }

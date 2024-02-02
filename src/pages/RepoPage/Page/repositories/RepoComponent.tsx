@@ -1,7 +1,6 @@
 import React from "react";
 import styles from "./Repositories.module.css";
 import RepoPage from "../../RepoPage";
-import RepoComponent from "./RepoComponent";
 
 const Repositories = () => {
   const repositories = {
@@ -37,9 +36,28 @@ const Repositories = () => {
   const isEmpty = Object.keys(repositories).length === 0;
 
   return (
-    <RepoPage>
-      <RepoComponent />
-    </RepoPage>
+    <div className={styles.repocontainer_wrapper}>
+      <h1>Repositories</h1>
+      <div>
+        {isEmpty ? (
+          <p>새 레포지토리 만들기</p>
+        ) : (
+          <div className={styles.repositoriesContainer}>
+            {Object.entries(repositories).map(([key, repo]) => (
+              <div key={key} className={styles.repoContainer}>
+                <h2>{repo.name}</h2>
+                <p>{repo.description}</p>
+                <a href={repo.url} target="_blank" rel="noopener noreferrer">
+                  Visit
+                </a>
+                <p>Stars: {repo.stars}</p>
+                <p>Forks: {repo.forks}</p>
+              </div>
+            ))}
+          </div>
+        )}
+      </div>
+    </div>
   );
 };
 
