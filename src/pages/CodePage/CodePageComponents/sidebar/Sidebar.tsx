@@ -16,6 +16,10 @@ const treeData = [
   {
     key: "2",
     title: "Node 2",
+    children: [
+      { key: "2-1", title: "Node 2-1" },
+      { key: "2-2", title: "Node 2-2" },
+    ],
   },
 ];
 
