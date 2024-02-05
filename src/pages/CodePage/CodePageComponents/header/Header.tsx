@@ -1,13 +1,14 @@
 import React from "react";
 import styles from "./header.module.css";
 import sidebarStore from "../../../../store/CodePageStore/sidebarStore";
-import headerStore from "../../../../store/CodePageStore/headerStore";
 import ModeToggleBtn from "../../../../globalComponents/modeToggleBtn/ModeToggleBtn";
 import ExploreBtn from "../../../../globalComponents/exploreBtn/ExploreBtn";
+import globalStore from "../../../../store/globalStore/globalStore";
+import AccountBtn from "../../../../globalComponents/AccountBtn/AccountBtn";
 
 function Header() {
   const { sidebar, sidebarToggle } = sidebarStore();
-  const { mode } = headerStore();
+  const { mode } = globalStore();
 
   return (
     <div className={styles.headerSpace}>
@@ -39,15 +40,7 @@ function Header() {
       </div>
       <div className={styles.rightSide_header}>
         <ModeToggleBtn />
-        <div className={styles.accountSpace}>
-          <div
-            className={styles.accountImg}
-            style={mode ? { borderColor: "black" } : { borderColor: "white" }}
-          ></div>
-          <div className={`${styles.accountExpand} material-icons`}>
-            expand_more
-          </div>
-        </div>
+        <AccountBtn />
       </div>
     </div>
   );

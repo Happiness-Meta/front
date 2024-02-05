@@ -56,11 +56,15 @@ function LoginPage() {
             <button className={styles.signInUpBtn}>Sign In</button>
           </form>
           <div className={styles.signInBottom}>
-            <div className={styles.bottomText}>Don't you have an account?</div>
+            <div className={styles.bottomText}>Don't have an account?</div>
             <div className={styles.goToSignUpBtn} onClick={inUpToggle}>
               Sign Up
             </div>
           </div>
+          {/* <div className={styles.signInBottom}>
+            <div className={styles.bottomText}>Forgot your password?</div>
+            <div className={styles.goToSignUpBtn}>Reset</div>
+          </div> */}
         </div>
 
         <div className={styles.signUpSection}>
@@ -108,7 +112,7 @@ function LoginPage() {
             <button className={styles.signInUpBtn}>Sign Up</button>
           </form>
           <div className={styles.signInBottom}>
-            <div className={styles.bottomText}>Let's go for sign in</div>
+            <div className={styles.bottomText}>Ready to sign in?</div>
             <div className={styles.goToSignUpBtn} onClick={inUpToggle}>
               Sign In
             </div>

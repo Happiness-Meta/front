@@ -1,12 +1,29 @@
 .exploreSpace {
-  position: relative;
+  display: flex;
+  align-items: center;
+  width: 35px;
+  height: 35px;
+  border-radius: 7px;
+  overflow: hidden;
+  transition: 0.5s;
+}
+
+.exploreBtnOn {
+  width: 140px;
+  background-color: rgba(128, 128, 128, 0.5);
+  overflow: visible;
+}
+
+.explore_left {
+  width: 35px;
+  height: 35px;
 }
 
 .pageShiftingBtn {
   width: 35px;
   height: 35px;
   border-radius: 7px;
-  transition: 0.3s;
+  transition: transform 0.3s;
 }
 
 .pageShiftingBtn:hover {
@@ -14,18 +31,71 @@
   transform: rotate(90deg);
 }
 
-.exploreWindow {
-  position: absolute;
+.explore_right {
   display: flex;
   justify-content: space-around;
   align-items: center;
-
-  bottom: -45px;
-  left: 0;
-  width: 200px;
-  height: 50px;
-  border-radius: 0px 7px 7px 7px;
-  background-color: gray;
+  width: 105px;
+  border-radius: 7px;
   z-index: 10;
-  visibility: hidden;
+}
+
+.exploreHome,
+.exploreRepo,
+.exploreCode {
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 28px;
+  height: 28px;
+  border-radius: 3px;
+}
+
+.exploreHome:hover,
+.exploreRepo:hover,
+.exploreCode:hover {
+  background-color: gray;
+}
+
+.exploreHome:hover::before {
+  content: "Home";
+  position: absolute;
+  bottom: -28px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 50px;
+  height: 20px;
+  border-radius: 5px;
+  text-align: center;
+  background-color: rgba(128, 128, 128, 0.5);
+  font-size: 13px;
+}
+
+.exploreRepo:hover::before {
+  content: "Repository";
+  position: absolute;
+  bottom: -28px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 75px;
+  height: 20px;
+  border-radius: 5px;
+  text-align: center;
+  background-color: rgba(128, 128, 128, 0.5);
+  font-size: 13px;
+}
+
+.exploreCode:hover::before {
+  content: "Code";
+  position: absolute;
+  bottom: -28px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 45px;
+  height: 20px;
+  border-radius: 5px;
+  text-align: center;
+  background-color: rgba(128, 128, 128, 0.5);
+  font-size: 13px;
 }

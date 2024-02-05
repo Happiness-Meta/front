@@ -12,7 +12,7 @@ function MyPage() {
             <form action="" className={styles.form}>
               <div className={styles.formEachSpace}>
                 <label htmlFor="username" className={styles.label}>
-                  username
+                  Username
                 </label>
                 <i className={`${styles.inputIcon} material-symbols-outlined`}>
                   account_circle
@@ -37,7 +37,17 @@ function MyPage() {
 
               <div className={styles.formEachSpace}>
                 <label htmlFor="password" className={styles.label}>
-                  password
+                  Password
+                </label>
+                <i className={`${styles.inputIcon} material-symbols-outlined`}>
+                  lock
+                </i>
+                <input type="text" name="password" className={styles.input} />
+              </div>
+
+              <div className={styles.formEachSpace}>
+                <label htmlFor="password" className={styles.label}>
+                  Password
                 </label>
                 <i className={`${styles.inputIcon} material-symbols-outlined`}>
                   lock

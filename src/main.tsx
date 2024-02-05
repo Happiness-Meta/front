@@ -4,7 +4,7 @@ import "./index.css";
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import HomePage from "./pages/HomePage/HomePage";
 import LoginPage from "./pages/LoginPage/LoginPage";
-import RepoPage from "./pages/RepoPage/RepoPage";
+// import RepoPage from "./pages/RepoPage/RepoPage";
 import CodePage from "./pages/CodePage/CodePage";
 import Dashboard from "./pages/RepoPage/Page/dashboard/Dashboard";
 import Settings from "./pages/RepoPage/Page/settings/Settings";
@@ -18,7 +18,7 @@ ReactDOM.createRoot(document.getElementById("root")!).render(
       <Routes>
         <Route path="/" element={<HomePage />} />
         <Route path="/LoginPage" element={<LoginPage />} />
-        <Route path="/RepoPage" element={<RepoPage />} />
+        {/* <Route path="/RepoPage" element={<RepoPage />} /> */}
         <Route path="/dashboard" element={<Dashboard />} />
         <Route path="/repositories" element={<Repositories />} />
         <Route path="/projects" element={<Projects />} />

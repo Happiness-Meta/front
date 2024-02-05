@@ -5,6 +5,8 @@ interface aboutGlobalStore {
   modeToggle: () => void;
   exploreBtn: boolean;
   exploreBtnToggle: () => void;
+  accountBtn: boolean;
+  accountBtnToggle: () => void;
 }
 
 const globalStore = create<aboutGlobalStore>((set) => ({
@@ -12,6 +14,8 @@ const globalStore = create<aboutGlobalStore>((set) => ({
   modeToggle: () => set((state) => ({ mode: !state.mode })),
   exploreBtn: false,
   exploreBtnToggle: () => set((state) => ({ exploreBtn: !state.exploreBtn })),
+  accountBtn: false,
+  accountBtnToggle: () => set((state) => ({ accountBtn: !state.accountBtn })),
 }));
 
 export default globalStore;
