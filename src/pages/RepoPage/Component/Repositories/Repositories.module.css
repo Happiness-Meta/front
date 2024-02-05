@@ -4,6 +4,7 @@
 
 .repo_wrapperNight {
   display: grid;
+  gap: 1fr 1fr 1fr 1fr;
   justify-items: center;
   border: 1px solid #eeeeee;
   box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.1);
@@ -19,6 +20,7 @@
 .repo_wrapperSun {
   display: grid;
   justify-items: center;
+  gap: 1fr 1fr 1fr 1fr;
   border: 1px solid #eeeeee;
   box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.1);
   color: #1e1e26;

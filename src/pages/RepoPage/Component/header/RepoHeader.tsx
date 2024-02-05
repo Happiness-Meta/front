@@ -4,6 +4,7 @@ import headerStore from "../../../../store/CodePageStore/headerStore";
 import { Link } from "react-router-dom";
 import Profile from "../../Component/profile/Profile";
 import ModeToggleBtn from "../../../../globalComponents/modeToggleBtn/ModeToggleBtn";
+import ExploreBtn from "../../../../globalComponents/exploreBtn/ExploreBtn";
 
 function Header() {
   const { sidebar, sidebarToggle } = sidebarStore();
@@ -18,9 +19,7 @@ function Header() {
           style={mode ? { borderColor: "black" } : { borderColor: "white" }}
         >
           <div
-            className={`${
-              sidebar ? styles.sidebarToggleInnerT : styles.sidebarToggleInnerF
-            }`}
+            className={`${sidebar ? styles.sidebarToggleInnerT : styles.sidebarToggleInnerF}`}
             style={
               sidebar
                 ? { backgroundColor: "black", borderColor: "white" }
@@ -28,9 +27,8 @@ function Header() {
             }
           ></div>
         </i>
-        <i className={`${styles.pageShiftingBtn} material-symbols-outlined`}>
-          explore
-        </i>
+
+        <ExploreBtn />
         <Link
           to="/"
           className={styles.IDE_name}
@@ -44,9 +42,7 @@ function Header() {
         <ModeToggleBtn />
         <div className={styles.accountSpace}>
           <Profile />
-          <div className={`${styles.accountExpand} material-icons`}>
-            expand_more
-          </div>
+          <div className={`${styles.accountExpand} material-icons`}>expand_more</div>
         </div>
       </div>
     </div>
