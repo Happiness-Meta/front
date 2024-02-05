@@ -15,7 +15,7 @@ const Repositories = () => {
       <h2>Recommend</h2>
       <div className={styles.recommendcontainer}>
         {isEmpty ? (
-          <p>새 레포지토리 만들기</p>
+          <p>It's empty now. Let's make a new repository!</p>
         ) : (
           Object.entries(repositories).map(([key, repo]) => (
             <div
