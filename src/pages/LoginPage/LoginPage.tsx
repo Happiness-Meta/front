@@ -3,7 +3,7 @@ import LoginPageStore from "../../store/LoginPageStore/LoginPageStore";
 import OauthSpace from "./OauthSpace/OauthSpace";
 import LoginPageHeader from "./header/LoginPageHeader";
 import { ChangeEvent, useState } from "react";
-import UserRegisterDto from "../../DTO/UserRegisterDto";
+import UserRegisterDto from "../../dto/UserRegisterDto";
 import axios from "axios";
 
 function LoginPage() {
@@ -27,14 +27,14 @@ function LoginPage() {
   const registerUser = async () => {
     const body: UserRegisterDto = {
       email: signUpID,
-      username: username,
+      nickname: username,
       password: signUpPW,
     };
     const response = await axios.post(
       "http://localhost:8080/api/sign/register",
       body
     );
-    console.log(response.data.data);
+    console.log(response.data);
   };
 
   return (
@@ -102,7 +102,7 @@ function LoginPage() {
 
         <div className={styles.signUpSection}>
           <div className={styles.signInText}>Sign Up</div>
-          <form action="" className={styles.inputSpace}>
+          {/*<form action="" className={styles.inputSpace}>*/}
             <div className={styles.inputEachSpace}>
               <i className={`${styles.inputIcon} material-symbols-outlined`}>
                 person
@@ -153,7 +153,7 @@ function LoginPage() {
             <button className={styles.signInUpBtn} onClick={registerUser}>
               Sign Up
             </button>
-          </form>
+          {/*</form>*/}
           <div className={styles.signInBottom}>
             <div className={styles.bottomText}>Ready to sign in?</div>
             <div className={styles.goToSignUpBtn} onClick={inUpToggle}>

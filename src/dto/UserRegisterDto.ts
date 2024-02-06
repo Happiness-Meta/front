@@ -1,6 +1,6 @@
 interface UserRegisterDto {
   email: string;
-  username: string;
+  nickname: string;
   password: string;
 }
 
