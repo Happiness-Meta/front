@@ -5,6 +5,7 @@ export interface Repository {
   description: string;
   url: string;
   image: string;
+  key: string;
 }
 
 interface repoStoreState {
@@ -12,6 +13,8 @@ interface repoStoreState {
   editMode: string | null;
   setEditMode: (key: string | null) => void;
   setRepositories: (newRepositories: { [key: string]: Repository }) => void;
+  show: boolean;
+  toggleModal: () => void;
 }
 
 const RepoPageStore = create<repoStoreState>((set) => ({
@@ -21,29 +24,70 @@ const RepoPageStore = create<repoStoreState>((set) => ({
       description: "repo1 description",
       url: "repo1 url",
       image: "/svg/spring.svg",
+      key: "repo1",
     },
     repo2: {
       name: "repo2",
       description: "repo2 description",
       url: "repo2 url",
       image: "/svg/React-icon.svg",
+      key: "repo2",
     },
     repo3: {
       name: "repo3",
       description: "repo3 description",
       url: "repo3 url",
       image: "/svg/nextjs.svg",
+      key: "repo3",
     },
     repo4: {
       name: "repo4",
       description: "repo4 description",
       url: "repo4 url",
       image: "/svg/nextjs.svg",
+      key: "repo4",
+    },
+    repo5: {
+      name: "repo5",
+      description: "repo4 description",
+      url: "repo4 url",
+      image: "/svg/nextjs.svg",
+      key: "repo5",
+    },
+    repo6: {
+      name: "repo6",
+      description: "repo4 description",
+      url: "repo4 url",
+      image: "/svg/nextjs.svg",
+      key: "repo6",
+    },
+    repo7: {
+      name: "repo7",
+      description: "repo4 description",
+      url: "repo4 url",
+      image: "/svg/nextjs.svg",
+      key: "repo7",
+    },
+    repo8: {
+      name: "repo8",
+      description: "repo4 description",
+      url: "repo4 url",
+      image: "/svg/nextjs.svg",
+      key: "repo8",
+    },
+    repo9: {
+      name: "repo9",
+      description: "repo4 description",
+      url: "repo4 url",
+      image: "/svg/nextjs.svg",
+      key: "repo9",
     },
   },
   editMode: null,
-  setEditMode: (key) => set(() => ({ editMode: key })),
+  setEditMode: (key: string | null) => set(() => ({ editMode: key })),
   setRepositories: (newRepositories) => set(() => ({ repositories: newRepositories })),
+  show: false,
+  toggleModal: () => set((state) => ({ show: !state.show })),
 }));
 
 export default RepoPageStore;

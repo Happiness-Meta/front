@@ -1,7 +1,7 @@
 import React from "react";
-import styles from "./Recommend.module.css";
+import styles from "../Repositories/Repositories.module.css";
 import RepoPage from "../../RepoPage";
-import headerStore from "../../../../store/CodePageStore/headerStore";
+import headerStore from "../../../../../src/store/globalStore/globalStore";
 import RecommendStore from "../../../../store/RecommendStore/recommendstore";
 
 const Repositories = () => {
@@ -12,10 +12,10 @@ const Repositories = () => {
 
   return (
     <div>
-      <h2>Recommend</h2>
+      {/* <h2>Recommend</h2> */}
       <div className={styles.recommendcontainer}>
         {isEmpty ? (
-          <p>It's empty now. Let's make a new repository!</p>
+          <></>
         ) : (
           Object.entries(repositories).map(([key, repo]) => (
             <div

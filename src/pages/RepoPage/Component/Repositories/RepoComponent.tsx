@@ -1,9 +1,9 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import styles from "./Repositories.module.css";
 import RepoPage from "../../RepoPage";
 import { Link } from "react-router-dom";
 import RepoPageStore from "../../../../store/RepoPageStore/repoPageStore";
-import headerStore from "../../../../store/CodePageStore/headerStore";
+import headerStore from "../../../../../src/store/globalStore/globalStore";
 
 interface RepoComponent {
   name: string;
@@ -52,15 +52,15 @@ const Repositories = () => {
 
   return (
     <div>
-      <h2>All</h2>
+      {/* <h2>All</h2> */}
       <div className={styles.recommendcontainer}>
         {isEmpty ? (
-          <p>It's empty now. Let's make a new repository!</p>
+          <></>
         ) : (
           Object.entries(repositories).map(([key, repo]) => (
             <div
               key={key}
-              className={`${mode ? styles.repo_wrapperSun : styles.repo_wrapperNight}`}
+              className={`${mode ? styles.repo_wrapperSun : styles.repo_wrapperNight} `}
             >
               <div className={styles.repocontainer}>
                 <div className={styles.reponame_container}>
