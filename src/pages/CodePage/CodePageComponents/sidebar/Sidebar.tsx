@@ -7,18 +7,26 @@ import "rc-tree/assets/index.css";
 const treeData = [
   {
     key: "1",
-    title: "Node 1",
+    title: "folder 1",
     children: [
-      { key: "1-1", title: "Node 1-1" },
-      { key: "1-2", title: "Node 1-2" },
+      { key: "1-1", title: "script" },
+      { key: "1-2", title: "script2.js" },
+      {
+        key: "3",
+        title: "folder 3",
+        children: [
+          { key: "3-1", title: "index.html" },
+          { key: "3-2", title: "style.css" },
+        ],
+      },
     ],
   },
   {
     key: "2",
-    title: "Node 2",
+    title: "folder 2",
     children: [
-      { key: "2-1", title: "Node 2-1" },
-      { key: "2-2", title: "Node 2-2" },
+      { key: "2-1", title: "package.json" },
+      { key: "2-2", title: "react.tsx" },
     ],
   },
 ];
@@ -26,14 +34,21 @@ const treeData = [
 function Sidebar() {
   const { expandStatus, expandToggle } = sidebarStore();
   const { sidebar } = sidebarStore();
-  // const [fileName, setFileName] = useState("");
 
-  // const handleFileName = (event: ChangeEvent<HTMLInputElement>) => {
-  //   setFileName(event.target.value);
-  // };
+  const switcherIcon = (extension) => {
+    let icon = extension.title.toString().split(".").pop();
+    const isDirectory = extension.data.children;
+    if (isDirectory) {
+      icon = extension.expanded ? "openFolder" : "closedFolder";
+    } else if (!extension.title.includes(".")) {
+      icon = "draft";
+    }
+    const iconSvg = (
+      <img src={`/svg/${icon}.svg`} className={styles.fileIcon} />
+    );
 
-  // const fileExtension = fileName.split(".").pop();
-  // const iconSrc = `/svg/${fileExtension}.svg`;
+    return iconSvg;
+  };
 
   return (
     <div
@@ -72,26 +87,19 @@ function Sidebar() {
             </div>
           </div>
           <div
-            className={`${expandStatus ? styles.FCExpandStatus : undefined} ${
+            className={`${expandStatus ? styles.FC_ExpandStatus : undefined} ${
               styles.fileContainer
             }`}
           >
             <Tree
               treeData={treeData}
-              showIcon={true}
+              switcherIcon={switcherIcon}
+              showIcon={false}
               selectable={true}
               draggable={true}
               allowDrop={() => true}
+              expandAction={"click"}
             ></Tree>
-            {/* <div>
-              <img src={iconSrc} alt="icon" className={styles.fileIcon}></img>
-              <input
-                type="text"
-                value={fileName}
-                onChange={handleFileName}
-                className={styles.fileName}
-              />
-            </div> */}
           </div>
         </div>
         <div className={styles.sidebarBottom}>

@@ -46,12 +46,26 @@ function AccountBtn() {
         }
       >
         <div className={styles.buttonSpace}>
-          <i className={`${styles.myPageBtnSymIcon} material-symbols-outlined`}>
-            settings
-          </i>
-          <Link to="/myPage" className={styles.myPageBtnText}>
-            Account Setting
-          </Link>
+          <div className={styles.buttonEach}>
+            <i
+              className={`${styles.myPageBtnSymIcon} material-symbols-outlined`}
+            >
+              settings
+            </i>
+            <Link to="/myPage" className={styles.myPageBtnText}>
+              Account Setting
+            </Link>
+          </div>
+          <div className={styles.buttonEach}>
+            <i
+              className={`${styles.myPageBtnSymIcon} material-symbols-outlined`}
+            >
+              logout
+            </i>
+            <Link to="/myPage" className={styles.myPageBtnText}>
+              logout
+            </Link>
+          </div>
         </div>
         <div className={styles.userInfo}>
           <span>ID : hiyunseok347@gmail.com</span>

@@ -21,7 +21,25 @@ function EditorSpace() {
         enable={{ top: false, bottom: false, right: true, left: false }}
         handleClasses={{ right: "resizeHandle2" }}
       >
-        <div className={styles.filesMenuSpace}></div>
+        <div className={styles.filesTabSpace}>
+          {/* 나중에 map으로 돌리기 */}
+          <div
+            className={styles.tab}
+            style={
+              mode
+                ? { backgroundColor: "white" }
+                : { backgroundColor: "#1e1e1e" }
+            }
+          >
+            <button className={styles.tabEach}>
+              <img src="/svg/html.svg" className={styles.tabIcon} />
+              <span className={styles.tabName}>index.html</span>
+            </button>
+            <button className={`${styles.tabRemove} material-symbols-outlined`}>
+              close
+            </button>
+          </div>
+        </div>
         <div
           className={styles.filePathSpace}
           style={
@@ -29,7 +47,7 @@ function EditorSpace() {
           }
         ></div>
         <Editor
-          height="calc(100% - 60px)"
+          height="calc(100% - 70px)"
           width="100%"
           theme={mode ? "vs-light" : "vs-dark"}
           defaultLanguage="html"
@@ -41,7 +59,7 @@ function EditorSpace() {
         />
       </Resizable>
       <div className={styles.rightSpace}>
-        <div className={styles.filesMenuSpace}></div>
+        <div className={styles.filesTabSpace}></div>
         <div
           className={styles.filePathSpace}
           style={
@@ -49,7 +67,7 @@ function EditorSpace() {
           }
         ></div>
         <Editor
-          height="calc(100% - 60px)"
+          height="calc(100% - 70px)"
           width="100%"
           theme={mode ? "vs-light" : "vs-dark"}
           defaultLanguage="javascript"

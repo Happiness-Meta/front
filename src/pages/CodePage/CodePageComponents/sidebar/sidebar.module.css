@@ -155,23 +155,19 @@
   transition: 0.3s;
 }
 
-.FCExpandStatus {
+.FC_ExpandStatus {
   height: 0;
+  padding-bottom: 0;
 }
 
-.fileContainer div {
-  display: flex;
-  align-items: center;
+.fileContainer span {
+  margin-left: 5px;
+  font-size: 14px;
+  font-weight: 500;
 }
 
 .fileIcon {
   width: 18px;
-}
-
-.fileName {
-  margin-left: 5px;
-  background-color: transparent;
-  border: none;
 }
 
 .sidebarBottom {

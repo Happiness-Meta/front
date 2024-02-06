@@ -45,15 +45,6 @@ function MyPage() {
                 <input type="text" name="password" className={styles.input} />
               </div>
 
-              <div className={styles.formEachSpace}>
-                <label htmlFor="password" className={styles.label}>
-                  Password
-                </label>
-                <i className={`${styles.inputIcon} material-symbols-outlined`}>
-                  lock
-                </i>
-                <input type="text" name="password" className={styles.input} />
-              </div>
               <div className={styles.btnSpace}>
                 <button className={styles.button}>저장</button>
               </div>

@@ -42,7 +42,7 @@
 
 .accountWindow {
   position: absolute;
-  bottom: -83.5px;
+  bottom: -105px;
   right: 0;
   display: flex;
   flex-direction: column;
@@ -53,22 +53,29 @@
   border: 1px solid #068fff;
   border-radius: 7px 0 7px 7px;
   background-color: rgba(128, 128, 128, 0.5);
+  backdrop-filter: blur(15px);
   z-index: 10;
   animation: heightAni 1s forwards;
 }
 
 .buttonSpace {
   display: flex;
+  flex-direction: column;
   justify-content: start;
   align-items: center;
   width: 90%;
-  height: 25px;
+  height: 50px;
+}
+
+.buttonEach {
+  display: flex;
+  width: 100%;
   padding: 2px 6px;
   border-radius: 7px;
   cursor: pointer;
 }
 
-.buttonSpace:hover {
+.buttonEach:hover {
   background-color: rgba(128, 128, 128, 0.5);
 }
 
