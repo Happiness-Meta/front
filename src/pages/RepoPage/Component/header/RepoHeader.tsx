@@ -1,14 +1,14 @@
 import styles from "./header.module.css";
 import sidebarStore from "../../../../store/CodePageStore/sidebarStore";
-import headerStore from "../../../../store/CodePageStore/headerStore";
 import { Link } from "react-router-dom";
 import Profile from "../../Component/profile/Profile";
 import ModeToggleBtn from "../../../../globalComponents/modeToggleBtn/ModeToggleBtn";
 import ExploreBtn from "../../../../globalComponents/exploreBtn/ExploreBtn";
+import globalStore from "../../../../store/globalStore/globalStore";
 
 function Header() {
   const { sidebar, sidebarToggle } = sidebarStore();
-  const { mode } = headerStore();
+  const { mode } = globalStore();
 
   return (
     <div className={styles.headerSpace}>

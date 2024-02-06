@@ -1,15 +1,57 @@
 .recommendcontainer {
-  display: flex;
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 10px;
+}
+
+.recommendcontainer {
+  grid-template-columns: repeat(1, 1fr);
+}
+
+/* 화면 너비가 458px 이상일 때: 가로 2개 */
+@media (min-width: 458px) {
+  .recommendcontainer {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+/* 화면 너비가 690px 이상일 때: 가로 3개 */
+@media (min-width: 690px) {
+  .recommendcontainer {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+/* 화면 너비가 1100px 이상일 때: 가로 4개 */
+@media (min-width: 1100px) {
+  .recommendcontainer {
+    grid-template-columns: repeat(4, 1fr);
+  }
+}
+
+/* 화면 너비가 1400px 이상일 때: 가로 4개 유지 */
+@media (min-width: 1400px) {
+  .recommendcontainer {
+    grid-template-columns: repeat(4, 1fr);
+  }
+}
+
+/* 화면 너비가 1900px 이상일 때: 가로 6개 */
+@media (min-width: 1900px) {
+  .recommendcontainer {
+    grid-template-columns: repeat(6, 1fr);
+  }
 }
 
 .repo_wrapperNight {
   display: grid;
-  gap: 1fr 1fr 1fr 1fr;
-  justify-items: center;
-  border: 1px solid #eeeeee;
-  box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.1);
-  background: #eeeeee;
-  color: #1e1e26;
+  grid-template-columns: 1fr 1fr 1fr 1fr;
+  grid-template-rows: 1fr 1fr 1fr 1fr;
+  box-shadow: 1px 6px 9px 0px rgba(0, 0, 0, 0.72);
+  -webkit-box-shadow: 1px 6px 9px 0px rgba(0, 0, 0, 0.72);
+  -moz-box-shadow: 1px 6px 9px 0px rgba(0, 0, 0, 0.72);
+  background: #1e1e26;
+  color: #eeeeee;
   border-radius: 17px;
   width: 211px;
   height: 116px;
@@ -19,11 +61,12 @@
 
 .repo_wrapperSun {
   display: grid;
-  justify-items: center;
-  gap: 1fr 1fr 1fr 1fr;
+  grid-template-columns: 1fr 1fr 1fr 1fr;
+  grid-template-rows: 1fr 1fr 1fr 1fr;
   border: 1px solid #eeeeee;
   box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.1);
   color: #1e1e26;
+
   border-radius: 17px;
   width: 211px;
   height: 116px;
@@ -33,16 +76,16 @@
 
 .repo_wrapperNight,
 .repo_wrapperSun {
-  transition: background-color 0.5s ease;
+  transition: background-color 0.5s ease, transform 0.3s ease;
 }
 
 .repo_wrapperNight:hover {
-  background-color: #d3d3d3;
   cursor: pointer;
+  transform: scale(1.05);
 }
 
 .repo_wrapperSun:hover {
-  background-color: #f0f0f0;
+  transform: scale(1.05);
   cursor: pointer;
 }
 
@@ -177,7 +220,7 @@
   border: none;
   background-color: transparent;
   font-size: 16px;
-  color: #1e1e26;
+  color: #eeeeee;
 }
 .reponame_input_container {
   width: 100%;

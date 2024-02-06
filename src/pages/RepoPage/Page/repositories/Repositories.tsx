@@ -6,7 +6,9 @@ import RepoComponent from "../../Component/Repositories/RepoComponent";
 const Repositories = () => {
   return (
     <RepoPage>
-      <RepoComponent />
+      <div className={styles.repositoriescontainer}>
+        <RepoComponent />
+      </div>
     </RepoPage>
   );
 };
