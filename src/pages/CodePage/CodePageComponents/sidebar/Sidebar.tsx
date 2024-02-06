@@ -1,15 +1,16 @@
 import styles from "./sidebar.module.css";
 import sidebarStore from "../../../../store/CodePageStore/sidebarStore";
 import EditorSettingBtn from "./editorSettingBtn/EditorSettingBtn";
-import Tree from "rc-tree";
+import Tree, { TreeProps } from "rc-tree";
 import "rc-tree/assets/index.css";
+import editorStore from "../../../../store/CodePageStore/editorStore";
 
 const treeData = [
   {
     key: "1",
     title: "folder 1",
     children: [
-      { key: "1-1", title: "script" },
+      { key: "1-1", title: "script.ts" },
       { key: "1-2", title: "script2.js" },
       {
         key: "3",
@@ -34,18 +35,22 @@ const treeData = [
 function Sidebar() {
   const { expandStatus, expandToggle } = sidebarStore();
   const { sidebar } = sidebarStore();
+  const { tabs, addTab } = editorStore();
 
-  const switcherIcon = (extension) => {
-    let icon = extension.title.toString().split(".").pop();
-    const isDirectory = extension.data.children;
+  const switcherIcon: TreeProps["switcherIcon"] = (extension) => {
+    let icon = extension.title!.toString().split(".").pop();
+    const isDirectory = extension.data!.children;
     if (isDirectory) {
       icon = extension.expanded ? "openFolder" : "closedFolder";
-    } else if (!extension.title.includes(".")) {
+    } else if (!extension.title!.toString().includes(".")) {
       icon = "draft";
     }
-    const iconSvg = (
-      <img src={`/svg/${icon}.svg`} className={styles.fileIcon} />
-    );
+    let iconSvg = <img src={`/svg/${icon}.svg`} className={styles.fileIcon} />;
+    if (icon === "openFolder" || icon === "closedFolder" || icon === "draft") {
+      iconSvg = (
+        <img src={`/svg/${icon}.svg`} className={styles.directoryIcon} />
+      );
+    }
 
     return iconSvg;
   };

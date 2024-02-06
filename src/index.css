@@ -52,37 +52,3 @@ body[data-theme="light"] a {
 i {
   cursor: pointer;
 }
-
-.resizeHandle1 {
-  right: 3px !important;
-  width: 4px !important;
-  border-radius: 10px;
-  background-color: rgba(128, 128, 128, 0.1);
-}
-
-.resizeHandle2 {
-  right: -7px !important;
-  width: 4px !important;
-  border-radius: 10px;
-  background-color: rgba(128, 128, 128, 0.1);
-}
-
-.resizeHandle1:hover,
-.resizeHandle2:hover {
-  background-color: gray;
-}
-
-.rc-tree {
-  width: 100%;
-  background-image: none !important;
-}
-
-.rc-tree-treenode:hover {
-  background-color: rgba(128, 128, 128, 0.3);
-}
-
-.rc-tree-node-selected {
-  background-color: none !important;
-  box-shadow: none !important;
-  opacity: 0.5 !important;
-}

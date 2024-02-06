@@ -43,8 +43,9 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  width: 90%;
+  width: 93%;
   height: 30px;
+  padding-right: 5px;
 }
 
 .TitleSpace {
@@ -161,13 +162,17 @@
 }
 
 .fileContainer span {
-  margin-left: 2px;
   font-size: 14px;
-  font-weight: 500;
 }
 
 .fileIcon {
-  width: 18px;
+  width: 14px;
+  height: 100%;
+}
+
+.directoryIcon {
+  width: 17px;
+  height: 100%;
 }
 
 .sidebarBottom {
