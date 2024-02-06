@@ -1,20 +1,16 @@
 import styles from "./myPageHeader.module.css";
-import { Link } from "react-router-dom";
 import ModeToggleBtn from "../../../globalComponents/modeToggleBtn/ModeToggleBtn";
+import ExploreBtn from "../../../globalComponents/exploreBtn/ExploreBtn";
 
 function MyPageHeader() {
   return (
     <div className={styles.headerSpace}>
       <div className={styles.leftSide_header}>
-        <i className={`${styles.pageShiftingBtn} material-symbols-outlined`}>
-          explore
-        </i>
+        <ExploreBtn />
       </div>
       <div className={styles.middleSide_header}>
         {" "}
-        <Link to="/" className={styles.IDE_name}>
-          Earth-IDE-N
-        </Link>
+        <div className={styles.IDE_name}>Earth-IDE-N</div>
       </div>
 
       <div className={styles.rightSide_header}>
