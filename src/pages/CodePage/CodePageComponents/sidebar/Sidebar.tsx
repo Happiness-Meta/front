@@ -35,7 +35,8 @@ const treeData = [
 function Sidebar() {
   const { expandStatus, expandToggle } = sidebarStore();
   const { sidebar } = sidebarStore();
-  const { tabs, addTab } = editorStore();
+  // const { tabs, addTab } = editorStore();
+  const { toggleRightSpace, toggleTerminal } = editorStore();
 
   const switcherIcon: TreeProps["switcherIcon"] = (extension) => {
     let icon = extension.title!.toString().split(".").pop();
@@ -109,6 +110,12 @@ function Sidebar() {
         </div>
         <div className={styles.sidebarBottom}>
           <EditorSettingBtn />
+          <i className={`material-symbols-outlined`} onClick={toggleRightSpace}>
+            chat
+          </i>
+          <i className={`material-symbols-outlined`} onClick={toggleTerminal}>
+            terminal
+          </i>
         </div>
       </div>
     </div>

@@ -22,13 +22,22 @@ function HomePage() {
       {createStars(200)}
       <div className={styles.homePageContainer}>
         <header className={styles.homepageheader}>
-          <div className={styles.homePageHeader_guest} onClick={() => navigate("/CodePage")}>
+          <div
+            className={styles.homePageHeader_guest}
+            onClick={() => navigate("/CodePage")}
+          >
             Guest
           </div>
-          <div className={styles.homePageHeader_sign} onClick={() => navigate("/LoginPage")}>
+          <div
+            className={styles.homePageHeader_sign}
+            onClick={() => navigate("/SignInUpPage")}
+          >
             SIGN IN
           </div>
-          <div className={styles.homePageHeader_start} onClick={() => navigate("/dashboard")}>
+          <div
+            className={styles.homePageHeader_start}
+            onClick={() => navigate("/dashboard")}
+          >
             Get started
           </div>
         </header>

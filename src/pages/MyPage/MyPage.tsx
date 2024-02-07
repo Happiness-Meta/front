@@ -11,13 +11,13 @@ function MyPage() {
           <div className={styles.formSpace}>
             <form action="" className={styles.form}>
               <div className={styles.formEachSpace}>
-                <label htmlFor="username" className={styles.label}>
-                  Username
+                <label htmlFor="nickname" className={styles.label}>
+                  nickname
                 </label>
                 <i className={`${styles.inputIcon} material-symbols-outlined`}>
                   account_circle
                 </i>
-                <input type="text" name="username" className={styles.input} />
+                <input type="text" name="nickname" className={styles.input} />
               </div>
 
               <div className={styles.formEachSpace}>

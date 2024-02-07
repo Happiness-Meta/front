@@ -69,7 +69,7 @@ function AccountBtn() {
         </div>
         <div className={styles.userInfo}>
           <span>ID : hiyunseok347@gmail.com</span>
-          <span>username : 최윤석</span>
+          <span>nickname : 최윤석</span>
         </div>
       </div>
     </div>
