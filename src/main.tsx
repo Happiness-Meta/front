@@ -11,6 +11,9 @@ import Projects from "./pages/RepoPage/Page/projects/Projects";
 import Repositories from "./pages/RepoPage/Page/repositories/Repositories";
 import MyPage from "./pages/MyPage/MyPage";
 import SignInUpPage from "./pages/SignInUpPage/SignInUpPage";
+import Modal from "react-modal";
+
+Modal.setAppElement("#root");
 
 ReactDOM.createRoot(document.getElementById("root")!).render(
   <React.StrictMode>

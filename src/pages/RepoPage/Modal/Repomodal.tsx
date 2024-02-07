@@ -1,5 +1,7 @@
 // components/Modal.js
 import React from "react";
+import Modal from "react-modal";
+
 import RepoPageStore from "../../../store/RepoPageStore/repoPageStore";
 import styles from "./Repomodal.module.css";
 
