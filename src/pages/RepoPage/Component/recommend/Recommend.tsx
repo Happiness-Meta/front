@@ -29,9 +29,6 @@ const Repositories = () => {
                   </div>
                   <div className={styles.reponame}>
                     <h3>{repo.name}</h3>
-                    <div>
-                      <span className="material-symbols-outlined">more_horiz</span>
-                    </div>
                   </div>
                 </div>
                 <div className={styles.repodescription_container}>
