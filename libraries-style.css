@@ -12,8 +12,15 @@
   background-color: rgba(128, 128, 128, 0.1);
 }
 
+.resizeHandle3 {
+  width: 100%;
+  height: 4px !important;
+  background-color: rgba(128, 128, 128, 0.1);
+}
+
 .resizeHandle1:hover,
-.resizeHandle2:hover {
+.resizeHandle2:hover,
+.resizeHandle3:hover {
   background-color: gray;
 }
 

@@ -15,15 +15,14 @@
 .leftSpace {
   display: flex;
   flex-direction: column;
-  width: 100%;
+  width: 50%;
+  height: 100%;
   margin-right: 10px;
 }
 
-.rightSpace {
-  display: flex;
-  flex-direction: column;
-  width: 100%;
-  height: 100%;
+.leftWidthFull {
+  width: 100% !important;
+  transition: 0.3s;
 }
 
 .filesTabSpace {
@@ -54,7 +53,8 @@
   cursor: pointer;
 }
 
-.tabEach:hover {
+.tabEach:hover,
+.tabRemove:hover {
   background-color: rgb(128 128 128 / 20%);
 }
 
@@ -71,13 +71,46 @@
   font-size: 15px;
 }
 
-.tabRemove:hover {
-  background-color: rgb(128 128 128 / 10%);
-}
-
 .filePathSpace {
   width: 100%;
   height: 25px;
   border-bottom: 0.5px solid rgb(128 128 128 / 10%);
   background-color: transparent;
+}
+
+.editorAndTerminal {
+  display: flex;
+  flex-direction: column;
+  height: calc(100% - 56px);
+}
+
+.editorWrapper {
+  width: 100%;
+  height: 70%;
+  margin-bottom: 5px;
+}
+
+.withTerminal {
+  height: 100% !important;
+  transition: 0.3s;
+}
+
+.terminalSpace {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  background-color: rgba(0, 128, 0, 0.234);
+  overflow: hidden;
+}
+
+.terminalOn {
+  height: 0;
+  transition: 0.3s;
+}
+
+.terminal_header {
+  width: 100%;
+  height: 30px;
+  background-color: #068fff;
 }

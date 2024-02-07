@@ -4,40 +4,15 @@ import Editor from "@monaco-editor/react";
 import { Resizable } from "re-resizable";
 import globalStore from "../../../../store/globalStore/globalStore";
 import editorStore from "../../../../store/CodePageStore/editorStore";
-import * as Y from "yjs";
-import { WebrtcProvider } from "y-webrtc";
-import { MonacoBinding } from "y-monaco";
+import RightSpace from "./rightSpace/RightSpace";
+// import * as Y from "yjs";
+// import { WebrtcProvider } from "y-webrtc";
+// import { MonacoBinding } from "y-monaco";
 
 function EditorSpace() {
   const { sidebar, codeFontSize } = sidebarStore();
   const { mode } = globalStore();
-  const { tabs } = editorStore();
-
-  // const ydocHtml = new Y.Doc();
-  // const providerHtml = new WebrtcProvider("html", ydocHtml);
-  // const typeHtml = ydocHtml.getText("monaco");
-  // const bindingHtml = new MonacoBinding(
-  //   typeHtml,
-  //   editorRefHtml.current.getModel(),
-  //   providerHtml.awareness
-  // );
-
-  // const ydocJs = new Y.Doc();
-  // const providerJs = new WebrtcProvider("javascript", ydocJs);
-  // const typeJs = ydocJs.getText("monaco");
-  // const bindingJs = new MonacoBinding(
-  //   typeJs,
-  //   editorRefJs.current.getModel(),
-  //   providerJs.awareness
-  // );
-
-  // providerHtml.awareness.setLocalStateField("user", {
-  //   name: "YourUsername",
-  // });
-
-  // providerJs.awareness.setLocalStateField("user", {
-  //   name: "YourUsername",
-  // });
+  const { tabs, rightSpace, terminal } = editorStore();
 
   return (
     <div
@@ -46,7 +21,9 @@ function EditorSpace() {
       }`}
     >
       <Resizable
-        className={styles.leftSpace}
+        className={`${rightSpace ? styles.leftWidthFull : undefined} ${
+          styles.leftSpace
+        }`}
         defaultSize={{ width: "50%", height: "100%" }}
         enable={{ top: false, bottom: false, right: true, left: false }}
         handleClasses={{ right: "resizeHandle2" }}
@@ -79,39 +56,37 @@ function EditorSpace() {
             mode ? { backgroundColor: "white" } : { backgroundColor: "#1e1e1e" }
           }
         ></div>
-        <Editor
-          height="calc(100% - 56px)"
-          width="100%"
-          theme={mode ? "vs-light" : "vs-dark"}
-          defaultLanguage="html"
-          defaultValue="<!-- paint your own world! 🌎 -->"
-          options={{
-            selectOnLineNumbers: true,
-            fontSize: codeFontSize,
-            // model: bindingHtml.awareness,
-          }}
-        />
+        <div className={styles.editorAndTerminal}>
+          <Resizable
+            defaultSize={{ width: "100%", height: "calc(100% - 56px)" }}
+            className={`${terminal ? styles.withTerminal : undefined} ${
+              styles.editorWrapper
+            }`}
+            enable={{ top: false, bottom: true, right: false, left: false }}
+            handleClasses={{ top: "resizeHandle3" }}
+          >
+            <Editor
+              width="100%"
+              height="100%"
+              theme={mode ? "vs-light" : "vs-dark"}
+              defaultLanguage="javascript"
+              defaultValue="// paint your own world! 🌎"
+              options={{
+                selectOnLineNumbers: true,
+                fontSize: codeFontSize,
+              }}
+            />
+          </Resizable>
+          <div
+            className={`${terminal ? styles.terminalOn : undefined} ${
+              styles.terminalSpace
+            }`}
+          >
+            <div className={styles.terminal_header}>터미널</div>
+          </div>
+        </div>
       </Resizable>
-      <div className={styles.rightSpace}>
-        <div className={styles.filesTabSpace}></div>
-        <div
-          className={styles.filePathSpace}
-          style={
-            mode ? { backgroundColor: "white" } : { backgroundColor: "#1e1e1e" }
-          }
-        ></div>
-        <Editor
-          height="calc(100% - 56px)"
-          width="100%"
-          theme={mode ? "vs-light" : "vs-dark"}
-          defaultLanguage="javascript"
-          defaultValue="// paint your own world! 🌎"
-          options={{
-            selectOnLineNumbers: true,
-            fontSize: codeFontSize,
-          }}
-        />
-      </div>
+      <RightSpace />
     </div>
   );
 }

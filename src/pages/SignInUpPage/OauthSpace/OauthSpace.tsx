@@ -1,8 +1,8 @@
-import headerStore from "../../../store/CodePageStore/headerStore";
-import styles from "../loginPage.module.css";
+import globalStore from "../../../store/globalStore/globalStore";
+import styles from "../signInUpPage.module.css";
 
 function OauthSpace() {
-  const { mode } = headerStore();
+  const { mode } = globalStore();
   return (
     <div className={styles.oauthSpace}>
       <div className={styles.oauthContainers}>
