@@ -1,13 +1,23 @@
-import { ChangeEvent, useState } from "react";
+import { ChangeEvent, RefObject, useRef, useState } from "react";
 import LoginPageStore from "../../../store/LoginPageStore/LoginPageStore";
 import styles from "../signInUpPage.module.css";
-import LoginFormDto from "../../../dto/LoginFormDto";
-import axios from "axios";
+// import LoginFormDto from "../../../dto/LoginFormDto";
+// import axios from "axios";
 import { useNavigate } from "react-router-dom";
 
 function SignIn() {
   const navigate = useNavigate();
-  const { isVisible, visibleToggle, inUpToggle } = LoginPageStore();
+  const idInput: RefObject<HTMLInputElement> = useRef(null);
+  const pwInput: RefObject<HTMLInputElement> = useRef(null);
+  const {
+    isVisible,
+    visibleToggle,
+    inUpToggle,
+    signInErrorMessage,
+    signInErrorMessageStatus,
+    signInErrorMessageAni,
+    signInErrorMessageAniToggle,
+  } = LoginPageStore();
   const [signInId, setSignInId] = useState("");
   const [signInPw, setSignInPw] = useState("");
 
@@ -20,16 +30,22 @@ function SignIn() {
   };
 
   const loginUser = async () => {
-    const body: LoginFormDto = {
-      email: signInId,
-      password: signInPw,
-    };
-    const response = await axios.post(
-      "http://localhost:8080/api/sign/login",
-      body
-    );
+    if (idInput.current!.value === "")
+      return signInErrorMessageStatus("아이디를 입력해주세요");
+    if (pwInput.current!.value === "")
+      return signInErrorMessageStatus("비밀번호를 입력해주세요");
+    // const body: LoginFormDto = {
+    //   email: signInId,
+    //   password: signInPw,
+    // };
+    // const response = await axios.post(
+    //   "http://localhost:8080/api/sign/login",
+    //   body
+    // );
+    signInErrorMessageStatus("");
     navigate("/dashboard");
-    console.log(response.data.data.token);
+
+    // console.log(response.data.data.token);
   };
 
   return (
@@ -41,6 +57,8 @@ function SignIn() {
             person
           </i>
           <input
+            autoFocus
+            ref={idInput}
             name="id"
             type="text"
             className={styles.input}
@@ -54,6 +72,7 @@ function SignIn() {
             lock
           </i>
           <input
+            ref={pwInput}
             name="password"
             type={isVisible ? "text" : "password"}
             className={styles.input}
@@ -67,9 +86,24 @@ function SignIn() {
           >
             {isVisible ? "visibility" : "visibility_off"}
           </i>
+          <div
+            className={`${
+              signInErrorMessageAni
+                ? styles.errorMessageAni2
+                : styles.errorMessageAni
+            } ${styles.signInErrorMessage}`}
+          >
+            {signInErrorMessage}
+          </div>
         </div>
 
-        <button className={styles.signInUpBtn} onClick={loginUser}>
+        <button
+          className={styles.signInUpBtn}
+          onClick={() => {
+            loginUser();
+            signInErrorMessageAniToggle();
+          }}
+        >
           Sign In
         </button>
       </div>

@@ -41,7 +41,7 @@
   border-radius: 60px;
   margin-top: 20px;
   overflow: hidden;
-  background-color: rgb(30 30 38 / 10%);
+  background-color: rgb(30 30 38 / 0%);
   box-shadow: 0 0 10px gray;
 }
 
@@ -113,6 +113,67 @@
   display: flex;
   justify-content: center;
   width: 75%;
+}
+
+.signInErrorMessage {
+  position: absolute;
+  bottom: -20px;
+  left: 0px;
+  height: fit-content;
+  font-size: 12px;
+  color: #ff4e4e;
+}
+
+.errorMessage {
+  position: absolute;
+  top: -20px;
+  left: 0px;
+  height: fit-content;
+  font-size: 12px;
+  color: #ff4e4e;
+}
+
+.errorMessageAni {
+  animation: shaking 0.5s;
+}
+.errorMessageAni2 {
+  animation: shaking2 0.5s;
+}
+
+@keyframes shaking {
+  0% {
+    transform: translateX(0px);
+  }
+  20% {
+    transform: translateX(-2px);
+  }
+  40% {
+    transform: translateX(2px);
+  }
+  60% {
+    transform: translateX(-2px);
+  }
+  80% {
+    transform: translateX(2px);
+  }
+}
+
+@keyframes shaking2 {
+  0% {
+    transform: translateX(0px);
+  }
+  20% {
+    transform: translateX(-2px);
+  }
+  40% {
+    transform: translateX(2px);
+  }
+  60% {
+    transform: translateX(-2px);
+  }
+  80% {
+    transform: translateX(2px);
+  }
 }
 
 .inputIcon {
@@ -200,6 +261,7 @@
 }
 
 .signUpSection {
+  position: relative;
   display: flex;
   flex-direction: column;
   align-items: center;

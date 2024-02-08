@@ -11,7 +11,7 @@ function HomePage() {
         style={{
           top: `${Math.random() * 100}%`,
           left: `${Math.random() * 100}%`,
-          animationDuration: `${Math.random() * 3 + 1}s`,
+          animationDuration: `${Math.random() * 3 + 3}s`,
         }}
       ></div>
     ));
@@ -21,35 +21,59 @@ function HomePage() {
     <div className={styles.backSky}>
       {createStars(200)}
       <div className={styles.homePageContainer}>
-        <header className={styles.homepageheader}>
+        <header className={styles.homepageHeader}>
           <div
-            className={styles.homePageHeader_guest}
+            className={styles.guestBtn}
             onClick={() => navigate("/CodePage")}
           >
             Guest
           </div>
           <div
-            className={styles.homePageHeader_sign}
+            className={styles.signBtn}
             onClick={() => navigate("/SignInUpPage")}
           >
             SIGN IN
           </div>
           <div
-            className={styles.homePageHeader_start}
+            className={styles.startBtn}
             onClick={() => navigate("/dashboard")}
           >
             Get started
           </div>
         </header>
-        <div className={styles.homePage}>
-          <div className={styles.homePage_earth}>지구상 어디든 접근하는</div>
-          <div className={styles.homePage_earth}>웹 IDE의 새로운 모습</div>
-          <div className={styles.homePage_ide}>Earth-IDE-N</div>
-          <div className={styles.imgcontainer}>
-            <img
-              src="https://blog.kakaocdn.net/dn/2sdHV/btsEdHtN2Px/V0a6TqK2tXooCXhLKKDMk0/img.png"
-              className={styles.homePage_image}
-            />
+        <div className={styles.textSpace}>
+          <span className={styles.title}>Earth-IDE-N</span>
+          <div className={styles.subTitleSpace}>
+            <span className={styles.subTitle}>지구상 어디든 접근하는</span>
+            <span className={styles.subTitle}>웹 IDE의 새로운 모습</span>
+          </div>
+        </div>
+
+        <img
+          src="https://blog.kakaocdn.net/dn/2sdHV/btsEdHtN2Px/V0a6TqK2tXooCXhLKKDMk0/img.png"
+          className={styles.homePage_image}
+        />
+
+        <div className={styles.introducingBox}>
+          <div className={styles.boxes}>
+            <span className={styles.boxTitle}>START-PACK</span>
+            <span className={styles.boxSubTitle}>
+              초보 우주 비행사를 위한 길잡이
+            </span>
+          </div>
+          <div className={styles.boxes}>
+            <span className={styles.boxTitle}>CHATTING</span>
+            <span className={styles.boxSubTitle}>텍스트 및 음성 채팅 기능</span>
+          </div>
+          <div className={styles.boxes}>
+            <span className={styles.boxTitle}>AI-CHANCE</span>
+            <span className={styles.boxSubTitle}>
+              모르는 것은 Chat-GPT에게 질문
+            </span>
+          </div>
+          <div className={styles.boxes}>
+            <span className={styles.boxTitle}>TOGETHER</span>
+            <span className={styles.boxSubTitle}>실시간 동시 편집 기능</span>
           </div>
         </div>
       </div>
