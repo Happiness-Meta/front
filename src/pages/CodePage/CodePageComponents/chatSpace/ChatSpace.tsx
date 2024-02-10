@@ -3,7 +3,7 @@ import styles from "./ChatSpace.module.css";
 import SockJS from "sockjs-client";
 import Stomp, { Client } from "@stomp/stompjs";
 import userStore from "../../../../store/userStore/userStore";
-import { FormEvent, useEffect, useState } from "react";
+import { FormEvent, useEffect, useRef, useState } from "react";
 import defaultPicture from "/svg/profilePicture.svg";
 import profileImageEnum from "../../../../store/userStore/profileImageEnum";
 import { ReactComponent as ProfilePicture } from "/svg/profilePicture.svg";
@@ -63,6 +63,18 @@ const dummyMessage: Message[] = [
 function ChatSpace() {
   const [messages, setMessages] = useState<Message[]>([]);
   const [inputText, setInputText] = useState("");
+  const messagesEndRef = useRef<HTMLDivElement | null>(null);
+
+  useEffect(() => {
+    const sortedMessages = dummyMessage.sort((a, b) => a.id - b.id);
+    setMessages(sortedMessages);
+  }, []);
+
+  useEffect(() => {
+    if (messagesEndRef.current) {
+      messagesEndRef.current.scrollTop = messagesEndRef.current.scrollHeight;
+    }
+  }, [messages]);
 
   // 메시지 전송 핸들러 (실제 메시지 전송 로직 구현 전)
   const sendMessage = (e: FormEvent<HTMLFormElement>) => {
@@ -73,9 +85,9 @@ function ChatSpace() {
     setMessages([
       ...messages,
       {
-        id: Date.now(),
+        id: dummyMessage[4].id,
         text: inputText,
-        name: "me",
+        name: dummyMessage[4].name,
         profilepicture: defaultPicture,
         date: new Date(),
       },
@@ -89,13 +101,32 @@ function ChatSpace() {
       <div className={styles.filesTabSpace}> 채팅</div>
       <div className={` ${styles.chattingSpace} `}></div>
       <div className={styles.chat_room}>
-        <div className={styles.messages}>
+        <div className={styles.messages} ref={messagesEndRef}>
           {messages.map((message) => (
-            <div key={message.id} className={styles.message}>
-              <img src={message.profilepicture} alt="Profile" className={styles.profilePicture} />
-              <div className={styles.messageDetail}>
+            <div
+              key={message.id}
+              className={`${styles.message} ${message.name === "김수연" ? styles.myMessage : ""}`}
+            >
+              <img
+                src={message.profilepicture}
+                alt="Profile"
+                className={`${styles.profilePicture} ${
+                  message.name === "김수연" ? styles.myMessage_ProfilePicture : ""
+                }`}
+              />
+              <div
+                className={`${styles.messageDetail} ${
+                  message.name === "김수연" ? styles.myMessage_Detail : ""
+                }`}
+              >
                 <div className={styles.userName}>{message.name}</div>
-                <div className={`${styles.text} ${styles.chat_bubble}`}>{message.text}</div>
+                <div
+                  className={`${styles.chat_bubble} ${
+                    message.name === "김수연" ? styles.myChat_bubble : ""
+                  }`}
+                >
+                  {message.text}
+                </div>
               </div>
             </div>
           ))}
