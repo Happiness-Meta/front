@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import styles from "./Repositories.module.css";
 import RepoPage from "../../RepoPage";
 import { Link } from "react-router-dom";
@@ -28,6 +28,7 @@ const Repositories = () => {
   const isEmpty = Object.keys(repositories).length === 0;
   const [activeDropdownKey, setActiveDropdownKey] = useState<string | null>(null);
   const [currentEditingRepoKey, setCurrentEditingRepoKey] = useState<string | null>(null);
+  const dropdownRef = useRef<HTMLDivElement>(null);
   const handleNameClick = ({ key, name }: NameClickParams) => {
     setEditMode(key);
     setEditName(name ?? "");
@@ -54,6 +55,20 @@ const Repositories = () => {
       handleSave({ key });
     }
   };
+
+  // 외부 클릭 시 드롭다운 메뉴 닫기
+  useEffect(() => {
+    function handleClickOutside(event: MouseEvent) {
+      if (dropdownRef.current && !dropdownRef.current.contains(event.target as Node)) {
+        setActiveDropdownKey(null);
+      }
+    }
+
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, [dropdownRef]);
 
   const { mode } = headerStore();
 
@@ -93,7 +108,10 @@ const Repositories = () => {
                       <span className="material-symbols-outlined">more_horiz</span>
                     </div>
                     {activeDropdownKey === key && (
-                      <div className={styles.dropdownMenu}>
+                      <div
+                        className={mode ? styles.dropdownMenuSun : styles.dropdownMenu}
+                        ref={dropdownRef}
+                      >
                         <button
                           onClick={() => {
                             setCurrentEditingRepoKey(key); // 현재 편집 중인 레포지토리 키 설정
@@ -112,28 +130,10 @@ const Repositories = () => {
                         setCurrentEditingRepoKey(null); // 모달 닫을 때 상태 초기화
                       }}
                       contentLabel="Edit Repository"
-                      style={{
-                        content: {
-                          top: "50%",
-                          left: "50%",
-                          right: "auto",
-                          bottom: "auto",
-                          marginRight: "-50%",
-                          transform: "translate(-50%, -50%)",
-                          border: "1px solid #ccc",
-                          background: "#1e1e26",
-                          overflow: "auto",
-                          WebkitOverflowScrolling: "touch",
-                          borderRadius: "4px",
-                          outline: "none",
-                          padding: "20px",
-                          zIndex: 100,
-                        },
-                        overlay: {
-                          backgroundColor: "rgba(0, 0, 0, 0.25)",
-                          zIndex: 100,
-                        },
-                      }}
+                      className={mode ? styles.ReactModalContentSun : styles.ReactModalContent}
+                      overlayClassName={
+                        mode ? styles.ReactModalOverlaySun : styles.ReactModalOverlay
+                      }
                     >
                       <h2>
                         Edit:{currentEditingRepoKey ? repositories[currentEditingRepoKey].name : ""}

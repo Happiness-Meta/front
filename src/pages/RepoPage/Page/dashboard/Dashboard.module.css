@@ -77,6 +77,21 @@
   cursor: pointer;
   border-radius: 20px;
   padding: 10px;
+  animation: float 2s ease-in-out infinite;
+  transition: background-color 0.3s;
+}
+@keyframes float {
+  0%,
+  100% {
+    transform: translateY(0); /* 원래 위치 */
+  }
+  50% {
+    transform: translateY(-10px); /* 위로 20px 이동 */
+  }
+}
+
+.newrepobutton:hover {
+  background-color: rgba(6, 143, 255, 0.8); /* 마우스 호버 시 배경색 옅게 */
 }
 
 .repositoriescontainer_empty_text {
