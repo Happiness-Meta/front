@@ -1,12 +1,14 @@
 import editorStore from "../../../../store/CodePageStore/editorStore";
 import styles from "./ChatSpace.module.css";
 import SockJS from "sockjs-client";
-import Stomp, { Client } from "@stomp/stompjs";
+import Stomp, { Client } from "stompjs";
 import userStore from "../../../../store/userStore/userStore";
 import { FormEvent, useEffect, useRef, useState } from "react";
 import defaultPicture from "/svg/profilePicture.svg";
 import profileImageEnum from "../../../../store/userStore/profileImageEnum";
 import { ReactComponent as ProfilePicture } from "/svg/profilePicture.svg";
+import { ChatMessage } from "../../../../dto/ChatMessage";
+
 interface Message {
   id: number;
   text: string;
@@ -63,7 +65,88 @@ const dummyMessage: Message[] = [
 function ChatSpace() {
   const [messages, setMessages] = useState<Message[]>([]);
   const [inputText, setInputText] = useState("");
+  const [username, setUsername] = useState("");
+  const [submitted, setSubmitted] = useState(false);
   const messagesEndRef = useRef<HTMLDivElement | null>(null);
+  const clientRef = useRef<Client | null>(null);
+
+  // const [messages, setMessages] = useState<Message[]>([]);
+  // const messagesEndRef = useRef<HTMLDivElement | null>(null);
+  // const [inputText, setInputText] = useState("");
+  // const { userInfo } = userStore();
+  // const userEmail = userInfo?.email;
+  // const sender = userInfo?.name;
+  // const API_URL = import.meta.env.VITE_API_KEY;
+  // const [username, setUsername] = useState<string>('');
+  // const [submitted, setSubmitted] = useState<boolean>(false);
+
+  // WebSocket 연결 초기화
+  useEffect(() => {
+    if (submitted && username) {
+      const API_URL = import.meta.env.VITE_API_URL; // API URL은 어디로? http://localhost:8080?
+      const socket = new SockJS(`${API_URL}/ws/chat`);
+      const client = Stomp.over(socket);
+      client.connect({}, () => {
+        console.log("WebSocket에 연결됨");
+        client.subscribe("/topic/public", (message) => {
+          // 수신된 메시지 처리
+        });
+        client.send("/app/chat.addUser", {}, JSON.stringify({ sender: username, type: "JOIN" }));
+      });
+      clientRef.current = client;
+    }
+    return () => {
+      clientRef.current?.disconnect(() => console.log("disconnected!"));
+    };
+  }, [submitted, username]);
+
+  const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+    if (username.trim()) {
+      setSubmitted(true);
+    }
+  };
+
+  const sendMessage = (event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+    if (inputText.trim() && clientRef.current) {
+      const chatMessage = {
+        sender: username,
+        content: inputText,
+        type: "CHAT",
+      };
+      clientRef.current.send("/app/chat.sendMessage", {}, JSON.stringify(chatMessage));
+      setInputText("");
+    }
+  };
+
+  if (!submitted) {
+    return (
+      <div id="username-page">
+        <div className="username-page-container">
+          <h1 className="title">닉네임을 입력하세요...</h1>
+          <form id="usernameForm" name="usernameForm" onSubmit={handleSubmit}>
+            <div className="form-group">
+              <input
+                type="text"
+                id="name"
+                placeholder="Username"
+                autoComplete="off"
+                className="form-control"
+                value={username}
+                onChange={(e) => setUsername(e.target.value)}
+              />
+            </div>
+            <div className="form-group">
+              <button type="submit" className="accent username-submit">
+                채팅 시작하기
+              </button>
+            </div>
+          </form>
+        </div>
+      </div>
+    );
+  }
 
   useEffect(() => {
     const sortedMessages = dummyMessage.sort((a, b) => a.id - b.id);
@@ -76,24 +159,24 @@ function ChatSpace() {
     }
   }, [messages]);
 
-  // 메시지 전송 핸들러 (실제 메시지 전송 로직 구현 전)
-  const sendMessage = (e: FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-    if (!inputText.trim()) return;
+  // //메시지 전송 핸들러 (실제 메시지 전송 로직 구현 전)
+  // const sendMessage = (e: FormEvent<HTMLFormElement>) => {
+  //   e.preventDefault();
+  //   if (!inputText.trim()) return;
 
-    // 메시지 목록에 새 메시지 추가 (임시)
-    setMessages([
-      ...messages,
-      {
-        id: dummyMessage[4].id,
-        text: inputText,
-        name: dummyMessage[4].name,
-        profilepicture: defaultPicture,
-        date: new Date(),
-      },
-    ]);
-    setInputText("");
-  };
+  //   // 메시지 목록에 새 메시지 추가 (임시)
+  //   setMessages([
+  //     ...messages,
+  //     {
+  //       id: dummyMessage[4].id,
+  //       text: inputText,
+  //       name: dummyMessage[4].name,
+  //       profilepicture: defaultPicture,
+  //       date: new Date(),
+  //     },
+  //   ]);
+  //   setInputText("");
+  // };
 
   const { rightSpace } = editorStore();
   return (
