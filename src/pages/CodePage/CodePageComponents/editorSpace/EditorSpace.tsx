@@ -4,8 +4,12 @@ import Editor from "@monaco-editor/react";
 import { Resizable } from "re-resizable";
 import globalStore from "../../../../store/globalStore/globalStore";
 import editorStore from "../../../../store/CodePageStore/editorStore";
-import ChatSpace from "./ChatSpace/ChatSpace";
+import ChatSpace from "../chatSpace/ChatSpace";
 // import switcherIcon from "../sidebar/switcherIcon";
+// import * as Y from "yjs";
+// import { WebrtcProvider } from "y-webrtc";
+// import { MonacoBinding } from "y-monaco";
+
 
 function EditorSpace() {
   const { sidebar, codeFontSize } = sidebarStore();

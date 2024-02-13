@@ -238,11 +238,80 @@
   border-radius: 10px;
 }
 
-.dropdownMenu button {
+.dropdownMenuSun {
+  position: absolute;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.6);
+  background-color: #eeeeee;
+  z-index: 3;
+  top: 40px;
+  left: 80px;
+  width: 100px;
+  border-radius: 10px;
+}
+
+.dropdownMenu button,
+.dropdownMenuSun button {
   display: block;
   width: 100%;
   padding: 8px;
   border: none;
   background: none;
   text-align: left;
+}
+
+.ReactModalContent {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  right: auto;
+  bottom: auto;
+  margin-right: -50%;
+  transform: translate(-50%, -50%);
+  border: 1px solid #ccc;
+  background: #1e1e26;
+  overflow: auto;
+  -webkit-overflow-scrolling: touch;
+  border-radius: 4px;
+  outline: none;
+  padding: 20px;
+  z-index: 100;
+}
+
+.ReactModalContentSun {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  right: auto;
+  bottom: auto;
+  margin-right: -50%;
+  transform: translate(-50%, -50%);
+  border: 1px solid #ccc;
+
+  overflow: auto;
+  -webkit-overflow-scrolling: touch;
+  border-radius: 4px;
+  outline: none;
+  padding: 20px;
+  z-index: 100;
+}
+
+/* 모달 오버레이(배경) 스타일 */
+.ReactModalOverlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.25);
+  z-index: 100;
+}
+
+.ReactModalOverlaySun {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(251, 251, 251, 0.25);
+  z-index: 100;
 }

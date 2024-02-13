@@ -4,9 +4,10 @@ export interface receiveMessageType {
 
 export interface ChatMessage {
   type: string;
-  email: string;
-  userImg: string;
-  containerId: string;
   content: string;
   sender: string;
+  // type: string;
+  // email: string;
+  // userImg: string;
+  // containerId: string;
 }

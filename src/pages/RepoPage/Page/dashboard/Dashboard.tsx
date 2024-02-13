@@ -29,22 +29,19 @@ const Dashboard = () => {
                 </div>
                 <img src="https://blog.kakaocdn.net/dn/b096ff/btsEnS31kpu/JWqbMNxuxz4rJL5h8nMsVk/img.jpg"></img>
                 <div className={styles.textContainer}>
-                  Last month, we released many new features and improvements designed to boost your
-                  productivity, collaboration, and coding experience on Replit. Some of the key
-                  highlights include:
+                  This is the notice page of Happiness meta. We usually record, organize, and plan
+                  our studies here.
                 </div>
               </div>
               <div className={styles.imgcontext}>
                 <div className={styles.p_box}>
-                  <h3>Notion</h3>
+                  <h3>Personalization</h3>
                   <p>Jan 05. 2024</p>
                 </div>
                 <img src="https://blog.kakaocdn.net/dn/cd7E76/btsEttWjzlw/vgy6gbezenkYhcMqXPh1nK/img.jpg"></img>
 
                 <div className={styles.textContainer}>
-                  Last month, we released many new features and improvements designed to boost your
-                  productivity, collaboration, and coding experience on Replit. Some of the key
-                  highlights include:
+                  Click to go to Yang Jae-sun's personal production page.
                 </div>
               </div>
               <div className={styles.imgcontext}>
