@@ -1,10 +1,9 @@
-import React from "react";
 import styles from "./header.module.css";
 import sidebarStore from "../../../../store/CodePageStore/sidebarStore";
 import ModeToggleBtn from "../../../../globalComponents/modeToggleBtn/ModeToggleBtn";
 import ExploreBtn from "../../../../globalComponents/exploreBtn/ExploreBtn";
 import globalStore from "../../../../store/globalStore/globalStore";
-import AccountBtn from "../../../../globalComponents/AccountBtn/AccountBtn";
+import AccountBtn from "../../../../globalComponents/accountBtn/AccountBtn";
 
 function Header() {
   const { sidebar, sidebarToggle } = sidebarStore();

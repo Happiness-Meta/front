@@ -1,9 +1,10 @@
 import styles from "./sidebar.module.css";
 import sidebarStore from "../../../../store/CodePageStore/sidebarStore";
 import EditorSettingBtn from "./editorSettingBtn/EditorSettingBtn";
-import Tree, { TreeProps } from "rc-tree";
+import Tree from "rc-tree";
 import "rc-tree/assets/index.css";
 import editorStore from "../../../../store/CodePageStore/editorStore";
+import switcherIcon from "./switcherIcon";
 
 const treeData = [
   {
@@ -33,28 +34,9 @@ const treeData = [
 ];
 
 function Sidebar() {
-  const { expandStatus, expandToggle } = sidebarStore();
-  const { sidebar } = sidebarStore();
-  // const { tabs, addTab } = editorStore();
+  const { sidebar, expandStatus, expandToggle } = sidebarStore();
+  // const { addTab } = editorStore();
   const { toggleRightSpace, toggleTerminal } = editorStore();
-
-  const switcherIcon: TreeProps["switcherIcon"] = (extension) => {
-    let icon = extension.title!.toString().split(".").pop();
-    const isDirectory = extension.data!.children;
-    if (isDirectory) {
-      icon = extension.expanded ? "openFolder" : "closedFolder";
-    } else if (!extension.title!.toString().includes(".")) {
-      icon = "draft";
-    }
-    let iconSvg = <img src={`/svg/${icon}.svg`} className={styles.fileIcon} />;
-    if (icon === "openFolder" || icon === "closedFolder" || icon === "draft") {
-      iconSvg = (
-        <img src={`/svg/${icon}.svg`} className={styles.directoryIcon} />
-      );
-    }
-
-    return iconSvg;
-  };
 
   return (
     <div
@@ -101,21 +83,30 @@ function Sidebar() {
               treeData={treeData}
               switcherIcon={switcherIcon}
               showIcon={false}
-              selectable={true}
-              draggable={true}
+              // selectable={true}
+              // onSelect={addTab}
+              defaultExpandAll={true}
+              // draggable={true}
               allowDrop={() => true}
               expandAction={"click"}
-            ></Tree>
+            >
+              {/* <TreeNode></TreeNode> */}
+            </Tree>
           </div>
         </div>
         <div className={styles.sidebarBottom}>
-          <EditorSettingBtn />
-          <i className={`material-symbols-outlined`} onClick={toggleRightSpace}>
-            chat
-          </i>
-          <i className={`material-symbols-outlined`} onClick={toggleTerminal}>
-            terminal
-          </i>
+          <div className={styles.sidebarBottomInner}>
+            <EditorSettingBtn />
+            <i
+              className={`material-symbols-outlined`}
+              onClick={toggleRightSpace}
+            >
+              chat
+            </i>
+            <i className={`material-symbols-outlined`} onClick={toggleTerminal}>
+              terminal
+            </i>
+          </div>
         </div>
       </div>
     </div>

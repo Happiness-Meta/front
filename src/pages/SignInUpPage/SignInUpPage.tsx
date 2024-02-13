@@ -6,7 +6,7 @@ import SignIn from "./SignInUpComponents/SignIn.tsx";
 import SignUp from "./SignInUpComponents/SignUp.tsx";
 
 function SignInUpPage() {
-  const { inUp, signUpMessage } = LoginPageStore();
+  const { inUp, welcomeMessage } = LoginPageStore();
 
   return (
     <div className={styles.LoginPage_body}>
@@ -22,8 +22,8 @@ function SignInUpPage() {
             styles.sliderFrame
           }`}
         >
-          {signUpMessage ? (
-            <span className={styles.signUpMessage}>Welcome to Join</span>
+          {welcomeMessage ? (
+            <span className={styles.signUpMessage}>Welcome to Join!</span>
           ) : undefined}
         </div>
         <SignIn />

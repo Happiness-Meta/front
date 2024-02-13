@@ -1,6 +1,7 @@
 import { ChangeEvent, RefObject, useRef, useState } from "react";
 import LoginPageStore from "../../../store/LoginPageStore/LoginPageStore";
 import styles from "../signInUpPage.module.css";
+import SignUpStore from "../../../store/LoginPageStore/SignUpStore";
 // import UserRegisterDto from "../../../dto/UserRegisterDto";
 // import axios from "axios";
 
@@ -8,16 +9,15 @@ function SignUp() {
   const idInput: RefObject<HTMLInputElement> = useRef(null);
   const nicknameInput: RefObject<HTMLInputElement> = useRef(null);
   const pwInput: RefObject<HTMLInputElement> = useRef(null);
+
+  const { inUpToggle, isVisible, visibleToggle, toggleWelcomeMessage } =
+    LoginPageStore();
   const {
-    inUpToggle,
-    isVisible,
-    visibleToggle,
-    toggleSignUpMessage,
     signUpErrorMessage,
     signUpErrorMessageStatus,
     signUpErrorMessageAni,
     signUpErrorMessageAniToggle,
-  } = LoginPageStore();
+  } = SignUpStore();
 
   const [signUpID, setSignUpID] = useState("");
   const [nickname, setNickname] = useState("");
@@ -26,11 +26,9 @@ function SignUp() {
   const handleSignUpID = (e: ChangeEvent<HTMLInputElement>) => {
     setSignUpID(e.target.value);
   };
-
   const handleSignUpNickname = (e: ChangeEvent<HTMLInputElement>) => {
     setNickname(e.target.value);
   };
-
   const handleSignUpPW = (e: ChangeEvent<HTMLInputElement>) => {
     setSignUpPW(e.target.value);
   };
@@ -54,17 +52,18 @@ function SignUp() {
     //   "http://localhost:8080/api/sign/register",
     //   body
     // );
+
     signUpErrorMessageStatus("");
     setSignUpID("");
     setNickname("");
     setSignUpPW("");
-    toggleSignUpMessage();
+    toggleWelcomeMessage();
 
     setTimeout(() => {
       inUpToggle();
     }, 1500);
     setTimeout(() => {
-      toggleSignUpMessage();
+      toggleWelcomeMessage();
     }, 5000);
 
     // console.log(response.data);
@@ -79,7 +78,7 @@ function SignUp() {
               signUpErrorMessageAni
                 ? styles.errorMessageAni2
                 : styles.errorMessageAni
-            } ${styles.errorMessage}`}
+            } ${styles.signUpErrorMessage}`}
           >
             {signUpErrorMessage}
           </div>
@@ -144,7 +143,13 @@ function SignUp() {
 
       <div className={styles.signInBottom}>
         <div className={styles.bottomText}>Ready to sign in?</div>
-        <div className={styles.goToSignInUpBtn} onClick={inUpToggle}>
+        <div
+          className={styles.goToSignInUpBtn}
+          onClick={() => {
+            inUpToggle();
+            signUpErrorMessageStatus("");
+          }}
+        >
           Sign In
         </div>
       </div>

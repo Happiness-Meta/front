@@ -1,21 +1,23 @@
+.resizeHandle1,
+.resizeHandle2,
+.resizeHandle3 {
+  border-radius: 10px;
+  background-color: rgba(128, 128, 128, 0.1);
+  z-index: 10;
+}
+
 .resizeHandle1 {
   right: 3px !important;
   width: 4px !important;
-  border-radius: 10px;
-  background-color: rgba(128, 128, 128, 0.1);
 }
 
 .resizeHandle2 {
   right: -7px !important;
   width: 4px !important;
-  border-radius: 10px;
-  background-color: rgba(128, 128, 128, 0.1);
 }
 
 .resizeHandle3 {
-  width: 100%;
   height: 4px !important;
-  background-color: rgba(128, 128, 128, 0.1);
 }
 
 .resizeHandle1:hover,

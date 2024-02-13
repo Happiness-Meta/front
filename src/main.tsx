@@ -12,6 +12,7 @@ import Repositories from "./pages/RepoPage/Page/repositories/Repositories";
 import MyPage from "./pages/MyPage/MyPage";
 import SignInUpPage from "./pages/SignInUpPage/SignInUpPage";
 import Modal from "react-modal";
+import TemplatePage from "./pages/TemplatePage/TemplatePage";
 
 Modal.setAppElement("#root");
 
@@ -26,7 +27,8 @@ ReactDOM.createRoot(document.getElementById("root")!).render(
         <Route path="/repositories" element={<Repositories />} />
         <Route path="/projects" element={<Projects />} />
         <Route path="/settings" element={<Settings />} />
-        <Route path="/MyPage" element={<MyPage />} />
+        <Route path="/myPage" element={<MyPage />} />
+        <Route path="/TemplatePage" element={<TemplatePage />} />
         <Route path="/codePage" element={<CodePage />} />
       </Routes>
     </Router>

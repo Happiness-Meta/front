@@ -4,20 +4,19 @@ import styles from "../signInUpPage.module.css";
 // import LoginFormDto from "../../../dto/LoginFormDto";
 // import axios from "axios";
 import { useNavigate } from "react-router-dom";
+import SignInStore from "../../../store/LoginPageStore/SignInStore";
 
 function SignIn() {
   const navigate = useNavigate();
   const idInput: RefObject<HTMLInputElement> = useRef(null);
   const pwInput: RefObject<HTMLInputElement> = useRef(null);
+  const { isVisible, visibleToggle, inUpToggle } = LoginPageStore();
   const {
-    isVisible,
-    visibleToggle,
-    inUpToggle,
     signInErrorMessage,
     signInErrorMessageStatus,
     signInErrorMessageAni,
     signInErrorMessageAniToggle,
-  } = LoginPageStore();
+  } = SignInStore();
   const [signInId, setSignInId] = useState("");
   const [signInPw, setSignInPw] = useState("");
 
@@ -110,7 +109,13 @@ function SignIn() {
 
       <div className={styles.signInBottom}>
         <div className={styles.bottomText}>Don't have an account?</div>
-        <div className={styles.goToSignInUpBtn} onClick={inUpToggle}>
+        <div
+          className={styles.goToSignInUpBtn}
+          onClick={() => {
+            inUpToggle();
+            signInErrorMessageStatus("");
+          }}
+        >
           Sign Up
         </div>
       </div>

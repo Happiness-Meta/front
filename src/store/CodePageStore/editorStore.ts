@@ -1,7 +1,7 @@
 import { create } from "zustand";
 
 interface Tab {
-  id: string;
+  key: string;
   title: string;
 }
 
@@ -16,7 +16,11 @@ interface aboutEditor {
 
 const editorStore = create<aboutEditor>((set) => ({
   tabs: [],
-  addTab: (newTab) => set((state) => ({ tabs: [...state.tabs, newTab] })),
+  addTab: (newTab) =>
+    set((state) => {
+      console.log(newTab.title);
+      return { tabs: [...state.tabs, newTab] };
+    }),
   rightSpace: false,
   toggleRightSpace: () => set((state) => ({ rightSpace: !state.rightSpace })),
   terminal: false,

@@ -181,9 +181,18 @@
   left: 0;
   display: flex;
   align-items: center;
-  width: 90%;
-  height: 50px;
-  padding-left: 10px;
-  border-top: 0.5px solid rgb(80, 80, 80);
+  justify-content: center;
+  width: 100%;
+  height: fit-content;
+
   z-index: 1;
+}
+
+.sidebarBottomInner {
+  display: flex;
+  align-items: center;
+  box-sizing: border-box;
+  width: 90%;
+  padding: 10px 0;
+  border-top: 0.5px solid rgb(80, 80, 80);
 }

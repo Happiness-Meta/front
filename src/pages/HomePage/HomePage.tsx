@@ -24,7 +24,7 @@ function HomePage() {
         <header className={styles.homepageHeader}>
           <div
             className={styles.guestBtn}
-            onClick={() => navigate("/CodePage")}
+            onClick={() => navigate("/TemplatePage")}
           >
             Guest
           </div>
@@ -66,10 +66,8 @@ function HomePage() {
             <span className={styles.boxSubTitle}>텍스트 및 음성 채팅 기능</span>
           </div>
           <div className={styles.boxes}>
-            <span className={styles.boxTitle}>AI-CHANCE</span>
-            <span className={styles.boxSubTitle}>
-              모르는 것은 Chat-GPT에게 질문
-            </span>
+            <span className={styles.boxTitle}>CHANCE</span>
+            <span className={styles.boxSubTitle}>성장할 수 있는 기회</span>
           </div>
           <div className={styles.boxes}>
             <span className={styles.boxTitle}>TOGETHER</span>

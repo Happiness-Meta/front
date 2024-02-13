@@ -1,0 +1,141 @@
+.mainBody {
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  height: 100vh;
+}
+
+.arrowBack {
+  position: absolute;
+  top: 20px;
+  left: 20px;
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+}
+
+.arrowBack:hover {
+  background-color: rgba(128, 128, 128, 0.3);
+}
+
+.guideText {
+  position: absolute;
+  top: 200px;
+  left: 50%;
+  font-size: 40px;
+  font-weight: bold;
+  animation: floating 2s ease-in-out infinite alternate both;
+}
+
+@keyframes floating {
+  from {
+    transform: translate(-50%, 0%);
+    opacity: 0.8;
+  }
+  to {
+    transform: translate(-50%, -10%);
+  }
+}
+
+.box {
+  user-select: none;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 70%;
+  height: 200px;
+  animation: showsUp 1s;
+}
+
+@keyframes showsUp {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.reactBox {
+  user-select: none;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 70%;
+  height: 200px;
+  animation: showsUp2 1s;
+}
+
+@keyframes showsUp2 {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@media screen and (max-width: 830px) {
+  .box {
+    flex-direction: column;
+  }
+  .firstBox,
+  .secondBox {
+    width: 70% !important;
+  }
+  .guideText {
+    top: 150px;
+  }
+}
+
+.firstBox,
+.secondBox {
+  display: flex;
+  justify-content: space-around;
+  width: 50%;
+}
+
+.innerBoxes {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+  width: 180px;
+  min-width: 150px;
+  height: 180px;
+  min-height: 150px;
+  border-radius: 20px;
+  cursor: pointer;
+}
+
+.innerBoxes:hover {
+  background-color: rgba(0, 0, 0, 0.3);
+}
+
+.images {
+  width: 50%;
+  border-radius: 10px;
+  transition: 0.3s;
+}
+
+.innerBoxes:hover .images {
+  width: 60%;
+}
+
+.texts {
+  font-size: 20px;
+  font-weight: bold;
+  transition: 0.3s;
+  opacity: 0.5;
+}
+
+.innerBoxes:hover .texts {
+  opacity: 1;
+}
