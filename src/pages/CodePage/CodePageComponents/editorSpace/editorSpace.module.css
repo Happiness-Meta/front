@@ -85,9 +85,8 @@
 }
 
 .editorWrapper {
-  width: 100%;
   height: 70%;
-  margin-bottom: 5px;
+  margin-bottom: 7px;
 }
 
 .withTerminal {
@@ -100,7 +99,7 @@
   height: 100%;
   display: flex;
   flex-direction: column;
-  background-color: rgba(0, 128, 0, 0.234);
+  background-color: transparent;
   overflow: hidden;
 }
 
@@ -112,5 +111,5 @@
 .terminal_header {
   width: 100%;
   height: 30px;
-  background-color: #068fff;
+  background-color: rgb(128 128 128 / 10%);
 }

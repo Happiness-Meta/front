@@ -115,29 +115,30 @@
   width: 75%;
 }
 
-.signInErrorMessage {
+.signInErrorMessage,
+.signUpErrorMessage {
   position: absolute;
-  bottom: -20px;
-  left: 0px;
   height: fit-content;
   font-size: 12px;
   color: #ff4e4e;
+  font-weight: bold;
 }
 
-.errorMessage {
-  position: absolute;
+.signInErrorMessage {
+  bottom: -22px;
+  left: 5px;
+}
+
+.signUpErrorMessage {
   top: -20px;
-  left: 0px;
-  height: fit-content;
-  font-size: 12px;
-  color: #ff4e4e;
+  left: 5px;
 }
 
 .errorMessageAni {
-  animation: shaking 0.5s;
+  animation: shaking 0.3s;
 }
 .errorMessageAni2 {
-  animation: shaking2 0.5s;
+  animation: shaking2 0.3s;
 }
 
 @keyframes shaking {
