@@ -87,9 +87,11 @@ function ChatSpace() {
       const socket = new SockJS(`${API_URL}/ws/chat`);
       const client = Stomp.over(socket);
       client.connect({}, () => {
-        console.log("WebSocket에 연결됨");
+        console.log(client, "WebSocket에 연결됨");
         client.subscribe("/topic/public", (message) => {
-          // 수신된 메시지 처리
+          //receivedMessage : 서버로부터 수신된 메시지 내용
+          const receivedMessage = JSON.parse(message.body);
+          setMessages((prevMessages) => [...prevMessages, receivedMessage]);
         });
         client.send("/app/chat.addUser", {}, JSON.stringify({ sender: username, type: "JOIN" }));
       });
@@ -180,53 +182,41 @@ function ChatSpace() {
 
   const { rightSpace } = editorStore();
   return (
-    <div className={`${rightSpace ? styles.rightSpaceOn : undefined} ${styles.rightSpace}`}>
-      <div className={styles.filesTabSpace}> 채팅</div>
-      <div className={` ${styles.chattingSpace} `}></div>
-      <div className={styles.chat_room}>
-        <div className={styles.messages} ref={messagesEndRef}>
-          {messages.map((message) => (
+    <div className={`${styles.chatSpace}`}>
+      <div className={styles.messages} ref={messagesEndRef}>
+        {messages.map((message, index) => (
+          <div
+            key={index}
+            className={`${styles.message} ${message.name === username ? styles.myMessage : ""}`}
+          >
+            <img
+              src={message.profilepicture || defaultPicture}
+              alt="Profile"
+              className={styles.profilePicture}
+            />
             <div
-              key={message.id}
-              className={`${styles.message} ${message.name === "김수연" ? styles.myMessage : ""}`}
+              className={`${styles.messageDetail} ${
+                message.name === username ? styles.myMessageDetail : ""
+              }`}
             >
-              <img
-                src={message.profilepicture}
-                alt="Profile"
-                className={`${styles.profilePicture} ${
-                  message.name === "김수연" ? styles.myMessage_ProfilePicture : ""
-                }`}
-              />
-              <div
-                className={`${styles.messageDetail} ${
-                  message.name === "김수연" ? styles.myMessage_Detail : ""
-                }`}
-              >
-                <div className={styles.userName}>{message.name}</div>
-                <div
-                  className={`${styles.chat_bubble} ${
-                    message.name === "김수연" ? styles.myChat_bubble : ""
-                  }`}
-                >
-                  {message.text}
-                </div>
-              </div>
+              <div className={styles.userName}>{message.name}</div>
+              <div className={styles.text}>{message.text}</div>
             </div>
-          ))}
-        </div>
-        <form className={styles.messageForm} onSubmit={sendMessage}>
-          <input
-            type="text"
-            className={styles.messageInput}
-            placeholder="메시지를 입력하세요..."
-            value={inputText}
-            onChange={(e) => setInputText(e.target.value)}
-          />
-          <button type="submit" className={styles.sendButton}>
-            Send
-          </button>
-        </form>
+          </div>
+        ))}
       </div>
+      <form className={styles.messageForm} onSubmit={sendMessage}>
+        <input
+          type="text"
+          className={styles.messageInput}
+          placeholder="메시지를 입력하세요..."
+          value={inputText}
+          onChange={(e) => setInputText(e.target.value)}
+        />
+        <button type="submit" className={styles.sendButton}>
+          Send
+        </button>
+      </form>
     </div>
   );
 }
