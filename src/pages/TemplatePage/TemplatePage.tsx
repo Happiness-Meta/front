@@ -10,7 +10,11 @@ function TemplatePage() {
     <div className={styles.mainBody}>
       <i
         className={`${styles.arrowBack} material-symbols-outlined`}
-        onClick={() => navigate("/")}
+        onClick={() => {
+          if (choseReact) {
+            toggleChoseReact();
+          } else navigate("/");
+        }}
       >
         arrow_back
       </i>
@@ -26,7 +30,10 @@ function TemplatePage() {
             <img src="/svg/js.svg" alt="js" className={styles.images} />
             <span className={styles.texts}>JavaScript</span>
           </div>
-          <div className={styles.innerBoxes} onClick={toggleChoseReact}>
+          <div
+            className={styles.innerBoxes}
+            onClick={() => navigate("/codePage")}
+          >
             <img src="/svg/ts.svg" alt="ts" className={styles.images} />
             <span className={styles.texts}>TypeScript</span>
           </div>
