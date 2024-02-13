@@ -5,6 +5,10 @@ import Tree from "rc-tree";
 import "rc-tree/assets/index.css";
 import editorStore from "../../../../store/CodePageStore/editorStore";
 import switcherIcon from "./switcherIcon";
+//디렉토리 : 아이디, 경로, 이름, 칠드런 빈 배열
+// 12b4p214, /, folder 1, []
+//파일 : 아이디, 경로, 이름, 내용
+// 1894u50u, folder 1 /, script.js, contents
 
 const treeData = [
   {
