@@ -214,8 +214,8 @@
     bottom: 100%;
   }
   to {
-    left: -300px;
-    bottom: -30vw;
+    left: -200px;
+    bottom: -20vw;
   }
 }
 @keyframes floating {

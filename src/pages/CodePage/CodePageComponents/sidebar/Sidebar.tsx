@@ -102,12 +102,15 @@ function Sidebar() {
           <div className={styles.sidebarBottomInner}>
             <EditorSettingBtn />
             <i
-              className={`material-symbols-outlined`}
+              className={`${styles.bottomIcons} material-symbols-outlined`}
               onClick={toggleRightSpace}
             >
-              chat
+              forum
             </i>
-            <i className={`material-symbols-outlined`} onClick={toggleTerminal}>
+            <i
+              className={`${styles.bottomIcons} material-symbols-outlined`}
+              onClick={toggleTerminal}
+            >
               terminal
             </i>
           </div>

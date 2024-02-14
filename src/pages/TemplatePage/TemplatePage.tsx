@@ -1,6 +1,7 @@
 import { useNavigate } from "react-router-dom";
 import templatePageStore from "../../store/TemplatePageStore/templatePageStore";
 import styles from "./templatePage.module.css";
+// import LoadingPage from "../../globalComponents/loadingPage/LoadingPage";
 
 function TemplatePage() {
   const navigate = useNavigate();
@@ -8,6 +9,7 @@ function TemplatePage() {
 
   return (
     <div className={styles.mainBody}>
+      {/* <LoadingPage /> */}
       <i
         className={`${styles.arrowBack} material-symbols-outlined`}
         onClick={() => {
@@ -25,14 +27,20 @@ function TemplatePage() {
         <div className={styles.reactBox}>
           <div
             className={styles.innerBoxes}
-            onClick={() => navigate("/codePage")}
+            onClick={() => {
+              navigate("/codePage");
+              toggleChoseReact();
+            }}
           >
             <img src="/svg/js.svg" alt="js" className={styles.images} />
             <span className={styles.texts}>JavaScript</span>
           </div>
           <div
             className={styles.innerBoxes}
-            onClick={() => navigate("/codePage")}
+            onClick={() => {
+              navigate("/codePage");
+              toggleChoseReact();
+            }}
           >
             <img src="/svg/ts.svg" alt="ts" className={styles.images} />
             <span className={styles.texts}>TypeScript</span>
