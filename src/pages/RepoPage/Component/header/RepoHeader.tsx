@@ -1,10 +1,10 @@
 import styles from "./header.module.css";
 import sidebarStore from "../../../../store/CodePageStore/sidebarStore";
 import { Link } from "react-router-dom";
-import Profile from "../../Component/profile/Profile";
 import ModeToggleBtn from "../../../../globalComponents/modeToggleBtn/ModeToggleBtn";
 import ExploreBtn from "../../../../globalComponents/exploreBtn/ExploreBtn";
 import globalStore from "../../../../store/globalStore/globalStore";
+import AccountBtn from "../../../../globalComponents/AccountBtn/AccountBtn";
 
 function Header() {
   const { sidebar, sidebarToggle } = sidebarStore();
@@ -41,8 +41,7 @@ function Header() {
       <div className={styles.rightSide_header}>
         <ModeToggleBtn />
         <div className={styles.accountSpace}>
-          <Profile />
-          <div className={`${styles.accountExpand} material-icons`}>expand_more</div>
+          <AccountBtn />
         </div>
       </div>
     </div>

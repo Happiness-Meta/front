@@ -1,0 +1,48 @@
+@keyframes slide_fade_in_dropdown_animation {
+  0% {
+    transform: translateY(-100%);
+  }
+
+  100% {
+    transform: translateY(0);
+  }
+}
+
+.slide_fade_in_dropdown {
+  overflow: hidden;
+}
+
+.slide_fade_in_dropdown > ul {
+  animation: slide_fade_in_dropdown_animation 0.4s ease;
+}
+
+/* fade out */
+
+@keyframes slide_fade_out_dropdown_animation {
+  0% {
+    transform: translateY(0);
+  }
+
+  100% {
+    transform: translateY(-100%);
+  }
+}
+
+.slide_fade_out_dropdown {
+  overflow: hidden;
+}
+
+.slide_fade_out_dropdown > ul {
+  animation: slide_fade_out_dropdown_animation 0.4s ease;
+  animation-fill-mode: forwards;
+}
+
+.dropdown {
+  position: relative;
+  top: 5px;
+  margin-top: 0;
+  margin-bottom: 5px;
+  padding-left: 0;
+  list-style: none;
+  background-color: #4e4e55;
+}
