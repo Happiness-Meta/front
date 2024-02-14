@@ -2,8 +2,8 @@ import { ChangeEvent, RefObject, useRef, useState } from "react";
 import LoginPageStore from "../../../store/LoginPageStore/LoginPageStore";
 import styles from "../signInUpPage.module.css";
 import SignUpStore from "../../../store/LoginPageStore/SignUpStore";
-// import UserRegisterDto from "../../../dto/UserRegisterDto";
-// import axios from "axios";
+import UserRegisterDto from "../../../dto/UserRegisterDto";
+import axios from "axios";
 
 function SignUp() {
   const idInput: RefObject<HTMLInputElement> = useRef(null);
@@ -43,15 +43,15 @@ function SignUp() {
     if (pwInput.current!.value === "")
       return signUpErrorMessageStatus("비밀번호를 입력해주세요");
 
-    // const body: UserRegisterDto = {
-    //   email: signUpID,
-    //   nickname: nickname,
-    //   password: signUpPW,
-    // };
-    // const response = await axios.post(
-    //   "http://localhost:8080/api/sign/register",
-    //   body
-    // );
+    const body: UserRegisterDto = {
+      email: signUpID,
+      nickname: nickname,
+      password: signUpPW,
+    };
+    const response = await axios.post(
+      "http://localhost:8080/api/sign/register",
+      body
+    );
 
     signUpErrorMessageStatus("");
     setSignUpID("");
@@ -66,7 +66,7 @@ function SignUp() {
       toggleWelcomeMessage();
     }, 5000);
 
-    // console.log(response.data);
+    console.log(response.data);
   };
   return (
     <div className={styles.signUpSection}>

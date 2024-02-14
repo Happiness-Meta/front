@@ -1,8 +1,8 @@
 import { ChangeEvent, RefObject, useRef, useState } from "react";
 import LoginPageStore from "../../../store/LoginPageStore/LoginPageStore";
 import styles from "../signInUpPage.module.css";
-// import LoginFormDto from "../../../dto/LoginFormDto";
-// import axios from "axios";
+import LoginFormDto from "../../../dto/LoginFormDto";
+import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import SignInStore from "../../../store/LoginPageStore/SignInStore";
 
@@ -33,14 +33,20 @@ function SignIn() {
       return signInErrorMessageStatus("아이디를 입력해주세요");
     if (pwInput.current!.value === "")
       return signInErrorMessageStatus("비밀번호를 입력해주세요");
-    // const body: LoginFormDto = {
-    //   email: signInId,
-    //   password: signInPw,
-    // };
-    // const response = await axios.post(
-    //   "http://localhost:8080/api/sign/login",
-    //   body
-    // );
+    const body: LoginFormDto = {
+      email: signInId,
+      password: signInPw,
+    };
+    const response = await axios.post(
+      "http://localhost:8080/api/sign/login",
+      body
+    );
+
+    if (response.data.code !== 200) {
+      if (pwInput.current!.value === "")
+        return signInErrorMessageStatus("로그인 정보가 올바르지 않습니다.");
+    }
+
     signInErrorMessageStatus("");
     navigate("/dashboard");
 
