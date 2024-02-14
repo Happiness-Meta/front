@@ -23,15 +23,15 @@
   display: flex;
   flex-direction: column;
   justify-content: flex-start;
-  margin-top: 50px;
+  margin-top: 10px;
 }
 
 .repositoriescontainer_empty {
   display: flex;
   flex-direction: column;
-  margin-left: 20%;
+  margin-left: 5%;
   justify-content: flex-start;
-  margin-top: 100px;
+  margin-top: 30px;
 }
 
 .imgContainer {
@@ -98,8 +98,8 @@
   display: flex;
   flex-direction: column;
   align-items: flex-end;
-  margin-top: 117px;
-  margin-left: 417px;
+  margin-top: 50px;
+  margin-left: 117px;
   border-left: 1px solid #eeeeee;
 }
 
@@ -114,4 +114,43 @@
   margin-right: 20px;
   justify-content: flex-end;
   width: 898px;
+}
+
+.createRepoModal {
+  background-color: #1e1e26;
+  width: 600px;
+  height: 356px;
+  margin: auto;
+  position: relative;
+  border-radius: 8px;
+  padding: 20px;
+  box-sizing: border-box;
+  outline: none;
+}
+
+.createRepoModal button {
+  color: #1e1e26;
+}
+
+.createRepoOverlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.75);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.submitContainer input {
+  background-color: #4e4e55;
+  border: none;
+}
+
+.submitContainer input:hover,
+.submitContainer input:focus {
+  background-color: #65656a;
+  border: none;
 }
