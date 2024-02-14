@@ -4,6 +4,7 @@ import styles from "../signInUpPage.module.css";
 import SignUpStore from "../../../store/LoginPageStore/SignUpStore";
 import UserRegisterDto from "../../../dto/UserRegisterDto";
 import axios from "axios";
+import { useMutation } from "@tanstack/react-query";
 
 function SignUp() {
   const idInput: RefObject<HTMLInputElement> = useRef(null);
@@ -33,41 +34,84 @@ function SignUp() {
     setSignUpPW(e.target.value);
   };
 
-  const registerUser = async () => {
-    if (idInput.current!.value === "")
-      return signUpErrorMessageStatus("아이디를 입력해주세요.");
-    if (!signUpID.includes("@"))
-      return signUpErrorMessageStatus("이메일 형식으로 적어주세요.");
-    if (nicknameInput.current!.value === "")
-      return signUpErrorMessageStatus("닉네임을 입력해주세요");
-    if (pwInput.current!.value === "")
-      return signUpErrorMessageStatus("비밀번호를 입력해주세요");
+  const registerUser2 = useMutation({
+    mutationFn: async () => {
+      if (idInput.current!.value === "")
+        return signUpErrorMessageStatus("아이디를 입력해주세요.");
+      if (!signUpID.includes("@"))
+        return signUpErrorMessageStatus("이메일 형식으로 적어주세요.");
+      if (nicknameInput.current!.value === "")
+        return signUpErrorMessageStatus("닉네임을 입력해주세요.");
+      if (pwInput.current!.value === "")
+        return signUpErrorMessageStatus("비밀번호를 입력해주세요.");
 
-    const body: UserRegisterDto = {
-      email: signUpID,
-      nickname: nickname,
-      password: signUpPW,
-    };
-    const response = await axios.post(
-      "http://localhost:8080/api/sign/register",
-      body
-    );
+      const body: UserRegisterDto = {
+        email: signUpID,
+        nickname: nickname,
+        password: signUpPW,
+      };
+      const response = await axios.post(
+        "http://localhost:8080/api/sign/register",
+        body
+      );
 
-    signUpErrorMessageStatus("");
-    setSignUpID("");
-    setNickname("");
-    setSignUpPW("");
-    toggleWelcomeMessage();
+      if (response.data.code === 409)
+        return signUpErrorMessageStatus("입력하신 이메일이 이미 존재합니다.");
+      if (response.data.code === 404)
+        return signUpErrorMessageStatus("입력하신 닉네임이 이미 존재합니다.");
 
-    setTimeout(() => {
-      inUpToggle();
-    }, 1500);
-    setTimeout(() => {
+      signUpErrorMessageStatus("");
+      setSignUpID("");
+      setNickname("");
+      setSignUpPW("");
       toggleWelcomeMessage();
-    }, 5000);
 
-    console.log(response.data);
-  };
+      setTimeout(() => {
+        inUpToggle();
+      }, 1500);
+      setTimeout(() => {
+        toggleWelcomeMessage();
+      }, 5000);
+
+      console.log(response.data);
+    },
+  });
+
+  // const registerUser = async () => {
+  //   if (idInput.current!.value === "")
+  //     return signUpErrorMessageStatus("아이디를 입력해주세요.");
+  //   if (!signUpID.includes("@"))
+  //     return signUpErrorMessageStatus("이메일 형식으로 적어주세요.");
+  //   if (nicknameInput.current!.value === "")
+  //     return signUpErrorMessageStatus("닉네임을 입력해주세요");
+  //   if (pwInput.current!.value === "")
+  //     return signUpErrorMessageStatus("비밀번호를 입력해주세요");
+
+  //   const body: UserRegisterDto = {
+  //     email: signUpID,
+  //     nickname: nickname,
+  //     password: signUpPW,
+  //   };
+  //   const response = await axios.post(
+  //     "http://localhost:8080/api/sign/register",
+  //     body
+  //   );
+
+  //   signUpErrorMessageStatus("");
+  //   setSignUpID("");
+  //   setNickname("");
+  //   setSignUpPW("");
+  //   toggleWelcomeMessage();
+
+  //   setTimeout(() => {
+  //     inUpToggle();
+  //   }, 1500);
+  //   setTimeout(() => {
+  //     toggleWelcomeMessage();
+  //   }, 5000);
+
+  //   console.log(response.data);
+  // };
   return (
     <div className={styles.signUpSection}>
       <div className={styles.signInText}>Sign Up</div>
@@ -133,7 +177,8 @@ function SignUp() {
         <button
           className={styles.signInUpBtn}
           onClick={() => {
-            registerUser();
+            // registerUser();
+            registerUser2.mutate();
             signUpErrorMessageAniToggle();
           }}
         >
