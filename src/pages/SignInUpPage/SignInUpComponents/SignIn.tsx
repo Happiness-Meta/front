@@ -2,7 +2,7 @@ import { ChangeEvent, RefObject, useRef, useState } from "react";
 import LoginPageStore from "../../../store/LoginPageStore/LoginPageStore";
 import styles from "../signInUpPage.module.css";
 import LoginFormDto from "../../../dto/LoginFormDto";
-import axios from "axios";
+import axios, { AxiosError } from "axios";
 import { useNavigate } from "react-router-dom";
 import SignInStore from "../../../store/LoginPageStore/SignInStore";
 
@@ -37,20 +37,32 @@ function SignIn() {
       email: signInId,
       password: signInPw,
     };
-    const response = await axios.post(
-      "http://localhost:8080/api/sign/login",
-      body
-    );
 
-    if (response.data.code !== 200) {
-      if (pwInput.current!.value === "")
-        return signInErrorMessageStatus("로그인 정보가 올바르지 않습니다.");
+    try {
+      const response = await axios.post(
+        // "http://43.203.92.111//api/sign/login",
+        "http://localhost:8080/api/sign/login",
+        body
+      );
+
+      console.log(response.status);
+
+      signInErrorMessageStatus("");
+      navigate("/dashboard");
+
+      console.log(response.data);
+    } catch (error) {
+      if (axios.isAxiosError(error)) {
+        const axiosError = error as AxiosError;
+
+        if (axiosError.response) {
+          console.log(error.response?.data);
+          if (error.response?.data.code === 400) {
+            return signInErrorMessageStatus("로그인 정보가 올바르지 않습니다.");
+          }
+        }
+      }
     }
-
-    signInErrorMessageStatus("");
-    navigate("/dashboard");
-
-    // console.log(response.data.data.token);
   };
 
   return (

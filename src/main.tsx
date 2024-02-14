@@ -13,24 +13,28 @@ import MyPage from "./pages/MyPage/MyPage";
 import SignInUpPage from "./pages/SignInUpPage/SignInUpPage";
 import Modal from "react-modal";
 import TemplatePage from "./pages/TemplatePage/TemplatePage";
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 
 Modal.setAppElement("#root");
+const queryClient = new QueryClient();
 
 ReactDOM.createRoot(document.getElementById("root")!).render(
   <React.StrictMode>
-    <Router>
-      <Routes>
-        <Route path="/" element={<HomePage />} />
-        <Route path="/signInUpPage" element={<SignInUpPage />} />
-        {/* <Route path="/RepoPage" element={<RepoPage />} /> */}
-        <Route path="/dashboard" element={<Dashboard />} />
-        <Route path="/repositories" element={<Repositories />} />
-        <Route path="/projects" element={<Projects />} />
-        <Route path="/settings" element={<Settings />} />
-        <Route path="/myPage" element={<MyPage />} />
-        <Route path="/TemplatePage" element={<TemplatePage />} />
-        <Route path="/codePage" element={<CodePage />} />
-      </Routes>
-    </Router>
+    <QueryClientProvider client={queryClient}>
+      <Router>
+        <Routes>
+          <Route path="/" element={<HomePage />} />
+          <Route path="/signInUpPage" element={<SignInUpPage />} />
+          {/* <Route path="/RepoPage" element={<RepoPage />} /> */}
+          <Route path="/dashboard" element={<Dashboard />} />
+          <Route path="/repositories" element={<Repositories />} />
+          <Route path="/projects" element={<Projects />} />
+          <Route path="/settings" element={<Settings />} />
+          <Route path="/myPage" element={<MyPage />} />
+          <Route path="/TemplatePage" element={<TemplatePage />} />
+          <Route path="/codePage" element={<CodePage />} />
+        </Routes>
+      </Router>
+    </QueryClientProvider>
   </React.StrictMode>
 );

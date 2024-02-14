@@ -62,7 +62,7 @@ function AccountBtn() {
             >
               logout
             </i>
-            <Link to="/myPage" className={styles.myPageBtnText}>
+            <Link to="/" className={styles.myPageBtnText}>
               logout
             </Link>
           </div>
