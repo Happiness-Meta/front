@@ -1,9 +1,9 @@
-import { ChangeEvent, RefObject, useRef, useState } from "react";
+import { RefObject, useRef, useState } from "react";
 import LoginPageStore from "../../../store/LoginPageStore/LoginPageStore";
 import styles from "../signInUpPage.module.css";
 import SignUpStore from "../../../store/LoginPageStore/SignUpStore";
 import UserRegisterDto from "../../../dto/UserRegisterDto";
-import axios from "axios";
+import axios, { AxiosError } from "axios";
 import { useMutation } from "@tanstack/react-query";
 
 function SignUp() {
@@ -20,25 +20,18 @@ function SignUp() {
     signUpErrorMessageAniToggle,
   } = SignUpStore();
 
-  const [signUpID, setSignUpID] = useState("");
+  const [signUpID, setSignUpId] = useState("");
   const [nickname, setNickname] = useState("");
-  const [signUpPW, setSignUpPW] = useState("");
+  const [signUpPW, setSignUpPw] = useState("");
 
-  const handleSignUpID = (e: ChangeEvent<HTMLInputElement>) => {
-    setSignUpID(e.target.value);
-  };
-  const handleSignUpNickname = (e: ChangeEvent<HTMLInputElement>) => {
-    setNickname(e.target.value);
-  };
-  const handleSignUpPW = (e: ChangeEvent<HTMLInputElement>) => {
-    setSignUpPW(e.target.value);
-  };
-
-  const registerUser2 = useMutation({
+  const registerUser = useMutation({
     mutationFn: async () => {
+      if (signUpErrorMessage) {
+        signUpErrorMessageAniToggle();
+      }
       if (idInput.current!.value === "")
         return signUpErrorMessageStatus("아이디를 입력해주세요.");
-      if (!signUpID.includes("@"))
+      if (!signUpID.includes("@") || !signUpID.includes("."))
         return signUpErrorMessageStatus("이메일 형식으로 적어주세요.");
       if (nicknameInput.current!.value === "")
         return signUpErrorMessageStatus("닉네임을 입력해주세요.");
@@ -50,72 +43,52 @@ function SignUp() {
         nickname: nickname,
         password: signUpPW,
       };
-      const response = await axios.post(
-        "http://localhost:8080/api/sign/register",
-        body
-      );
 
-      if (response.data.code === 409)
-        return signUpErrorMessageStatus("입력하신 이메일이 이미 존재합니다.");
-      if (response.data.code === 404)
-        return signUpErrorMessageStatus("입력하신 닉네임이 이미 존재합니다.");
-
-      signUpErrorMessageStatus("");
-      setSignUpID("");
-      setNickname("");
-      setSignUpPW("");
-      toggleWelcomeMessage();
-
-      setTimeout(() => {
-        inUpToggle();
-      }, 1500);
-      setTimeout(() => {
+      try {
+        signUpErrorMessageStatus("");
+        const response = await axios.post(
+          "http://43.203.92.111/api/sign/register",
+          // "http://localhost:8080/api/sign/register",
+          body
+        );
+        signUpErrorMessageStatus("");
+        setSignUpId("");
+        setNickname("");
+        setSignUpPw("");
         toggleWelcomeMessage();
-      }, 5000);
+        setTimeout(() => {
+          inUpToggle();
+        }, 1500);
+        setTimeout(() => {
+          toggleWelcomeMessage();
+        }, 5000);
 
-      console.log(response.data);
+        console.log(response.data);
+      } catch (error) {
+        if (axios.isAxiosError(error)) {
+          const axiosError = error as AxiosError;
+
+          if (axiosError.response) {
+            console.log(error.response?.data);
+            if (error.response?.data.code !== 200) {
+              return signUpErrorMessageStatus(error.response?.data.msg);
+            }
+          }
+        }
+      }
     },
   });
 
-  // const registerUser = async () => {
-  //   if (idInput.current!.value === "")
-  //     return signUpErrorMessageStatus("아이디를 입력해주세요.");
-  //   if (!signUpID.includes("@"))
-  //     return signUpErrorMessageStatus("이메일 형식으로 적어주세요.");
-  //   if (nicknameInput.current!.value === "")
-  //     return signUpErrorMessageStatus("닉네임을 입력해주세요");
-  //   if (pwInput.current!.value === "")
-  //     return signUpErrorMessageStatus("비밀번호를 입력해주세요");
-
-  //   const body: UserRegisterDto = {
-  //     email: signUpID,
-  //     nickname: nickname,
-  //     password: signUpPW,
-  //   };
-  //   const response = await axios.post(
-  //     "http://localhost:8080/api/sign/register",
-  //     body
-  //   );
-
-  //   signUpErrorMessageStatus("");
-  //   setSignUpID("");
-  //   setNickname("");
-  //   setSignUpPW("");
-  //   toggleWelcomeMessage();
-
-  //   setTimeout(() => {
-  //     inUpToggle();
-  //   }, 1500);
-  //   setTimeout(() => {
-  //     toggleWelcomeMessage();
-  //   }, 5000);
-
-  //   console.log(response.data);
-  // };
   return (
     <div className={styles.signUpSection}>
       <div className={styles.signInText}>Sign Up</div>
-      <div className={styles.inputSpace}>
+      <form
+        className={styles.inputSpace}
+        onSubmit={(e) => {
+          e.preventDefault();
+          registerUser.mutate();
+        }}
+      >
         <div className={styles.inputEachSpace}>
           <div
             className={`${
@@ -136,7 +109,7 @@ function SignUp() {
             className={styles.input}
             placeholder="ID"
             value={signUpID}
-            onChange={handleSignUpID}
+            onChange={(e) => setSignUpId(e.target.value)}
           />
         </div>
         <div className={styles.inputEachSpace}>
@@ -151,7 +124,7 @@ function SignUp() {
             className={styles.input}
             placeholder="nickname"
             value={nickname}
-            onChange={handleSignUpNickname}
+            onChange={(e) => setNickname(e.target.value)}
           />
         </div>
         <div className={styles.inputEachSpace}>
@@ -165,7 +138,7 @@ function SignUp() {
             className={styles.input}
             placeholder="password"
             value={signUpPW}
-            onChange={handleSignUpPW}
+            onChange={(e) => setSignUpPw(e.target.value)}
           />
           <i
             className={`${styles.visibility} material-symbols-outlined`}
@@ -177,14 +150,12 @@ function SignUp() {
         <button
           className={styles.signInUpBtn}
           onClick={() => {
-            // registerUser();
-            registerUser2.mutate();
-            signUpErrorMessageAniToggle();
+            registerUser.mutate();
           }}
         >
           Sign Up
         </button>
-      </div>
+      </form>
 
       <div className={styles.signInBottom}>
         <div className={styles.bottomText}>Ready to sign in?</div>
@@ -193,6 +164,9 @@ function SignUp() {
           onClick={() => {
             inUpToggle();
             signUpErrorMessageStatus("");
+            setSignUpId("");
+            setNickname("");
+            setSignUpPw("");
           }}
         >
           Sign In

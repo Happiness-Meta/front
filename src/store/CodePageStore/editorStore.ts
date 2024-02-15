@@ -1,13 +1,14 @@
 import { create } from "zustand";
 
 interface Tab {
-  key: string;
-  title: string;
+  id: string;
+  name: string;
 }
 
 interface aboutEditor {
   tabs: Tab[];
   addTab: (newTab: Tab) => void;
+  deleteTab: (tabToDelete: Tab) => void;
   rightSpace: boolean;
   toggleRightSpace: () => void;
   terminal: boolean;
@@ -18,8 +19,16 @@ const editorStore = create<aboutEditor>((set) => ({
   tabs: [],
   addTab: (newTab) =>
     set((state) => {
-      console.log(newTab.title);
+      const alreadyExists = state.tabs.some((tab) => tab.id === newTab.id);
+      if (alreadyExists) {
+        return { tabs: [...state.tabs] };
+      }
       return { tabs: [...state.tabs, newTab] };
+    }),
+  deleteTab: (tabToDelete) =>
+    set((state) => {
+      const newTabSpace = state.tabs.filter((tab) => tab.id !== tabToDelete.id);
+      return { tabs: newTabSpace };
     }),
   rightSpace: false,
   toggleRightSpace: () => set((state) => ({ rightSpace: !state.rightSpace })),

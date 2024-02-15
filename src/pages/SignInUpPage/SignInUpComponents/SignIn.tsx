@@ -1,4 +1,4 @@
-import { ChangeEvent, RefObject, useRef, useState } from "react";
+import { RefObject, useRef, useState } from "react";
 import LoginPageStore from "../../../store/LoginPageStore/LoginPageStore";
 import styles from "../signInUpPage.module.css";
 import LoginFormDto from "../../../dto/LoginFormDto";
@@ -9,8 +9,10 @@ import { useMutation } from "@tanstack/react-query";
 
 function SignIn() {
   const navigate = useNavigate();
+
   const idInput: RefObject<HTMLInputElement> = useRef(null);
   const pwInput: RefObject<HTMLInputElement> = useRef(null);
+
   const { isVisible, visibleToggle, inUpToggle } = LoginPageStore();
   const {
     signInErrorMessage,
@@ -20,14 +22,6 @@ function SignIn() {
   } = SignInStore();
   const [signInId, setSignInId] = useState("");
   const [signInPw, setSignInPw] = useState("");
-
-  const handleSignInId = (e: ChangeEvent<HTMLInputElement>) => {
-    setSignInId(e.target.value);
-  };
-
-  const handleSignInPw = (e: ChangeEvent<HTMLInputElement>) => {
-    setSignInPw(e.target.value);
-  };
 
   const loginUser = useMutation({
     mutationFn: async () => {
@@ -43,8 +37,8 @@ function SignIn() {
 
       try {
         const response = await axios.post(
-          // "http://43.203.92.111//api/sign/login",
-          "http://localhost:8080/api/sign/login",
+          "http://43.203.92.111/api/sign/login",
+          // "http://localhost:8080/api/sign/login",
           body
         );
 
@@ -71,46 +65,9 @@ function SignIn() {
     },
   });
 
-  // const loginUser = async () => {
-  //   if (idInput.current!.value === "")
-  //     return signInErrorMessageStatus("아이디를 입력해주세요");
-  //   if (pwInput.current!.value === "")
-  //     return signInErrorMessageStatus("비밀번호를 입력해주세요");
-  //   const body: LoginFormDto = {
-  //     email: signInId,
-  //     password: signInPw,
-  //   };
-
-  //   try {
-  //     const response = await axios.post(
-  //       // "http://43.203.92.111//api/sign/login",
-  //       "http://localhost:8080/api/sign/login",
-  //       body
-  //     );
-
-  //     console.log(response.status);
-
-  //     signInErrorMessageStatus("");
-  //     navigate("/dashboard");
-
-  //     console.log(response.data);
-  //   } catch (error) {
-  //     if (axios.isAxiosError(error)) {
-  //       const axiosError = error as AxiosError;
-
-  //       if (axiosError.response) {
-  //         console.log(error.response?.data);
-  //         if (error.response?.data.code === 400) {
-  //           return signInErrorMessageStatus("로그인 정보가 올바르지 않습니다.");
-  //         }
-  //       }
-  //     }
-  //   }
-  // };
-
   return (
     <div className={styles.signInSection}>
-      <div className={styles.signInText}>Sign In</div>
+      <h2 className={styles.signInText}>Sign In</h2>
       <div className={styles.inputSpace}>
         <div className={styles.inputEachSpace}>
           <i className={`${styles.inputIcon} material-symbols-outlined`}>
@@ -124,7 +81,7 @@ function SignIn() {
             className={styles.input}
             placeholder="ID"
             value={signInId}
-            onChange={handleSignInId}
+            onChange={(e) => setSignInId(e.target.value)}
           />
         </div>
         <div className={styles.inputEachSpace}>
@@ -138,7 +95,7 @@ function SignIn() {
             className={styles.input}
             placeholder="password"
             value={signInPw}
-            onChange={handleSignInPw}
+            onChange={(e) => setSignInPw(e.target.value)}
           />
           <i
             className={`${styles.visibility} material-symbols-outlined`}
@@ -161,7 +118,6 @@ function SignIn() {
           className={styles.signInUpBtn}
           onClick={() => {
             loginUser.mutate();
-            // loginUser();
             signInErrorMessageAniToggle();
           }}
         >
@@ -176,6 +132,8 @@ function SignIn() {
           onClick={() => {
             inUpToggle();
             signInErrorMessageStatus("");
+            setSignInId("");
+            setSignInPw("");
           }}
         >
           Sign Up

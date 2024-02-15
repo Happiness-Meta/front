@@ -5,16 +5,12 @@ import { Resizable } from "re-resizable";
 import globalStore from "../../../../store/globalStore/globalStore";
 import editorStore from "../../../../store/CodePageStore/editorStore";
 import ChatSpace from "../chatSpace/ChatSpace";
-// import switcherIcon from "../sidebar/switcherIcon";
-// import * as Y from "yjs";
-// import { WebrtcProvider } from "y-webrtc";
-// import { MonacoBinding } from "y-monaco";
-
+import SetFileTreeIcon from "../sidebar/SetFileTreeIcon";
 
 function EditorSpace() {
   const { sidebar, codeFontSize } = sidebarStore();
   const { mode } = globalStore();
-  const { tabs, rightSpace, terminal } = editorStore();
+  const { tabs, deleteTab, rightSpace, terminal } = editorStore();
 
   return (
     <div
@@ -26,14 +22,14 @@ function EditorSpace() {
         className={`${rightSpace ? styles.leftWidthFull : undefined} ${
           styles.leftSpace
         }`}
-        defaultSize={{ width: "50%", height: "100%" }}
+        defaultSize={{ width: "70%", height: "100%" }}
         enable={{ top: false, bottom: false, right: true, left: false }}
         handleClasses={{ right: "resizeHandle2" }}
       >
         <div className={styles.filesTabSpace}>
           {tabs.map((tab) => (
             <div
-              key={tab.key}
+              key={tab.id}
               className={styles.tab}
               style={
                 mode
@@ -42,11 +38,12 @@ function EditorSpace() {
               }
             >
               <button className={styles.tabEach}>
-                {/* {switcherIcon(tab.title)} */}
-                <span className={styles.tabName}>{tab.title}</span>
+                {SetFileTreeIcon(tab.name)}
+                <span className={styles.tabName}>{tab.name}</span>
               </button>
               <button
                 className={`${styles.tabRemove} material-symbols-outlined`}
+                onClick={() => deleteTab(tab)}
               >
                 close
               </button>
@@ -71,8 +68,9 @@ function EditorSpace() {
             <Editor
               width="100%"
               height="100%"
+              className={styles.editor}
               theme={mode ? "vs-light" : "vs-dark"}
-              defaultLanguage="javascript"
+              defaultLanguage="html"
               defaultValue="// paint your own world! 🌎"
               options={{
                 selectOnLineNumbers: true,

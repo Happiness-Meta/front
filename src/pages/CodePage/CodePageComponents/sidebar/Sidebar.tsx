@@ -1,10 +1,10 @@
 import styles from "./sidebar.module.css";
 import sidebarStore from "../../../../store/CodePageStore/sidebarStore";
 import EditorSettingBtn from "./editorSettingBtn/EditorSettingBtn";
-import Tree from "rc-tree";
-import "rc-tree/assets/index.css";
 import editorStore from "../../../../store/CodePageStore/editorStore";
-import switcherIcon from "./switcherIcon";
+import { Tree } from "react-arborist";
+import { useState } from "react";
+import Node from "../../../../globalComponents/Node/Node";
 //디렉토리 : 아이디, 경로, 이름, 칠드런 빈 배열
 // 12b4p214, /, folder 1, []
 //파일 : 아이디, 경로, 이름, 내용
@@ -12,35 +12,41 @@ import switcherIcon from "./switcherIcon";
 
 const treeData = [
   {
-    key: "1",
-    title: "folder 1",
+    id: "1",
+    name: "folder 1",
     children: [
-      { key: "1-1", title: "script.ts" },
-      { key: "1-2", title: "script2.js" },
+      { id: "1-1", name: "script.ts" },
+      { id: "1-2", name: "script2.js" },
       {
-        key: "3",
-        title: "folder 3",
+        id: "3",
+        name: "folder 3",
         children: [
-          { key: "3-1", title: "index.html" },
-          { key: "3-2", title: "style.css" },
+          { id: "3-1", name: "index.html" },
+          { id: "3-2", name: "style.css" },
+          {
+            id: "4",
+            name: "file4",
+            children: [{ id: "5", name: "file5", children: [] }],
+          },
         ],
       },
     ],
   },
   {
-    key: "2",
-    title: "folder 2",
+    id: "2",
+    name: "folder 2",
     children: [
-      { key: "2-1", title: "package.json" },
-      { key: "2-2", title: "react.tsx" },
+      { id: "2-1", name: "package.json" },
+      { id: "2-2", name: "react.tsx" },
     ],
   },
 ];
 
 function Sidebar() {
   const { sidebar, expandStatus, expandToggle } = sidebarStore();
-  // const { addTab } = editorStore();
   const { toggleRightSpace, toggleTerminal } = editorStore();
+
+  const [term, setTerm] = useState("");
 
   return (
     <div
@@ -48,13 +54,15 @@ function Sidebar() {
         styles.sidebarSpace
       }`}
     >
-      <form className={styles.searchForm}>
+      <div className={styles.searchForm}>
         <input
           type="text"
           className={styles.search_input}
           placeholder="Search"
+          value={term}
+          onChange={(e) => setTerm(e.target.value)}
         ></input>
-      </form>
+      </div>
       <div className={styles.sidebarSpace_inner}>
         <div className={styles.filesSpace}>
           <div className={styles.filesHeader}>
@@ -84,17 +92,17 @@ function Sidebar() {
             }`}
           >
             <Tree
-              treeData={treeData}
-              switcherIcon={switcherIcon}
-              showIcon={false}
-              // selectable={true}
-              // onSelect={addTab}
-              defaultExpandAll={true}
-              // draggable={true}
-              allowDrop={() => true}
-              expandAction={"click"}
+              className={styles.react_arborist}
+              rowClassName={styles.arborist_row}
+              width={"100%"}
+              indent={17}
+              data={treeData}
+              searchTerm={term}
+              searchMatch={(node, term) =>
+                node.data.name.toLowerCase().includes(term.toLowerCase())
+              }
             >
-              {/* <TreeNode></TreeNode> */}
+              {Node}
             </Tree>
           </div>
         </div>

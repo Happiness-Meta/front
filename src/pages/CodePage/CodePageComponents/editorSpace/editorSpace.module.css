@@ -26,19 +26,27 @@
 }
 
 .filesTabSpace {
+  display: flex;
   width: 100%;
   height: 30px;
   background-color: rgb(128 128 128 / 10%);
+  overflow-x: scroll;
 }
 
 .tab {
   display: flex;
   justify-content: space-between;
   align-items: center;
+  box-sizing: border-box;
   width: fit-content;
   height: 100%;
-  border-top: 1px solid #068fff;
-  border-right: 0.5px solid gray;
+  opacity: 0.5;
+  /* border-top: 1px solid #068fff; */
+  /* border-right: 0.5px solid gray; */
+}
+
+.tab:hover {
+  opacity: 1;
 }
 
 .tabEach {
@@ -64,18 +72,27 @@
 }
 
 .tabRemove {
+  visibility: hidden;
   width: 20px;
   height: 100%;
   border: none;
   background-color: transparent;
   font-size: 15px;
+  opacity: 0.5;
+}
+
+.tab:hover .tabRemove {
+  visibility: visible !important;
+}
+
+.tabRemove:hover {
+  opacity: 1;
 }
 
 .filePathSpace {
   width: 100%;
   height: 25px;
   border-bottom: 0.5px solid rgb(128 128 128 / 10%);
-  background-color: transparent;
 }
 
 .editorAndTerminal {
@@ -87,6 +104,10 @@
 .editorWrapper {
   height: 70%;
   margin-bottom: 7px;
+}
+
+.editor {
+  padding-top: 5px;
 }
 
 .withTerminal {
