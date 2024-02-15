@@ -68,3 +68,17 @@
     transform: rotate(360deg);
   }
 }
+
+.btnForTips {
+  padding: 5px 10px;
+  border: 1px solid gray;
+  border-radius: 7px;
+  background-color: transparent;
+  color: gray;
+  cursor: pointer;
+}
+
+.btnForTips:hover {
+  color: white;
+  font-weight: 500;
+}

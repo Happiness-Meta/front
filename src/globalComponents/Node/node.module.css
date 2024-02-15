@@ -1,0 +1,27 @@
+.node_container {
+  display: flex;
+  align-items: center;
+  gap: 3px;
+  width: 100%;
+  cursor: pointer;
+}
+
+.node_container span {
+  font-size: 14px;
+}
+
+.iconContainer {
+  width: 18px;
+  height: 100%;
+}
+
+.fileIcon {
+  width: 14px;
+  height: 100%;
+  border-radius: 1px;
+}
+
+.directoryIcon {
+  width: 17px;
+  height: 100%;
+}

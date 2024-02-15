@@ -153,7 +153,7 @@
   padding-bottom: 5px;
   border-bottom: 0.5px solid rgb(80, 80, 80);
   overflow: hidden;
-  transition: 0.3s;
+  transition: height 0.3s;
 }
 
 .FC_ExpandStatus {
@@ -161,18 +161,26 @@
   padding-bottom: 0;
 }
 
-.fileContainer span {
-  font-size: 14px;
+.react_arborist {
+  user-select: none;
+  height: fit-content !important;
+  padding-bottom: 10px;
 }
 
-.fileIcon {
-  width: 14px;
-  height: 100%;
+.arborist_row {
+  display: flex;
+  align-items: center;
+  width: 99% !important;
+  border: 0.5px solid transparent;
 }
 
-.directoryIcon {
-  width: 17px;
-  height: 100%;
+.arborist_row:hover {
+  background-color: rgba(128, 128, 128, 0.2);
+}
+
+.arborist_row:focus {
+  border-color: #068fff;
+  background-color: rgba(128, 128, 128, 0.2);
 }
 
 .sidebarBottom {
