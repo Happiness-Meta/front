@@ -1,0 +1,37 @@
+.languageDescriptionContainer {
+  width: 295px;
+  height: 204px;
+  display: flex;
+  flex-direction: column;
+  z-index: 1;
+}
+
+.languageDescriptionContainer img {
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+
+  background-color: #eeeeee;
+}
+
+.description {
+  width: 295px;
+  height: 204px;
+  overflow-wrap: break-word;
+  word-break: break-word;
+  white-space: normal;
+  font-size: 13px;
+}
+.languageTitle {
+  font-size: 24px;
+  font-weight: bold;
+  margin-bottom: 10px;
+}
+
+.languageTitleContainer {
+  display: flex;
+
+  flex-direction: column;
+  width: 295px;
+  height: 204px;
+}

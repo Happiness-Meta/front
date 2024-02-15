@@ -1,0 +1,16 @@
+.dropdownContainer {
+  position: relative;
+}
+
+.dropdownButtonContainer {
+  position: absolute; /* 위치를 절대적으로 설정 */
+
+  left: 0; /* 좌측 정렬을 위해 추가 */
+  width: 100%; /* 부모 컨테이너의 너비에 맞춤 */
+  margin-top: 0;
+  padding-left: 0;
+  list-style: none;
+  background-color: #4e4e55;
+  z-index: 10; /* 다른 요소들 위에 표시하기 위해 z-index 설정 */
+  cursor: pointer;
+}
