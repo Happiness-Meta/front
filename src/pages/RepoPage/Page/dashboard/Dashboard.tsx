@@ -20,11 +20,18 @@ const Dashboard = () => {
   const [inputValue, setInputValue] = useState("");
   const [selectedTemplateKey, setSelectedTemplateKey] = useState<string | null>(null);
   const templates = templateDescriptionStore((state) => state.template);
+  const [selectedLanguage, setSelectedLanguage] = useState("Language");
+
+  const handleSelectLanguage = (language: string) => {
+    setSelectedLanguage(language); // 선택된 언어로 상태 업데이트
+    setDropdownView(false); // 드롭다운 닫기
+  };
 
   const handleTemplateSelection = (key: string) => {
     setSelectedTemplateKey(key);
   };
   const selectedTemplate = selectedTemplateKey ? templates[selectedTemplateKey] : null;
+
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setInputValue(event.target.value);
   };
@@ -160,9 +167,12 @@ const Dashboard = () => {
       >
         <h2>Create New Repository🚀</h2>
         <div className={styles.DropdownMenucontainer} onBlur={handleBlurContainer}>
-          <button onClick={handleClickContainer}>Language{isDropdownView ? "▲" : "▼"}</button>
+          <button onClick={handleClickContainer}>
+            {selectedLanguage}
+            {isDropdownView ? "▲" : "▼"}
+          </button>
           {isDropdownView && (
-            <Dropdown onSelectTemplate={handleSelectTemplate} isDropdownView={isDropdownView} />
+            <Dropdown onSelectTemplate={handleSelectLanguage} isDropdownView={isDropdownView} />
           )}
           <div className={styles.explainContainer}>여기에 설명</div>
         </div>
