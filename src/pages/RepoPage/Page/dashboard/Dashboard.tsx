@@ -7,9 +7,10 @@ import Recent from "../../Component/Recent/Recent";
 import RepoPageStore from "../../../../store/RepoPageStore/repoPageStore";
 import ReactModal from "react-modal";
 import useModalStore from "../../../../store/ModalStore/ModalStore";
-import Dropdown from "../../Component/Dropdown/Dropdown";
+import DropdownBtn from "../../Component/Dropdown/DropdownBtn";
 import templateDescriptionStore from "../../../../store/TemplateDescriptionStore/templateDescriptionStore";
 import axios from "axios";
+import renderLanguageDescription from "../../Component/Dropdown/SelectedLanguageDescription";
 
 const Dashboard = () => {
   const [isAnimated, setIsAnimated] = useState(false);
@@ -66,6 +67,7 @@ const Dashboard = () => {
     } catch (error) {
       console.log("Error creating new repository:", error);
     }
+    setInputValue("");
   };
 
   return (
@@ -162,29 +164,46 @@ const Dashboard = () => {
         className={styles.createRepoModal}
         overlayClassName={styles.createRepoOverlay}
       >
-        <h2>Create New Repository🚀</h2>
-        <div className={styles.DropdownMenucontainer} onBlur={handleBlurContainer}>
-          <button onClick={handleClickContainer}>
-            {selectedLanguage}
-            {isDropdownView ? "▲" : "▼"}
+        <div className={styles.MenuWrapper}>
+          <div className={styles.titleAndCloseContainer}>
+            <h2>Create New Repository🚀</h2>
+          </div>
+          <button className={styles.closeButton} onClick={toggleCreateModal}>
+            <span className="material-symbols-outlined">close</span>
           </button>
-          {isDropdownView && (
-            <Dropdown onSelectTemplate={handleSelectTemplate} isDropdownView={isDropdownView} />
-          )}
-          <div className={styles.explainContainer}>여기에 설명</div>
+          <div className={styles.DropdownAndsubmitWrapper}>
+            <div className={styles.DropdownMenucontainer} onBlur={handleBlurContainer}>
+              <button onClick={handleClickContainer}>
+                {selectedLanguage}
+                {isDropdownView ? "▲" : "▼"}
+              </button>
+              {isDropdownView && (
+                <DropdownBtn
+                  onSelectTemplate={handleSelectTemplate}
+                  isDropdownView={isDropdownView}
+                />
+              )}
+              <div className={styles.explainContainer}>
+                {renderLanguageDescription(selectedLanguage)}
+              </div>
+            </div>
+            <div className={styles.submitAndButtonContainer}>
+              <div className={styles.submitContainer}>
+                <form onSubmit={handleSubmit}>
+                  Title
+                  <input
+                    type="text"
+                    placeholder="Enter your title..."
+                    value={inputValue}
+                    onChange={handleChange}
+                  />
+                </form>
+              </div>
+
+              <button onClick={handleCreateNewrepo}> Create New Repository</button>
+            </div>
+          </div>
         </div>
-        <div className={styles.submitContainer}>
-          <form onSubmit={handleSubmit}>
-            <input
-              type="text"
-              placeholder="Enter your title..."
-              value={inputValue}
-              onChange={handleChange}
-            />
-          </form>
-        </div>
-        <button onClick={handleCreateNewrepo}> Create New Repository</button>
-        <button onClick={toggleCreateModal}>Close</button>
       </ReactModal>
     </RepoPage>
   );
