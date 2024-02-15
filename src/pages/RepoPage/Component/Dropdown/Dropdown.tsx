@@ -6,7 +6,7 @@ interface AboutDropdown {
   onSelectTemplate: (key: string) => void;
 }
 
-export default function Dropdown({ isDropdownView, onSelectTemplate }: AboutDropdown) {
+export default function Dropdown({ onSelectTemplate, isDropdownView }: AboutDropdown) {
   return (
     <ul
       className={`${styles.dropdown} ${
