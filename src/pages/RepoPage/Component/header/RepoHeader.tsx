@@ -29,13 +29,9 @@ function Header() {
         </i>
 
         <ExploreBtn />
-        <Link
-          to="/"
-          className={styles.IDE_name}
-          style={mode ? { color: "black" } : { color: "white" }}
-        >
+        <div className={styles.IDE_name} style={mode ? { color: "black" } : { color: "white" }}>
           Earth-IDE-N
-        </Link>
+        </div>
       </div>
 
       <div className={styles.rightSide_header}>

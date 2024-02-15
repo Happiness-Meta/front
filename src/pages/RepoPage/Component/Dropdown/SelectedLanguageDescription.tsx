@@ -14,11 +14,13 @@ export default function renderLanguageDescription(selectedLanguage: string) {
   return (
     <div className={styles.languageDescriptionContainer}>
       <div className={styles.languageImg}>
-        {isValidLanguage && <img src={`/svg/${selectedLanguage}.svg`} alt={selectedLanguage} />}
+        {isValidLanguage && (
+          <img src={`/svg/${selectedLanguage.toLowerCase()}.svg`} alt={selectedLanguage} />
+        )}
       </div>
 
       <div className={styles.languageTitleContainer}>
-        <div className={styles.languageTitle}>{selectedLanguage}</div>
+        <div className={styles.languageTitle}>{selectedLanguage.toLowerCase()}</div>
         <div className={styles.description}>
           {languageDescriptions[selectedLanguage] || "Select a language to see its description."}
         </div>
