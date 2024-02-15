@@ -7,9 +7,10 @@ import Recent from "../../Component/Recent/Recent";
 import RepoPageStore from "../../../../store/RepoPageStore/repoPageStore";
 import ReactModal from "react-modal";
 import useModalStore from "../../../../store/ModalStore/ModalStore";
-import Dropdown from "../../Component/Dropdown/Dropdown";
+import DropdownBtn from "../../Component/Dropdown/DropdownBtn";
 import templateDescriptionStore from "../../../../store/TemplateDescriptionStore/templateDescriptionStore";
 import axios from "axios";
+import renderLanguageDescription from "../../Component/Dropdown/SelectedLanguageDescription";
 
 const Dashboard = () => {
   const [isAnimated, setIsAnimated] = useState(false);
@@ -21,11 +22,6 @@ const Dashboard = () => {
   const [selectedTemplateKey, setSelectedTemplateKey] = useState<string | null>(null);
   const templates = templateDescriptionStore((state) => state.template);
   const [selectedLanguage, setSelectedLanguage] = useState("Language");
-
-  const handleSelectLanguage = (language: string) => {
-    setSelectedLanguage(language); // 선택된 언어로 상태 업데이트
-    setDropdownView(false); // 드롭다운 닫기
-  };
 
   const handleTemplateSelection = (key: string) => {
     setSelectedTemplateKey(key);
@@ -55,12 +51,14 @@ const Dashboard = () => {
   }, []);
 
   const handleSelectTemplate = (key: string) => {
+    setSelectedLanguage(key);
     setSelectedTemplateKey(key); // 선택된 템플릿의 key 상태 업데이트
   };
 
   const handleCreateNewrepo = async () => {
     const data = {
       name: inputValue, // 사용자가 입력한 타이틀
+      // userEmail : userEmail: 로그인하면서 userEmail이 보내지는데 그걸 어떻게 캐치해서 여기에 저장하는지
       programmingLanguage: selectedTemplateKey, // 선택된 템플릿의 key
     };
     try {
@@ -69,6 +67,7 @@ const Dashboard = () => {
     } catch (error) {
       console.log("Error creating new repository:", error);
     }
+    setInputValue("");
   };
 
   return (
@@ -165,29 +164,46 @@ const Dashboard = () => {
         className={styles.createRepoModal}
         overlayClassName={styles.createRepoOverlay}
       >
-        <h2>Create New Repository🚀</h2>
-        <div className={styles.DropdownMenucontainer} onBlur={handleBlurContainer}>
-          <button onClick={handleClickContainer}>
-            {selectedLanguage}
-            {isDropdownView ? "▲" : "▼"}
+        <div className={styles.MenuWrapper}>
+          <div className={styles.titleAndCloseContainer}>
+            <h2>Create New Repository🚀</h2>
+          </div>
+          <button className={styles.closeButton} onClick={toggleCreateModal}>
+            <span className="material-symbols-outlined">close</span>
           </button>
-          {isDropdownView && (
-            <Dropdown onSelectTemplate={handleSelectLanguage} isDropdownView={isDropdownView} />
-          )}
-          <div className={styles.explainContainer}>여기에 설명</div>
+          <div className={styles.DropdownAndsubmitWrapper}>
+            <div className={styles.DropdownMenucontainer} onBlur={handleBlurContainer}>
+              <button onClick={handleClickContainer}>
+                {selectedLanguage}
+                {isDropdownView ? "▲" : "▼"}
+              </button>
+              {isDropdownView && (
+                <DropdownBtn
+                  onSelectTemplate={handleSelectTemplate}
+                  isDropdownView={isDropdownView}
+                />
+              )}
+              <div className={styles.explainContainer}>
+                {renderLanguageDescription(selectedLanguage)}
+              </div>
+            </div>
+            <div className={styles.submitAndButtonContainer}>
+              <div className={styles.submitContainer}>
+                <form onSubmit={handleSubmit}>
+                  Title
+                  <input
+                    type="text"
+                    placeholder="Enter your title..."
+                    value={inputValue}
+                    onChange={handleChange}
+                  />
+                </form>
+              </div>
+
+              <button onClick={handleCreateNewrepo}> Create New Repository</button>
+            </div>
+          </div>
         </div>
-        <div className={styles.submitContainer}>
-          <form onSubmit={handleSubmit}>
-            <input
-              type="text"
-              placeholder="Enter your title..."
-              value={inputValue}
-              onChange={handleChange}
-            />
-          </form>
-        </div>
-        <button onClick={handleCreateNewrepo}> Create New Repository</button>
-        <button onClick={toggleCreateModal}>Close</button>
       </ReactModal>
     </RepoPage>
   );

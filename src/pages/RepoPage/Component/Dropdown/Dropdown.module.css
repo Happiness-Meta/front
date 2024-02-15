@@ -1,48 +1,16 @@
-@keyframes slide_fade_in_dropdown_animation {
-  0% {
-    transform: translateY(-100%);
-  }
-
-  100% {
-    transform: translateY(0);
-  }
-}
-
-.slide_fade_in_dropdown {
-  overflow: hidden;
-}
-
-.slide_fade_in_dropdown > ul {
-  animation: slide_fade_in_dropdown_animation 0.4s ease;
-}
-
-/* fade out */
-
-@keyframes slide_fade_out_dropdown_animation {
-  0% {
-    transform: translateY(0);
-  }
-
-  100% {
-    transform: translateY(-100%);
-  }
-}
-
-.slide_fade_out_dropdown {
-  overflow: hidden;
-}
-
-.slide_fade_out_dropdown > ul {
-  animation: slide_fade_out_dropdown_animation 0.4s ease;
-  animation-fill-mode: forwards;
-}
-
-.dropdown {
+.dropdownContainer {
   position: relative;
-  top: 5px;
+}
+
+.dropdownButtonContainer {
+  position: absolute; /* 위치를 절대적으로 설정 */
+
+  left: 0; /* 좌측 정렬을 위해 추가 */
+  width: 100%; /* 부모 컨테이너의 너비에 맞춤 */
   margin-top: 0;
-  margin-bottom: 5px;
   padding-left: 0;
   list-style: none;
   background-color: #4e4e55;
+  z-index: 10; /* 다른 요소들 위에 표시하기 위해 z-index 설정 */
+  cursor: pointer;
 }
