@@ -22,11 +22,6 @@ const Dashboard = () => {
   const templates = templateDescriptionStore((state) => state.template);
   const [selectedLanguage, setSelectedLanguage] = useState("Language");
 
-  const handleSelectLanguage = (language: string) => {
-    setSelectedLanguage(language); // 선택된 언어로 상태 업데이트
-    setDropdownView(false); // 드롭다운 닫기
-  };
-
   const handleTemplateSelection = (key: string) => {
     setSelectedTemplateKey(key);
   };
@@ -55,12 +50,14 @@ const Dashboard = () => {
   }, []);
 
   const handleSelectTemplate = (key: string) => {
+    setSelectedLanguage(key);
     setSelectedTemplateKey(key); // 선택된 템플릿의 key 상태 업데이트
   };
 
   const handleCreateNewrepo = async () => {
     const data = {
       name: inputValue, // 사용자가 입력한 타이틀
+      // userEmail : userEmail: 로그인하면서 userEmail이 보내지는데 그걸 어떻게 캐치해서 여기에 저장하는지
       programmingLanguage: selectedTemplateKey, // 선택된 템플릿의 key
     };
     try {
@@ -172,7 +169,7 @@ const Dashboard = () => {
             {isDropdownView ? "▲" : "▼"}
           </button>
           {isDropdownView && (
-            <Dropdown onSelectTemplate={handleSelectLanguage} isDropdownView={isDropdownView} />
+            <Dropdown onSelectTemplate={handleSelectTemplate} isDropdownView={isDropdownView} />
           )}
           <div className={styles.explainContainer}>여기에 설명</div>
         </div>
