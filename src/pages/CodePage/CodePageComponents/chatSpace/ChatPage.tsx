@@ -22,7 +22,7 @@ const ChatPage: React.FC = () => {
         event.preventDefault();
         if (clientRef.current === null) {
             // 웹 소켓 fallback (소켓 통신 멈췄을 때, http로도 메시지 전송 받을 수 있게함)
-            const socket = new WebSocket/*SockJS*/('ws://localhost:8080/ws');
+            const socket = new WebSocket/*SockJS*/('ws://192.168.0.22:8080/ws');
             const client= Stomp.over(socket);
             console.log("여기까지는 오게 됨")
             client.connect({}, onConnected, onError);
