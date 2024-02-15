@@ -1,7 +1,5 @@
 import React from "react";
 import styles from "./Dropdown.module.css";
-import dropdown from "react-bootstrap/Dropdown";
-import DropdownButton from "react-bootstrap/DropdownButton";
 interface AboutDropdown {
   isDropdownView: boolean;
   onSelectTemplate: (key: string) => void;

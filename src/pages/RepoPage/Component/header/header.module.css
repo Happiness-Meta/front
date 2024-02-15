@@ -9,9 +9,10 @@
 
 .leftSide_header {
   display: flex;
-  justify-content: space-between;
+  justify-content: flex-start;
   align-items: center;
-  width: 215px;
+  width: 300px;
+  gap: 5px;
 }
 
 .sidebarToggle {
