@@ -31,8 +31,18 @@
   background-image: none !important;
 }
 
+.rc-tree-treenode {
+  border: 0.5px solid transparent;
+}
+
 .rc-tree-treenode:hover {
   background-color: rgba(128, 128, 128, 0.3);
+}
+
+.rc-tree-treenode-selected {
+  width: 98%;
+  border: 0.5px solid #068fff;
+  background-color: rgba(128, 128, 128, 0.2) !important;
 }
 
 .rc-tree-node-selected {
