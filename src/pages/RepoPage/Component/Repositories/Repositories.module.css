@@ -2,6 +2,7 @@
   display: grid;
   grid-template-columns: repeat(4, 1fr);
   gap: 10px;
+  margin-top: 30px;
 }
 
 .recommendcontainer {
@@ -18,7 +19,7 @@
 /* 화면 너비가 690px 이상일 때: 가로 3개 */
 @media (min-width: 690px) {
   .recommendcontainer {
-    grid-template-columns: repeat(3, 1fr);
+    grid-template-columns: repeat(4, 1fr);
   }
 }
 
@@ -50,7 +51,7 @@
   box-shadow: 1px 6px 9px 0px rgba(0, 0, 0, 0.72);
   -webkit-box-shadow: 1px 6px 9px 0px rgba(0, 0, 0, 0.72);
   -moz-box-shadow: 1px 6px 9px 0px rgba(0, 0, 0, 0.72);
-  background: #1e1e26;
+  background-color: #1e1e26;
   color: #eeeeee;
   border-radius: 17px;
   width: 211px;
@@ -97,9 +98,9 @@
 .repodescription_container {
   width: 108px;
   height: 15px;
-  margin-left: 32px;
+  margin-left: 21px;
   margin-bottom: 10px;
-  margin-top: 15px;
+  margin-top: 8px;
   font-style: normal;
   font-weight: 400;
   font-size: 11px;
@@ -119,9 +120,10 @@
 .repocontainer {
   width: 211px;
   height: 116px;
-  display: column;
+  display: flex;
   align-items: center;
-  justify-content: space-around;
+  justify-content: center;
+  flex-direction: column;
 }
 
 .reponame_container {
@@ -232,7 +234,7 @@
   background-color: #1e1e26;
   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.6);
   z-index: 3;
-  top: 40px;
+  top: 17px;
   left: 80px;
   width: 100px;
   border-radius: 10px;

@@ -19,11 +19,9 @@ export default function renderLanguageDescription(selectedLanguage: string) {
         )}
       </div>
 
-      <div className={styles.languageTitleContainer}>
-        <div className={styles.languageTitle}>{selectedLanguage.toLowerCase()}</div>
-        <div className={styles.description}>
-          {languageDescriptions[selectedLanguage] || "Select a language to see its description."}
-        </div>
+      <div className={styles.languageTitle}>{selectedLanguage.toLowerCase()}</div>
+      <div className={styles.description}>
+        {languageDescriptions[selectedLanguage] || "사용하실 언어를 선택하세요."}
       </div>
     </div>
   );
