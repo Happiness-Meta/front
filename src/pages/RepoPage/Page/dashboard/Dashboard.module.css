@@ -31,11 +31,12 @@
   flex-direction: column;
   margin-left: 5%;
   justify-content: flex-start;
-  margin-top: 30px;
+  margin-top: 79px;
 }
 
 .imgContainer {
   display: flex;
+  margin-top: 36px;
 }
 
 .imgContainer img {
@@ -54,6 +55,7 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
+  margin-bottom: 9px;
 }
 
 .textContainer {
@@ -69,7 +71,8 @@
   border-right: 1px solid #eeeeee;
 }
 
-.newrepobutton {
+.newrepobutton,
+.newrepobutton2 {
   width: 150px;
   height: 15%;
   border: none;
@@ -79,6 +82,32 @@
   padding: 10px;
   animation: float 2s ease-in-out infinite;
   transition: background-color 0.3s;
+  margin-top: 30px;
+}
+@keyframes float {
+  0%,
+  100% {
+    transform: translateY(0); /* 원래 위치 */
+  }
+  50% {
+    transform: translateY(-10px); /* 위로 20px 이동 */
+  }
+}
+
+.newrepobutton2 {
+  width: 150px;
+  height: 15%;
+  border: none;
+  background-color: #068fff;
+  cursor: pointer;
+  border-radius: 20px;
+  padding: 10px;
+  animation: float 2s ease-in-out infinite;
+  transition: background-color 0.3s;
+  margin-top: 30px;
+  position: relative;
+  top: 54px;
+  left: 167px;
 }
 @keyframes float {
   0%,
@@ -114,12 +143,13 @@
   margin-right: 20px;
   justify-content: flex-end;
   width: 898px;
+  margin-bottom: 24px;
 }
 
 .createRepoModal {
   background-color: #1e1e26;
-  width: 600px;
-  height: 356px;
+  width: 410px;
+  height: 413px;
   margin: auto;
   position: relative;
   border-radius: 8px;
@@ -144,16 +174,35 @@
   align-items: center;
 }
 
-.submitContainer input {
-  background-color: #4e4e55;
-  border: none;
+.titleText {
+  font-size: 24px;
+  font-weight: 600;
+  color: #ffffff;
+  margin-bottom: 20px;
 }
 
-.submitContainer input:hover,
-.submitContainer input:focus {
+.submitContainer input {
+  background-color: #2e2e35;
+  border: none;
+  color: #eeeeee;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-radius: 10px;
+  width: 255px;
+  height: 30px;
+  margin-top: 20px;
+}
+
+.submitContainer input::placeholder {
+  text-align: center;
+}
+
+/* .submitContainer:hover,
+.submitContainer:focus {
   background-color: #65656a;
   border: none;
-}
+} */
 
 .createRepoOverlay {
   display: flex;
@@ -181,16 +230,63 @@
 
 .DropdownAndsubmitWrapper {
   display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
 }
 
 .DropdownMenucontainer {
-  background-color: rgb(75, 73, 70);
   width: 295px;
-  height: 230px;
+  height: 159px;
+  z-index: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+.DropdownMenucontainer button {
+  background-color: #2e2e35;
+  border: none;
+  color: #eeeeee;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  border-radius: 10px;
+  width: 280px;
+  height: 30px;
+  margin-top: 20px;
+}
+
+.DropdownMenucontainer button p {
+  margin-left: 20px;
 }
 
 .submitAndButtonContainer {
-  background-color: cornflowerblue;
   width: 255px;
-  height: 230px;
+  height: 195px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.submitAndButtonContainer button {
+  width: 150px;
+  height: 15%;
+  border: none;
+  background-color: #068fff;
+  cursor: pointer;
+  border-radius: 20px;
+  padding: 10px;
+  text-align: center;
+  display: flex;
+  transition: background-color 0.3s;
+  margin-top: 30px;
+  align-items: center;
+  justify-content: center;
+  color: #eeeeee;
+}
+
+.titleinput {
+  text-align: center !important;
 }

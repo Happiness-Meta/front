@@ -1,5 +1,5 @@
 import React from "react";
-import styles from "../Repositories/Repositories.module.css";
+import styles from "./Recommend.module.css";
 import RepoPage from "../../RepoPage";
 import headerStore from "../../../../../src/store/globalStore/globalStore";
 import RecommendStore from "../../../../store/RecommendStore/recommendstore";
