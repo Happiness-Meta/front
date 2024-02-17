@@ -82,13 +82,7 @@ function SignUp() {
   return (
     <div className={styles.signUpSection}>
       <div className={styles.signInText}>Sign Up</div>
-      <form
-        className={styles.inputSpace}
-        onSubmit={(e) => {
-          e.preventDefault();
-          registerUser.mutate();
-        }}
-      >
+      <div className={styles.inputSpace}>
         <div className={styles.inputEachSpace}>
           <div
             className={`${
@@ -155,7 +149,7 @@ function SignUp() {
         >
           Sign Up
         </button>
-      </form>
+      </div>
 
       <div className={styles.signInBottom}>
         <div className={styles.bottomText}>Ready to sign in?</div>

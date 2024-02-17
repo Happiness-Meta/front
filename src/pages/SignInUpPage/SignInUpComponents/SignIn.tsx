@@ -6,9 +6,11 @@ import axios, { AxiosError } from "axios";
 import { useNavigate } from "react-router-dom";
 import SignInStore from "../../../store/LoginPageStore/SignInStore";
 import { useMutation } from "@tanstack/react-query";
+import { useCookies } from "react-cookie";
 
 function SignIn() {
   const navigate = useNavigate();
+  const [cookies, setCookie] = useCookies(["id"]);
 
   const idInput: RefObject<HTMLInputElement> = useRef(null);
   const pwInput: RefObject<HTMLInputElement> = useRef(null);
@@ -42,12 +44,13 @@ function SignIn() {
           body
         );
 
-        console.log(response.status);
+        setCookie("id", response.data.data.token);
+        console.log(cookies);
 
         signInErrorMessageStatus("");
         navigate("/dashboard");
 
-        console.log(response.data);
+        // console.log(response.data);
       } catch (error) {
         if (axios.isAxiosError(error)) {
           const axiosError = error as AxiosError;
