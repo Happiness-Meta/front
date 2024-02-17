@@ -1,9 +1,15 @@
 import { Link } from "react-router-dom";
 import globalStore from "../../store/globalStore/globalStore";
 import styles from "./accountBtn.module.css";
+import { useRef } from "react";
+import ClickOutsideFalse from "../ClickOutsideFalse";
 
 function AccountBtn() {
+  const accountBtnRef = useRef<HTMLDivElement>(null);
   const { mode, accountBtn, accountBtnToggle } = globalStore();
+
+  ClickOutsideFalse(accountBtnRef, accountBtn, accountBtnToggle);
+
   return (
     <div
       className={styles.accountSpace}
@@ -17,6 +23,7 @@ function AccountBtn() {
       }
     >
       <div
+        ref={accountBtnRef}
         className={styles.accountBtn}
         onClick={accountBtnToggle}
         style={
@@ -41,31 +48,33 @@ function AccountBtn() {
       </div>
       <div
         className={styles.accountWindow}
-        style={
-          accountBtn ? { visibility: "visible" } : { visibility: "hidden" }
-        }
+        style={accountBtn ? undefined : { display: "none" }}
       >
         <div className={styles.buttonSpace}>
-          <div className={styles.buttonEach}>
+          <Link
+            to="/myPage"
+            className={styles.buttonEach}
+            onClick={accountBtnToggle}
+          >
             <i
               className={`${styles.myPageBtnSymIcon} material-symbols-outlined`}
             >
               settings
             </i>
-            <Link to="/myPage" className={styles.myPageBtnText}>
+            <span className={styles.myPageBtnText} onClick={accountBtnToggle}>
               Account Setting
-            </Link>
-          </div>
-          <div className={styles.buttonEach}>
+            </span>
+          </Link>
+          <Link to="/" className={styles.buttonEach} onClick={accountBtnToggle}>
             <i
               className={`${styles.myPageBtnSymIcon} material-symbols-outlined`}
             >
               logout
             </i>
-            <Link to="/" className={styles.myPageBtnText}>
+            <span className={styles.myPageBtnText} onClick={accountBtnToggle}>
               logout
-            </Link>
-          </div>
+            </span>
+          </Link>
         </div>
         <div className={styles.userInfo}>
           <span>ID : hiyunseok347@gmail.com</span>

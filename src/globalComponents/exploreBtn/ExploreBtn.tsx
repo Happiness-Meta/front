@@ -1,9 +1,14 @@
+import { useRef } from "react";
 import globalStore from "../../store/globalStore/globalStore";
 import styles from "./exploreBtn.module.css";
 import { Link } from "react-router-dom";
+import ClickOutsideFalse from "../ClickOutsideFalse";
 
 function ExploreBtn() {
   const { exploreBtn, exploreBtnToggle } = globalStore();
+  const exploreBtnRef = useRef<HTMLDivElement>(null);
+
+  ClickOutsideFalse(exploreBtnRef, exploreBtn, exploreBtnToggle);
 
   return (
     <div
@@ -12,7 +17,8 @@ function ExploreBtn() {
       }`}
     >
       <div className={styles.explore_left}>
-        <i
+        <div
+          ref={exploreBtnRef}
           className={`${styles.pageShiftingBtn} material-symbols-outlined`}
           onClick={exploreBtnToggle}
           style={
@@ -25,16 +31,28 @@ function ExploreBtn() {
           }
         >
           explore
-        </i>
+        </div>
       </div>
       <div className={styles.explore_right}>
-        <Link to={"/"} className={styles.exploreHome}>
+        <Link
+          to={"/"}
+          className={styles.exploreHome}
+          onClick={exploreBtnToggle}
+        >
           <i className={`material-symbols-outlined`}>home</i>
         </Link>
-        <Link to={"/dashboard"} className={styles.exploreRepo}>
+        <Link
+          to={"/dashboard"}
+          className={styles.exploreRepo}
+          onClick={exploreBtnToggle}
+        >
           <i className={`material-symbols-outlined`}>grid_view</i>
         </Link>
-        <Link to={"/CodePage"} className={styles.exploreCode}>
+        <Link
+          to={"/CodePage"}
+          className={styles.exploreCode}
+          onClick={exploreBtnToggle}
+        >
           <i className={`material-symbols-outlined`}>code</i>
         </Link>
       </div>

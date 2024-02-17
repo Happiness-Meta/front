@@ -20,7 +20,7 @@ function ModeToggleBtn() {
         handleMode();
       }}
     >
-      {mode ? `dark_mode` : `light_mode`}
+      {mode ? `light_mode` : `dark_mode`}
     </i>
   );
 }

@@ -4,7 +4,7 @@ import EditorSettingBtn from "./editorSettingBtn/EditorSettingBtn";
 import editorStore from "../../../../store/CodePageStore/editorStore";
 import { Tree } from "react-arborist";
 import { useState } from "react";
-import Node from "../../../../globalComponents/Node/Node";
+import Node from "../../../../globalComponents/node/Node";
 //디렉토리 : 아이디, 경로, 이름, 칠드런 빈 배열
 // 12b4p214, /, folder 1, []
 //파일 : 아이디, 경로, 이름, 내용
@@ -13,38 +13,32 @@ import Node from "../../../../globalComponents/Node/Node";
 const treeData = [
   {
     id: "1",
-    name: "folder 1",
-    children: [
-      { id: "1-1", name: "script.ts" },
-      { id: "1-2", name: "script2.js" },
-      {
-        id: "3",
-        name: "folder 3",
-        children: [
-          { id: "3-1", name: "index.html" },
-          { id: "3-2", name: "style.css" },
-          {
-            id: "4",
-            name: "file4",
-            children: [{ id: "5", name: "file5", children: [] }],
-          },
-        ],
-      },
-    ],
+    name: "node_modules",
+    children: [{ id: "1-1", name: "bunch_of_files" }],
   },
   {
     id: "2",
-    name: "folder 2",
+    name: "public",
+    children: [{ id: "2-1", name: "react.svg" }],
+  },
+  {
+    id: "3",
+    name: "src",
     children: [
-      { id: "2-1", name: "package.json" },
-      { id: "2-2", name: "react.tsx" },
+      { id: "3-1", name: "index.css" },
+      { id: "3-2", name: "main.tsx" },
     ],
   },
+  { id: "4", name: ".gitignore" },
+  { id: "5", name: "index.html" },
+  { id: "6", name: "package.json" },
+  { id: "7", name: "README.md" },
 ];
 
 function Sidebar() {
   const { sidebar, expandStatus, expandToggle } = sidebarStore();
-  const { toggleRightSpace, toggleTerminal } = editorStore();
+  const { rightSpace, toggleRightSpace, terminal, toggleTerminal } =
+    editorStore();
 
   const [term, setTerm] = useState("");
 
@@ -95,12 +89,15 @@ function Sidebar() {
               className={styles.react_arborist}
               rowClassName={styles.arborist_row}
               width={"100%"}
+              height={1000}
               indent={17}
               data={treeData}
               searchTerm={term}
               searchMatch={(node, term) =>
                 node.data.name.toLowerCase().includes(term.toLowerCase())
               }
+              // onRename={}
+              // onCreate={}
             >
               {Node}
             </Tree>
@@ -110,13 +107,15 @@ function Sidebar() {
           <div className={styles.sidebarBottomInner}>
             <EditorSettingBtn />
             <i
-              className={`${styles.bottomIcons} material-symbols-outlined`}
+              className={`${styles.bottomIcons1} material-symbols-outlined`}
+              style={rightSpace ? { opacity: 0.5 } : undefined}
               onClick={toggleRightSpace}
             >
               forum
             </i>
             <i
-              className={`${styles.bottomIcons} material-symbols-outlined`}
+              className={`${styles.bottomIcons2} material-symbols-outlined`}
+              style={terminal ? { opacity: 0.5 } : undefined}
               onClick={toggleTerminal}
             >
               terminal

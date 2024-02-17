@@ -10,6 +10,20 @@
   height: 100vh;
   background-color: rgba(0, 0, 0, 0.95);
   z-index: 100;
+  animation: fadeOut 7s forwards ease-out;
+}
+
+@keyframes fadeOut {
+  0% {
+    opacity: 1;
+  }
+  90% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+    display: none;
+  }
 }
 
 .figureSpace {

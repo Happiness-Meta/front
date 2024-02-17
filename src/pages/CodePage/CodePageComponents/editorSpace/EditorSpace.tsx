@@ -5,7 +5,7 @@ import { Resizable } from "re-resizable";
 import globalStore from "../../../../store/globalStore/globalStore";
 import editorStore from "../../../../store/CodePageStore/editorStore";
 import ChatSpace from "../chatSpace/ChatSpace";
-import SetFileTreeIcon from "../sidebar/SetFileTreeIcon";
+import SetFileTreeIcon from "../../../../globalComponents/SetFileTreeIcon";
 import ChatPage from "../chatSpace/ChatPage";
 
 function EditorSpace() {
@@ -57,7 +57,7 @@ function EditorSpace() {
               height="100%"
               className={styles.editor}
               theme={mode ? "vs-light" : "vs-dark"}
-              defaultLanguage="html"
+              defaultLanguage="javascript"
               defaultValue="// paint your own world! 🌎"
               options={{
                 selectOnLineNumbers: true,

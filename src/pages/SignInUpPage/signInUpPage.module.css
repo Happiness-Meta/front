@@ -67,6 +67,8 @@
 .signUpMessage {
   display: flex;
   flex-direction: column;
+  justify-content: center;
+  align-items: center;
   font-size: 35px;
   font-weight: bold;
   animation: signUpMessage 5s forwards ease-in-out;
