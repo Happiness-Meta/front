@@ -25,7 +25,7 @@ function SignInUpPage() {
           {welcomeMessage ? (
             <div className={styles.signUpMessage}>
               <p>Congrats!</p>
-              <p>Welcome to Join!</p>
+              <p>Welcome to Join</p>
             </div>
           ) : undefined}
         </div>

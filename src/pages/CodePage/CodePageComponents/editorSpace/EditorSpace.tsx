@@ -5,7 +5,7 @@ import { Resizable } from "re-resizable";
 import globalStore from "../../../../store/globalStore/globalStore";
 import editorStore from "../../../../store/CodePageStore/editorStore";
 import ChatSpace from "../chatSpace/ChatSpace";
-import SetFileTreeIcon from "../sidebar/SetFileTreeIcon";
+import SetFileTreeIcon from "../../../../globalComponents/SetFileTreeIcon";
 
 function EditorSpace() {
   const { sidebar, codeFontSize } = sidebarStore();
@@ -70,7 +70,7 @@ function EditorSpace() {
               height="100%"
               className={styles.editor}
               theme={mode ? "vs-light" : "vs-dark"}
-              defaultLanguage="html"
+              defaultLanguage="javascript"
               defaultValue="// paint your own world! 🌎"
               options={{
                 selectOnLineNumbers: true,

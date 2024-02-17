@@ -9,6 +9,7 @@ interface aboutEditor {
   tabs: Tab[];
   addTab: (newTab: Tab) => void;
   deleteTab: (tabToDelete: Tab) => void;
+  // selectTab: (tabToSelect: Tab) => void;
   rightSpace: boolean;
   toggleRightSpace: () => void;
   terminal: boolean;
@@ -30,6 +31,7 @@ const editorStore = create<aboutEditor>((set) => ({
       const newTabSpace = state.tabs.filter((tab) => tab.id !== tabToDelete.id);
       return { tabs: newTabSpace };
     }),
+  // selectTab: (tabToSelect) => set((state) => {}),
   rightSpace: false,
   toggleRightSpace: () => set((state) => ({ rightSpace: !state.rightSpace })),
   terminal: false,

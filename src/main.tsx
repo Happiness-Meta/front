@@ -31,7 +31,7 @@ ReactDOM.createRoot(document.getElementById("root")!).render(
           <Route path="/projects" element={<Projects />} />
           <Route path="/settings" element={<Settings />} />
           <Route path="/myPage" element={<MyPage />} />
-          <Route path="/TemplatePage" element={<TemplatePage />} />
+          <Route path="/templatePage" element={<TemplatePage />} />
           <Route path="/codePage" element={<CodePage />} />
         </Routes>
       </Router>

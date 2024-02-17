@@ -1,11 +1,18 @@
+import { useRef } from "react";
+import ClickOutsideFalse from "../../../../../globalComponents/ClickOutsideFalse";
 import sidebarStore from "../../../../../store/CodePageStore/sidebarStore";
 import styles from "./editorSettingBtn.module.css";
 
 function EditorSettingBtn() {
+  const editorSettingBtnRef = useRef(null);
   const { settings, settingsToggle, incCodeFontSize, decCodeFontSize } =
     sidebarStore();
+
+  ClickOutsideFalse(editorSettingBtnRef, settings, settingsToggle);
+
   return (
     <div
+      ref={editorSettingBtnRef}
       className={`${settings ? styles.settingsSpaceOn : undefined} ${
         styles.settingsSpace
       }`}

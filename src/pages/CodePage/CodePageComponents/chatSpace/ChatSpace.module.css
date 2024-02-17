@@ -19,7 +19,8 @@
 .chattingSpace {
   height: calc(100% - 30px);
   width: 100%;
-  max-height: 80vh;
+  /* max-height: 80vh; */
+  height: 59.5px;
 }
 
 .chattingSpace::-webkit-scrollbar {

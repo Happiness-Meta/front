@@ -1,14 +1,16 @@
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import templatePageStore from "../../store/TemplatePageStore/templatePageStore";
 import styles from "./templatePage.module.css";
+import { useRef } from "react";
 // import LoadingPage from "../../globalComponents/loadingPage/LoadingPage";
 
 function TemplatePage() {
   const navigate = useNavigate();
+  const templateRef = useRef(null);
   const { choseReact, toggleChoseReact } = templatePageStore();
 
   return (
-    <div className={styles.mainBody}>
+    <div ref={templateRef} className={styles.mainBody}>
       {/* <LoadingPage /> */}
       <i
         className={`${styles.arrowBack} material-symbols-outlined`}
@@ -25,57 +27,48 @@ function TemplatePage() {
       </span>
       {choseReact ? (
         <div className={styles.reactBox}>
-          <div
+          <Link
+            to={"/codePage"}
             className={styles.innerBoxes}
             onClick={() => {
-              navigate("/codePage");
               toggleChoseReact();
             }}
           >
             <img src="/svg/js.svg" alt="js" className={styles.images} />
             <span className={styles.texts}>JavaScript</span>
-          </div>
-          <div
+          </Link>
+          <Link
+            to={"/codePage"}
             className={styles.innerBoxes}
             onClick={() => {
-              navigate("/codePage");
               toggleChoseReact();
             }}
           >
             <img src="/svg/ts.svg" alt="ts" className={styles.images} />
             <span className={styles.texts}>TypeScript</span>
-          </div>
+          </Link>
         </div>
       ) : (
         <div className={styles.box}>
           <div className={styles.firstBox}>
-            <div
-              className={styles.innerBoxes}
-              onClick={() => navigate("/codePage")}
-            >
+            <Link to={"/codePage"} className={styles.innerBoxes}>
               <img
                 src="/templatePageSvg/html.svg"
                 alt="html"
                 className={styles.images}
               />
               <span className={styles.texts}>HTML, CSS, JS</span>
-            </div>
-            <div
-              className={styles.innerBoxes}
-              onClick={() => navigate("/codePage")}
-            >
+            </Link>
+            <Link to={"/codePage"} className={styles.innerBoxes}>
               <img src="/svg/json.svg" alt="nodejs" className={styles.images} />
               <span className={styles.texts}>Node.js</span>
-            </div>
+            </Link>
           </div>
           <div className={styles.secondBox}>
-            <div
-              className={styles.innerBoxes}
-              onClick={() => navigate("/codePage")}
-            >
+            <Link to={"/codePage"} className={styles.innerBoxes}>
               <img src="/svg/py.svg" alt="py" className={styles.images} />
               <span className={styles.texts}>Python</span>
-            </div>
+            </Link>
             <div className={styles.innerBoxes} onClick={toggleChoseReact}>
               <img
                 src="/templatePageSvg/React.svg"

@@ -1,8 +1,8 @@
 import { NodeApi } from "react-arborist";
 import styles from "./node.module.css";
-import { CSSProperties } from "react";
+import { CSSProperties, useRef } from "react";
 import editorStore from "../../store/CodePageStore/editorStore";
-import SetFileTreeIcon from "../../pages/CodePage/CodePageComponents/sidebar/SetFileTreeIcon";
+import SetFileTreeIcon from "../SetFileTreeIcon";
 
 interface NodeRendererProps {
   style: CSSProperties;
@@ -11,6 +11,7 @@ interface NodeRendererProps {
 
 const Node: React.FC<NodeRendererProps> = ({ node, style }) => {
   const { addTab } = editorStore();
+  const spanRef = useRef(null);
 
   return (
     <div
@@ -48,7 +49,31 @@ const Node: React.FC<NodeRendererProps> = ({ node, style }) => {
           )}
         </>
       )}
-      <span>{node.data.name}</span>
+      {node.isEditing ? (
+        <input
+          type="text"
+          className={styles.isEditInput}
+          defaultValue={node.data.name}
+          onFocus={(e) => e.currentTarget.select()}
+          onBlur={() => node.reset()}
+          onKeyDown={(e) => {
+            if (e.key === "Escape") node.reset();
+            if (e.key === "Enter") node.submit(e.currentTarget.value);
+          }}
+          autoFocus
+        />
+      ) : (
+        <span
+          ref={spanRef}
+          // onKeyDown={(e) => {
+
+          //   if (spanRef.current?.focus && e.key === "Enter") node.edit();
+          // }}
+          // onClick={() => node.edit()}
+        >
+          {node.data.name}
+        </span>
+      )}
     </div>
   );
 };

@@ -1,6 +1,6 @@
 import styles from "./loadingPage.module.css";
 
-function LoadingPage() {
+const LoadingPage = () => {
   const tips = [
     `HTML문서에 시멘틱 태그를 상황에 맞게 사용해 코드의 가독성을 높이세요!`,
     `JS, Java, C++ 등의 주석방법은 "//" 또는 "/* */이고, Python은 "#" 혹은 "''' '''", HTML은 "<!-- -->"입니다.`,
@@ -25,6 +25,6 @@ function LoadingPage() {
       <p>{tipToShow}</p>
     </div>
   );
-}
+};
 
 export default LoadingPage;
