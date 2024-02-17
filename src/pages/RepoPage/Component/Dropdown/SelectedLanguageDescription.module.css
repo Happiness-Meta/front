@@ -1,6 +1,6 @@
 .languageDescriptionContainer {
   width: 295px;
-  height: 204px;
+  height: 87px;
   display: flex;
   flex-direction: column;
   z-index: 1;
@@ -10,28 +10,33 @@
   width: 50px;
   height: 50px;
   border-radius: 50%;
-
+  position: absolute;
   background-color: #eeeeee;
+  top: 126px;
+  left: 66px;
 }
 
 .description {
-  width: 295px;
-  height: 204px;
+  width: 270px;
+  height: 278px;
   overflow-wrap: break-word;
   word-break: break-word;
   white-space: normal;
-  font-size: 13px;
+  font-size: 12px;
+  margin-left: 10px;
 }
 .languageTitle {
   font-size: 24px;
   font-weight: bold;
-  margin-bottom: 10px;
+  margin-bottom: 23px;
+  margin-top: 30px;
+  margin-left: 73px;
 }
 
 .languageTitleContainer {
   display: flex;
-
   flex-direction: column;
   width: 295px;
   height: 204px;
+  margin-top: -69px;
 }
