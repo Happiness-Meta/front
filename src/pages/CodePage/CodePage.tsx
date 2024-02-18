@@ -8,13 +8,16 @@ import { useNavigate, useParams } from "react-router-dom";
 import { useEffect } from "react";
 import { useCookies } from "react-cookie";
 import userAxiosWithAuth from "../../utils/useAxiosWIthAuth";
+import SpaceForInvite from "./CodePageComponents/spaceForInvite/SpaceForInvite";
+import editorStore from "../../store/CodePageStore/editorStore";
 // import LoadingPage from "../../globalComponents/loadingPage/LoadingPage";
 
 function CodePage() {
   const { sidebar } = sidebarStore();
-  let { repoId } = useParams();
+  const { repoId } = useParams();
   const navigate = useNavigate();
   const [cookies] = useCookies(["token"]);
+  const { inviteSpace } = editorStore();
 
   useEffect(() => {
     const fetchData = async () => {
@@ -41,6 +44,7 @@ function CodePage() {
   return (
     <div className={styles.codePage}>
       {/* <LoadingPage /> */}
+      {inviteSpace ? <SpaceForInvite /> : undefined}
       <Header />
       <div className={styles.codePage_body}>
         <Resizable
@@ -49,7 +53,9 @@ function CodePage() {
             height: "calc(100vh - 50px)",
           }}
           enable={{ top: false, bottom: false, right: true, left: false }}
-          className={`${sidebar ? styles.sidebarToggle : ""} ${styles.sidebarResizable}`}
+          className={`${sidebar ? styles.sidebarToggle : ""} ${
+            styles.sidebarResizable
+          }`}
           handleClasses={{ right: "resizeHandle1" }}
         >
           <Sidebar />

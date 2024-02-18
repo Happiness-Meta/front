@@ -102,6 +102,18 @@
   gap: 5px;
 }
 
+.inviteKeyBtn {
+  border-radius: 50%;
+  width: 35px;
+  height: 35px;
+  border: 1px solid transparent;
+}
+
+.inviteKeyBtn:hover {
+  background-color: rgb(128 128 128 / 50%);
+  border-color: #068fff;
+}
+
 .modeAniF,
 .modeAniT {
   width: 35px;

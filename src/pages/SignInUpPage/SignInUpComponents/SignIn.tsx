@@ -10,7 +10,7 @@ import { useCookies } from "react-cookie";
 
 function SignIn() {
   const navigate = useNavigate();
-  const [cookies, setCookie] = useCookies(["email", "nickname", "token"]);
+  const [, setCookie] = useCookies(["email", "nickname", "token"]);
 
   const idInput: RefObject<HTMLInputElement> = useRef(null);
   const pwInput: RefObject<HTMLInputElement> = useRef(null);
