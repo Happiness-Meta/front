@@ -10,7 +10,7 @@ import { useCookies } from "react-cookie";
 
 function SignIn() {
   const navigate = useNavigate();
-  const [cookies, setCookie] = useCookies(["id"]);
+  const [cookies, setCookie] = useCookies(["id", "token"]);
 
   const idInput: RefObject<HTMLInputElement> = useRef(null);
   const pwInput: RefObject<HTMLInputElement> = useRef(null);
@@ -43,14 +43,13 @@ function SignIn() {
           // "http://localhost:8080/api/sign/login",
           body
         );
-
-        setCookie("id", response.data.data.token);
-        console.log(cookies);
-
+        const expiration = new Date(Date.now() + 1000 * 60 * 30);
+        setCookie("token", response.data.data.token, {
+          path: "/",
+          expires: expiration,
+        });
         signInErrorMessageStatus("");
         navigate("/dashboard");
-
-        // console.log(response.data);
       } catch (error) {
         if (axios.isAxiosError(error)) {
           const axiosError = error as AxiosError;
@@ -142,10 +141,6 @@ function SignIn() {
           Sign Up
         </button>
       </div>
-      {/* <div className={styles.signInBottom}>
-            <div className={styles.bottomText}>Forgot your password?</div>
-            <div className={styles.goToSignInUpBtn}>Find</div>
-          </div> */}
     </div>
   );
 }

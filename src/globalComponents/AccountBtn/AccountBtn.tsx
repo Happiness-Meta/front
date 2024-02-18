@@ -3,9 +3,11 @@ import globalStore from "../../store/globalStore/globalStore";
 import styles from "./accountBtn.module.css";
 import { useRef } from "react";
 import ClickOutsideFalse from "../ClickOutsideFalse";
+import { useCookies } from "react-cookie";
 
 function AccountBtn() {
   const accountBtnRef = useRef<HTMLDivElement>(null);
+  const [cookies, setCookie, removeCookie] = useCookies(["token"]);
   const { mode, accountBtn, accountBtnToggle } = globalStore();
 
   ClickOutsideFalse(accountBtnRef, accountBtn, accountBtnToggle);
@@ -65,7 +67,14 @@ function AccountBtn() {
               Account Setting
             </span>
           </Link>
-          <Link to="/" className={styles.buttonEach} onClick={accountBtnToggle}>
+          <Link
+            to="/"
+            className={styles.buttonEach}
+            onClick={() => {
+              accountBtnToggle();
+              removeCookie("token");
+            }}
+          >
             <i
               className={`${styles.myPageBtnSymIcon} material-symbols-outlined`}
             >
@@ -77,8 +86,8 @@ function AccountBtn() {
           </Link>
         </div>
         <div className={styles.userInfo}>
-          <span>ID : hiyunseok347@gmail.com</span>
-          <span>nickname : 최윤석</span>
+          <span>ID :</span>
+          <span>nickname :</span>
         </div>
       </div>
     </div>

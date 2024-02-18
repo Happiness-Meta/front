@@ -4,10 +4,12 @@ import ModeToggleBtn from "../../../../globalComponents/modeToggleBtn/ModeToggle
 import ExploreBtn from "../../../../globalComponents/exploreBtn/ExploreBtn";
 import globalStore from "../../../../store/globalStore/globalStore";
 import AccountBtn from "../../../../globalComponents/accountBtn/AccountBtn";
+import { useCookies } from "react-cookie";
 
 function Header() {
   const { sidebar, sidebarToggle } = sidebarStore();
   const { mode } = globalStore();
+  const [cookies] = useCookies(["token"]);
 
   return (
     <div className={styles.headerSpace}>
@@ -39,7 +41,7 @@ function Header() {
       </div>
       <div className={styles.rightSide_header}>
         <ModeToggleBtn />
-        <AccountBtn />
+        {cookies.token ? <AccountBtn /> : undefined}
       </div>
     </div>
   );

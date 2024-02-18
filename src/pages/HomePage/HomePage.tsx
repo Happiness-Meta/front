@@ -1,8 +1,12 @@
-import React from "react";
 import styles from "./homePage.module.css";
 import { useNavigate } from "react-router-dom";
+import { useCookies } from "react-cookie";
+
 function HomePage() {
   const navigate = useNavigate();
+  const [cookies, setCookie, removeCookie] = useCookies(["token"]);
+  console.log(cookies);
+
   const createStars = (count: number) => {
     return Array.from({ length: count }).map((_, index) => (
       <div
@@ -17,30 +21,47 @@ function HomePage() {
     ));
   };
 
+  // setCookie("token", null, {
+  //   path: "/",
+  //   expires: new Date(Date.now() + 1000),
+  // });
+
   return (
     <div className={styles.backSky}>
       {createStars(200)}
       <div className={styles.homePageContainer}>
-        <header className={styles.homepageHeader}>
-          <div
-            className={styles.guestBtn}
-            onClick={() => navigate("/TemplatePage")}
-          >
-            Guest
-          </div>
-          <div
-            className={styles.signBtn}
-            onClick={() => navigate("/SignInUpPage")}
-          >
-            SIGN IN
-          </div>
-          <div
-            className={styles.startBtn}
-            onClick={() => navigate("/dashboard")}
-          >
-            Get started
-          </div>
-        </header>
+        {cookies.token ? (
+          <header className={styles.homepageHeader}>
+            <div
+              className={styles.startBtn}
+              onClick={() => navigate("/dashboard")}
+            >
+              Get started
+            </div>
+            <div
+              className={styles.signBtn}
+              onClick={() => removeCookie("token")}
+            >
+              Log out
+            </div>
+          </header>
+        ) : (
+          <header className={styles.homepageHeader}>
+            <div
+              className={styles.guestBtn}
+              onClick={() => navigate("/TemplatePage")}
+            >
+              Guest
+            </div>
+            <div
+              className={styles.signBtn}
+              onClick={() => navigate("/SignInUpPage")}
+            >
+              SIGN IN
+            </div>
+          </header>
+        )}
+
         <div className={styles.textSpace}>
           <span className={styles.title}>Earth-IDE-N</span>
           <div className={styles.subTitleSpace}>
