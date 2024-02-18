@@ -1,7 +1,7 @@
 import axios, { InternalAxiosRequestConfig } from "axios";
 
 const userAxiosWithAuth = axios.create({
-  baseURL: "http://localhost:8080",
+  baseURL: "http://43.203.92.111",
   headers: { "Content-type": "application/json" },
 });
 
