@@ -143,10 +143,10 @@ const Repositories = () => {
                   </div>
                 </div>
                 <div className={styles.repodescription_container}>
-                  <p>{repo.description}</p>
+                  <p>{repo.createdAt}</p>
                 </div>
 
-                <div className={styles.daycontainer}>4 days ago</div>
+                <div className={styles.daycontainer}>{repo.modifiedAt}</div>
               </div>
             </div>
           ))

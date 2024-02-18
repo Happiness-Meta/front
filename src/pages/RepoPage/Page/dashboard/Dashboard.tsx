@@ -49,6 +49,20 @@ const Dashboard = () => {
       const response = await userAxiosWithAuth.post(`/api/repos`, data);
       console.log(response.data);
       // 저장소 생성 후 필요한 상태 업데이트나 UI 반응
+
+      RepoPageStore.getState().setRepositories({
+        ...RepoPageStore.getState().repositories, // 기존 저장소 유지
+        [response.data.id]: {
+          // 새로운 저장소 추가
+          name: response.data.name,
+          id: response.data.id,
+          createdAt: response.data.createdAt,
+          modifiedAt: response.data.modifiedAt,
+          url: `codePage/${response.data.id}`,
+          image: `/svg/${response.data.programmingLanguage.toLowerCase()}.svg`,
+        },
+      });
+
       toggleCreateModal(); // 모달 닫기
       setInputValue(""); // 입력 필드 초기화
     } catch (error) {
