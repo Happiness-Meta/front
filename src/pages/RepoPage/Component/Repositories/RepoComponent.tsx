@@ -9,7 +9,7 @@ import userAxiosWithAuth from "../../../../utils/useAxiosWIthAuth";
 import { Repository } from "../../../../store/RepoPageStore/repoPageStore";
 interface RepoComponent {
   name: string;
-  description: string;
+  description?: string;
   url: string;
   image: string;
 }
@@ -41,6 +41,25 @@ const Repositories = () => {
 
   const toggleDropdown = (key: string) => {
     setActiveDropdownKey(activeDropdownKey === key ? null : key);
+  };
+
+  const handleNameUpdate = async (repoId: string, newName: string) => {
+    try {
+      const response = await userAxiosWithAuth.patch(`/api/repos/${repoId}`, {
+        updatedName: newName, // 요청 본문에 새 이름을 'updatedName' 키로 전달
+      });
+      console.log("Repository name updated successfully:", response.data);
+
+      // Zustand 스토어 업데이트
+      const updatedRepositories = { ...repositories };
+      updatedRepositories[repoId].name = newName;
+      setRepositories(updatedRepositories);
+
+      // 편집 모드 해제
+      setEditMode(null);
+    } catch (error) {
+      console.error("Error updating repository name:", error);
+    }
   };
 
   const handleSave = ({ key }: NameClickParams) => {
@@ -114,9 +133,11 @@ const Repositories = () => {
                       <div className={styles.reponame_input_container}>
                         <input
                           value={editName}
-                          onChange={handleNameChange}
-                          onKeyDown={(e) => handleKeyPress(e, repo.name)}
-                          onBlur={() => handleSave({ key: repo.name })}
+                          onChange={(e) => setEditName(e.target.value)}
+                          onKeyDown={(e) =>
+                            e.key === "Enter" && handleNameUpdate(repo.id, editName)
+                          }
+                          onBlur={() => handleNameUpdate(repo.id, editName)}
                           autoFocus
                           className={styles.reponame_input}
                         />

@@ -4,7 +4,7 @@ import RepoPage from "../../RepoPage";
 import Recommend from "../../Component/recommend/Recommend";
 import Repositories from "../../Component/Repositories/RepoComponent";
 import Recent from "../../Component/Recent/Recent";
-import RepoPageStore from "../../../../store/RepoPageStore/repoPageStore";
+import RepoPageStore, { Repository } from "../../../../store/RepoPageStore/repoPageStore";
 import ReactModal from "react-modal";
 import useModalStore from "../../../../store/ModalStore/ModalStore";
 import DropdownBtn from "../../Component/Dropdown/DropdownBtn";
@@ -88,6 +88,31 @@ const Dashboard = () => {
     setSelectedLanguage(key);
     setSelectedTemplateKey(key); // 선택된 템플릿의 key 상태 업데이트
   };
+
+  useEffect(() => {
+    const fetchRepositories = async () => {
+      try {
+        const response = await userAxiosWithAuth.get(`/api/repos/all`);
+        console.log("Fetched repositories:", response.data); // 변경된 접근 방식 확인
+
+        // API 응답 구조가 { data: { data: [...] } } 형태라고 가정. 추후 data"s"에서 data로 바꿔야 됨
+        const repositoryArray = response.data.datas || []; // response.data.data가 배열이라고 가정
+        const fetchedRepositories = repositoryArray.reduce(
+          (acc: { [key: string]: Repository }, currentRepo: Repository) => {
+            acc[currentRepo.id] = currentRepo;
+            return acc;
+          },
+          {}
+        );
+
+        RepoPageStore.getState().setRepositories(fetchedRepositories);
+      } catch (error) {
+        console.error("Error fetching repositories:", error);
+      }
+    };
+
+    fetchRepositories();
+  }, []);
 
   return (
     <RepoPage>

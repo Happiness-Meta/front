@@ -11,6 +11,7 @@ import templateDescriptionStore from "../../../../store/TemplateDescriptionStore
 import axios from "axios";
 import renderLanguageDescription from "../../Component/Dropdown/SelectedLanguageDescription";
 import Repositories from "../../Component/Repositories/RepoComponent";
+import userAxiosWithAuth from "../../../../utils/useAxiosWIthAuth";
 
 const RepositoriesPage = () => {
   const [isAnimated, setIsAnimated] = useState(false);
@@ -45,7 +46,7 @@ const RepositoriesPage = () => {
     };
 
     try {
-      const response = await axios.post(`https://localhost:8080/api/repos`, data);
+      const response = await userAxiosWithAuth.post(`api/repos`, data);
       console.log(response.data);
       // 저장소 생성 후 필요한 상태 업데이트나 UI 반응
       toggleCreateModal(); // 모달 닫기
