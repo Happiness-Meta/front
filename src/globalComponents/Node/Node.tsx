@@ -1,6 +1,6 @@
 import { NodeApi } from "react-arborist";
 import styles from "./node.module.css";
-import { CSSProperties, useRef } from "react";
+import { CSSProperties } from "react";
 import editorStore from "../../store/CodePageStore/editorStore";
 import SetFileTreeIcon from "../SetFileTreeIcon";
 
@@ -11,7 +11,6 @@ interface NodeRendererProps {
 
 const Node: React.FC<NodeRendererProps> = ({ node, style }) => {
   const { addTab } = editorStore();
-  const spanRef = useRef(null);
 
   return (
     <div
@@ -63,16 +62,23 @@ const Node: React.FC<NodeRendererProps> = ({ node, style }) => {
           autoFocus
         />
       ) : (
-        <span
-          ref={spanRef}
-          // onKeyDown={(e) => {
-
-          //   if (spanRef.current?.focus && e.key === "Enter") node.edit();
-          // }}
-          // onClick={() => node.edit()}
-        >
-          {node.data.name}
-        </span>
+        <div className={styles.nodeNameContainer}>
+          <span>{node.data.name}</span>
+          <div className={styles.nodeActionBtns}>
+            <i
+              className={`${styles.actionBtn} material-symbols-outlined`}
+              onClick={() => node.edit()}
+            >
+              edit
+            </i>
+            <i
+              className={`${styles.actionBtn} material-symbols-outlined`}
+              // onClick={() => tree.delete(node.id)}
+            >
+              delete
+            </i>
+          </div>
+        </div>
       )}
     </div>
   );
