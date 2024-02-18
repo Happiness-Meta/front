@@ -172,7 +172,7 @@ const Repositories = () => {
                   <p>{repo.createdAt}</p>
                 </div>
                 <div className={styles.repoLinkContainer}>
-                  <Link to={`codePage/${repo.id}`}>View Repository</Link>
+                  <Link to={`/codePage/${repo.id}`}>View Repository</Link>
                 </div>
                 <div className={styles.dateContainer}>
                   <p>Created at: {repo.createdAt}</p>
