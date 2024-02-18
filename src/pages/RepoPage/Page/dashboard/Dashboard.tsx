@@ -52,14 +52,14 @@ const Dashboard = () => {
 
       RepoPageStore.getState().setRepositories({
         ...RepoPageStore.getState().repositories, // 기존 저장소 유지
-        [response.data.id]: {
+        [response.data.data.id]: {
           // 새로운 저장소 추가
-          name: response.data.name,
-          id: response.data.id,
-          createdAt: response.data.createdAt,
-          modifiedAt: response.data.modifiedAt,
-          url: `codePage/${response.data.id}`,
-          image: `/svg/${response.data.programmingLanguage.toLowerCase()}.svg`,
+          name: response.data.data.name,
+          id: response.data.data.id,
+          createdAt: response.data.data.createdAt,
+          modifiedAt: response.data.data.modifiedAt,
+          url: `codePage/${response.data.data.id}`,
+          image: `/svg/${response.data.data.programmingLanguage.toLowerCase()}.svg`,
         },
       });
 
