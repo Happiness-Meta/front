@@ -147,10 +147,10 @@ const Repositories = () => {
                         {repo.name}
                       </h3>
                     )}
-                    <div onClick={() => toggleDropdown(repo.name)}>
+                    <div onClick={() => toggleDropdown(repo.id)}>
                       <span className="material-symbols-outlined">more_horiz</span>
                     </div>
-                    {activeDropdownKey === repo.name && (
+                    {activeDropdownKey === repo.id && (
                       <div
                         className={mode ? styles.dropdownMenuSun : styles.dropdownMenuNight}
                         ref={dropdownRef}
@@ -172,7 +172,7 @@ const Repositories = () => {
                   <p>{repo.createdAt}</p>
                 </div>
                 <div className={styles.repoLinkContainer}>
-                  <Link to={repo.url}>View Repository</Link>
+                  <Link to={`codePage/${repo.id}`}>View Repository</Link>
                 </div>
                 <div className={styles.dateContainer}>
                   <p>Created at: {repo.createdAt}</p>
@@ -184,81 +184,6 @@ const Repositories = () => {
         )}
       </div>
     </div>
-    // <div>
-    //   <div className={styles.recommendcontainer}>
-    //     {isEmpty ? (
-    //       <></>
-    //     ) : (
-    //       Object.values(repositories).map((repo, index) => (
-    //         <div
-    //           key={index}
-    //           className={`${mode ? styles.repo_wrapperSun : styles.repo_wrapperNight} `}
-    //         >
-    //           <div className={styles.repocontainer}>
-    //             <div className={styles.reponame_container}>
-    //               <div className={styles.repoimageContaier}>
-    //                 <img src={repo.image} alt="repo" className={styles.repoimage}></img>
-    //               </div>
-    //               <div className={styles.reponame}>
-    //                 {editMode === repo.name ? (
-    //                   <div className={styles.reponame_input_container}>
-    //                     <input
-    //                       value={editName}
-    //                       onChange={handleNameChange}
-    //                       onKeyDown={(e) => handleKeyPress(e, key)}
-    //                       onBlur={() => handleSave({ key })}
-    //                       autoFocus
-    //                       className={styles.reponame_input}
-    //                     />
-    //                   </div>
-    //                 ) : (
-    //                   <h3 onClick={() => handleNameClick({ key, name: repo.name })}>{repo.name}</h3>
-    //                 )}
-    //                 <div onClick={() => toggleDropdown(key)}>
-    //                   <span className="material-symbols-outlined">more_horiz</span>
-    //                 </div>
-    //                 {activeDropdownKey === key && (
-    //                   <div
-    //                     className={mode ? styles.dropdownMenuSun : styles.dropdownMenu}
-    //                     ref={dropdownRef}
-    //                   >
-    //                     <button
-    //                       onClick={() => {
-    //                         setCurrentEditingRepoKey(key); // 현재 편집 중인 레포지토리 키 설정
-    //                         toggleModal();
-    //                       }}
-    //                     >
-    //                       Edit
-    //                     </button>
-    //                     <button onClick={() => console.log("Delete", key)}>Delete</button>
-    //                   </div>
-    //                 )}
-    //                 <ReactModal
-    //                   isOpen={show}
-    //                   onRequestClose={() => {
-    //                     toggleModal();
-    //                     setCurrentEditingRepoKey(null); // 모달 닫을 때 상태 초기화
-    //                   }}
-    //                   contentLabel="Edit Repository"
-    //                   className={mode ? styles.ReactModalContentSun : styles.ReactModalContent}
-    //                   overlayClassName={
-    //                     mode ? styles.ReactModalOverlaySun : styles.ReactModalOverlay
-    //                   }
-    //                 >
-    //                   <h2>
-    //                     Edit:{currentEditingRepoKey ? repositories[currentEditingRepoKey].name : ""}
-    //                   </h2>
-    //                   <input></input>
-    //                 </ReactModal>
-    //               </div>
-    //             </div>
-    //             <div className={styles.repodescription_container}>
-    //               <p>{repo.createdAt}</p>
-    //             </div>
-
-    //             <div className={styles.daycontainer}>{repo.modifiedAt}</div>
-    //           </div>
-    //         </div>
   );
 };
 

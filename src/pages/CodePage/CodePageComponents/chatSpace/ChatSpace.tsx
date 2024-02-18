@@ -5,227 +5,180 @@ import Stomp, { Client } from "stompjs";
 import userStore from "../../../../store/userStore/userStore";
 import { FormEvent, useEffect, useRef, useState } from "react";
 import defaultPicture from "/svg/profilePicture.svg";
+import userAxiosWithAuth from "../../../../utils/useAxiosWIthAuth";
+import { useCookies } from "react-cookie";
 
-interface Message {
-  id: number;
-  text: string;
-  name: string;
+interface ChatMessage {
+  sender: string;
+  content: string;
   profilepicture: string;
-  date: object;
+  type: "JOIN" | "LEAVE" | "CHAT";
+  userId: string;
 }
 
-const dummyMessage: Message[] = [
-  {
-    id: 5,
-    text: "나는 김수연입니다. ",
-    name: "김수연",
-    profilepicture: defaultPicture,
-    date: new Date(),
-  },
-  {
-    id: 2,
-    text: "나는 양재선입니다. ",
-    name: "양재선",
-    profilepicture: defaultPicture,
-    date: new Date(),
-  },
-  {
-    id: 6,
-    text: "나는 최윤석입니다. ",
-    name: "최윤석",
-    profilepicture: defaultPicture,
-    date: new Date(),
-  },
-  {
-    id: 4,
-    text: "나는 윤창호입니다.",
-    name: "윤창호",
-    profilepicture: defaultPicture,
-    date: new Date(),
-  },
-  {
-    id: 1,
-    text: "나는 박준수입니다.",
-    name: "박준수",
-    profilepicture: defaultPicture,
-    date: new Date(),
-  },
-  {
-    id: 3,
-    text: "나는 이재현입니다.",
-    name: "이재현",
-    profilepicture: defaultPicture,
-    date: new Date(),
-  },
-];
-
 function ChatSpace() {
-  const [messages, setMessages] = useState<Message[]>([]);
-  const [inputText, setInputText] = useState("");
-  const [username, setUsername] = useState("");
-  const [submitted, setSubmitted] = useState(false);
+  const [messages, setMessages] = useState<ChatMessage[]>([]);
+  const [inputText, setInputText] = useState<string>("");
+  const [currentMessage, setCurrentMessage] = useState<string>("");
+  const [userName, setUserName] = useState<string>("");
   const messagesEndRef = useRef<HTMLDivElement | null>(null);
   const clientRef = useRef<Client | null>(null);
+  const { rightSpace } = editorStore();
+  const [connected, setConnected] = useState<boolean>(false);
+  const [cookies] = useCookies(["token"]);
+  const [repoId, setRepoId] = useState("");
 
-  // const [messages, setMessages] = useState<Message[]>([]);
-  // const messagesEndRef = useRef<HTMLDivElement | null>(null);
-  // const [inputText, setInputText] = useState("");
-  // const { userInfo } = userStore();
-  // const userEmail = userInfo?.email;
-  // const sender = userInfo?.name;
-  // const API_URL = import.meta.env.VITE_API_KEY;
-  // const [username, setUsername] = useState<string>('');
-  // const [submitted, setSubmitted] = useState<boolean>(false);
-
-  // WebSocket 연결 초기화
   useEffect(() => {
-    // if (true) {
-    const socket = new SockJS(`http://localhost:8080/ws`);
-    const client = Stomp.over(socket);
-    client.connect({}, () => {
-      console.log("WebSocket에 연결됨");
-      client.subscribe("/topic/public", (message) => {
-        //receivedMessage : 서버로부터 수신된 메시지 내용
-        const receivedMessage = JSON.parse(message.body);
-        setMessages((prevMessages) => [...prevMessages, receivedMessage]);
-      });
-      client.send("/app/chat.addUser", {}, JSON.stringify({ sender: username, type: "JOIN" }));
-    });
-    clientRef.current = client;
-    // }
-    // return () => {
-    //     clientRef.current?.disconnect(() => console.log("disconnected!"));
-    // };
-  }, [submitted, username]);
+    if (!rightSpace) {
+      connect();
+      console.log("rightSpace");
+    }
+  }, [rightSpace]);
 
-  const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
-    event.preventDefault();
-    if (username.trim()) {
-      setSubmitted(true);
+  const connect = async () => {
+    if (clientRef.current === null) {
+      // 웹 소켓 fallback (소켓 통신 멈췄을 때, http로도 메시지 전송 받을 수 있게 함)
+      const socket = new WebSocket("ws://43.203.92.111:8080/ws");
+      const client = Stomp.over(socket);
+      console.log("여기까지는 오게 됨");
+      client.connect({}, onConnected, onError);
+      clientRef.current = client;
+
+      try {
+        const response = await userAxiosWithAuth.get(`/api/repos/${repoId}`);
+        console.log("data id:", response.data.data.id);
+      } catch (error) {
+        console.error("Error creating new repository:", error);
+      }
     }
   };
 
-  // const sendMessage = (event: React.FormEvent<HTMLFormElement>) => {
-  //   event.preventDefault();
-  //   if (inputText.trim() && clientRef.current) {
-  //     const chatMessage = {
-  //       sender: username,
-  //       content: inputText,
-  //       type: "CHAT",
-  //     };
-  //     clientRef.current.send("/app/chat.sendMessage", {}, JSON.stringify(chatMessage));
-  //     setInputText("");
-  //   }
-  // };
+  const onConnected = () => {
+    setConnected(true);
+    console.log("여기까지 온거면, 메서드는 실행 된 거.");
+    clientRef.current?.subscribe("/sub/public", onMessageReceived);
+    console.log("구독이 문제인가? 이거 나오면 구독은 문제 아닌 걸로");
+    clientRef.current?.send(
+      "/pub/chat.addUser",
+      {},
+      JSON.stringify({ sender: userName, type: "JOIN" })
+    );
+  };
 
-  // if (!submitted) {
-  //   return (
-  //     <div id="username-page">
-  //       <div className="username-page-container">
-  //         <h1 className="title">닉네임을 입력하세요...</h1>
-  //         <form id="usernameForm" name="usernameForm" onSubmit={handleSubmit}>
-  //           <div className="form-group">
-  //             <input
-  //               type="text"
-  //               id="name"
-  //               placeholder="Username"
-  //               autoComplete="off"
-  //               className="form-control"
-  //               value={username}
-  //               onChange={(e) => setUsername(e.target.value)}
-  //             />
-  //           </div>
-  //           <div className="form-group">
-  //             <button type="submit" className="accent username-submit">
-  //               채팅 시작하기
-  //             </button>
-  //           </div>
-  //         </form>
-  //       </div>
-  //     </div>
-  //   );
-  // }
+  const onError = (error: any) => {
+    console.error("연결 실패", error);
+  };
 
-  useEffect(() => {
-    const sortedMessages = dummyMessage.sort((a, b) => a.id - b.id);
-    setMessages(sortedMessages);
-  }, []);
-
-  useEffect(() => {
-    if (messagesEndRef.current) {
-      messagesEndRef.current.scrollTop = messagesEndRef.current.scrollHeight;
+  const sendMessage = (event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+    if (currentMessage.trim() && clientRef.current) {
+      const chatMessage = {
+        sender: userName,
+        content: currentMessage,
+        type: "CHAT",
+        userId: cookies.token,
+      };
+      clientRef.current.send("/pub/chat.sendMessage", {}, JSON.stringify(chatMessage));
+      setCurrentMessage("");
     }
+  };
+
+  const onMessageReceived = (payload: any) => {
+    const message: ChatMessage = JSON.parse(payload.body);
+    setMessages((prevMessages) => [...prevMessages, message]);
+  };
+  useEffect(() => {
+    messages.forEach((message) => {
+      console.log("메시지 유저아이디", message.userId);
+    });
   }, [messages]);
 
-  //메시지 전송 핸들러 (실제 메시지 전송 로직 구현 전)
-  const sendMessage = (e: FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-    if (!inputText.trim()) return;
-
-    // 메시지 목록에 새 메시지 추가 (임시)
-    setMessages([
-      ...messages,
-      {
-        id: dummyMessage[4].id,
-        text: inputText,
-        name: dummyMessage[4].name,
-        profilepicture: defaultPicture,
-        date: new Date(),
-      },
-    ]);
-    setInputText("");
-  };
-
-  const { rightSpace } = editorStore();
   return (
-    <div className={`${rightSpace ? styles.rightSpaceOn : undefined} ${styles.rightSpace}`}>
-      <div className={styles.filesTabSpace}> 채팅</div>
-      <div className={` ${styles.chattingSpace} `}></div>
-      <div className={styles.chat_room}>
-        <div className={styles.messages} ref={messagesEndRef}>
-          {messages.map((message) => (
-            <div
-              key={message.id}
-              className={`${styles.message} ${message.name === "김수연" ? styles.myMessage : ""}`}
-            >
-              <img
-                src={message.profilepicture}
-                alt="Profile"
-                className={`${styles.profilePicture} ${
-                  message.name === "김수연" ? styles.myMessage_ProfilePicture : ""
-                }`}
-              />
-              <div
-                className={`${styles.messageDetail} ${
-                  message.name === "김수연" ? styles.myMessage_Detail : ""
-                }`}
-              >
-                <div className={styles.userName}>{message.name}</div>
-                <div
-                  className={`${styles.chat_bubble} ${
-                    message.name === "김수연" ? styles.myChat_bubble : ""
-                  }`}
-                >
-                  {message.text}
-                </div>
-              </div>
-            </div>
-          ))}
+    <div id="chat-page">
+      <div className="chat-container">
+        <div className="chat-header">
+          <h2>Spring WebSocket Chat Demo</h2>
         </div>
-        <form className={styles.messageForm} onSubmit={sendMessage}>
+        {!connected && <div className="connecting">Connecting...</div>}
+        <ul id="messageArea">
+          {messages.map((message, index) => (
+            <li key={index} className={message.userId === cookies.token ? styles.myMessage : ""}>
+              {message.type === "CHAT" && (
+                <>
+                  <strong>{message.sender}</strong> : {message.content}
+                </>
+              )}
+              {message.type !== "CHAT" && <em>{message.sender} 참가/퇴장했습니다.</em>}
+            </li>
+          ))}
+        </ul>
+        <form id="messageForm" name="messageForm" onSubmit={sendMessage}>
           <input
+            style={{ color: "black" }}
             type="text"
-            className={styles.messageInput}
-            placeholder="메시지를 입력하세요..."
-            value={inputText}
-            onChange={(e) => setInputText(e.target.value)}
+            id="message"
+            placeholder="Type a message..."
+            autoComplete="off"
+            className="form-control"
+            value={currentMessage}
+            onChange={(e) => setCurrentMessage(e.target.value)}
           />
-          <button type="submit" className={styles.sendButton}>
+          <button type="submit" className="primary" style={{ color: "black" }}>
             Send
           </button>
         </form>
       </div>
     </div>
+    // <div className={`${rightSpace ? styles.rightSpaceOn : undefined} ${styles.rightSpace}`}>
+    //   <div className={styles.filesTabSpace}> 채팅</div>
+    //   <div className={` ${styles.chattingSpace} `}></div>
+    //   <div className={styles.chat_room}>
+    //     <div className={styles.messages} ref={messagesEndRef}>
+    //       {messages.map((message, index) => (
+    //         <div
+    //           key={index}
+    //           className={`${styles.message} ${
+    //             message.userId === cookies.token ? styles.myMessage : ""
+    //           }`}
+    //         >
+    //           <img
+    //             src={message.profilepicture}
+    //             alt="Profile"
+    //             className={`${styles.profilePicture} ${
+    //               message.userId === cookies.token ? styles.myMessage_ProfilePicture : ""
+    //             }`}
+    //           />
+    //           <div
+    //             className={`${styles.messageDetail} ${
+    //               message.userId === cookies.token ? styles.myMessage_Detail : ""
+    //             }`}
+    //           >
+    //             <div className={styles.userName}>{message.sender}</div>
+    //             <div
+    //               className={`${styles.chat_bubble} ${
+    //                 message.userId === cookies.token ? styles.myChat_bubble : ""
+    //               }`}
+    //             >
+    //               {message.content}
+    //             </div>
+    //           </div>
+    //         </div>
+    //       ))}
+    //     </div>
+    //     <form className={styles.messageForm} onSubmit={sendMessage}>
+    //       <input
+    //         type="text"
+    //         className={styles.messageInput}
+    //         placeholder="메시지를 입력하세요..."
+    //         value={inputText}
+    //         onChange={(e) => setInputText(e.target.value)}
+    //       />
+    //       <button type="submit" className={styles.sendButton}>
+    //         Send
+    //       </button>
+    //     </form>
+    //   </div>
+    // </div>
   );
 }
 

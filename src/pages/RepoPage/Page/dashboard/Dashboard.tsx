@@ -12,6 +12,8 @@ import templateDescriptionStore from "../../../../store/TemplateDescriptionStore
 import axios from "axios";
 import renderLanguageDescription from "../../Component/Dropdown/SelectedLanguageDescription";
 import userAxiosWithAuth from "../../../../utils/useAxiosWIthAuth";
+import { useNavigate } from "react-router-dom";
+import { useCookies } from "react-cookie";
 
 const Dashboard = () => {
   const [isAnimated, setIsAnimated] = useState(false);
@@ -23,6 +25,14 @@ const Dashboard = () => {
   const [selectedTemplateKey, setSelectedTemplateKey] = useState<string | null>(null);
   const templates = templateDescriptionStore((state) => state.template);
   const [selectedLanguage, setSelectedLanguage] = useState("language");
+  const [cookies] = useCookies(["token"]);
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    if (!cookies.token) {
+      navigate("/");
+    }
+  }, [cookies, navigate]);
 
   const handleTemplateSelection = (key: string) => {
     setSelectedTemplateKey(key);
