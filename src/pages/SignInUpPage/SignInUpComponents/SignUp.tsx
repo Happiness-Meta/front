@@ -81,10 +81,10 @@ function SignUp() {
 
   return (
     <div className={styles.signUpSection}>
-      <div className={styles.signInText}>Sign Up</div>
+      <h2 className={styles.signInText}>Sign Up</h2>
       <div className={styles.inputSpace}>
         <div className={styles.inputEachSpace}>
-          <div
+          <span
             className={`${
               signUpErrorMessageAni
                 ? styles.errorMessageAni2
@@ -92,7 +92,7 @@ function SignUp() {
             } ${styles.signUpErrorMessage}`}
           >
             {signUpErrorMessage}
-          </div>
+          </span>
           <i className={`${styles.inputIcon} material-symbols-outlined`}>
             person
           </i>
@@ -152,8 +152,8 @@ function SignUp() {
       </div>
 
       <div className={styles.signInBottom}>
-        <div className={styles.bottomText}>Ready to sign in?</div>
-        <div
+        <span className={styles.bottomText}>Ready to sign in?</span>
+        <button
           className={styles.goToSignInUpBtn}
           onClick={() => {
             inUpToggle();
@@ -164,7 +164,7 @@ function SignUp() {
           }}
         >
           Sign In
-        </div>
+        </button>
       </div>
     </div>
   );

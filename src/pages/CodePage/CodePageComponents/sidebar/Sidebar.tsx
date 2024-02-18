@@ -60,12 +60,11 @@ function Sidebar() {
       <div className={styles.sidebarSpace_inner}>
         <div className={styles.filesSpace}>
           <div className={styles.filesHeader}>
-            <div className={styles.TitleSpace}>
+            <div className={styles.TitleSpace} onClick={expandToggle}>
               <div
                 className={`material-symbols-outlined ${
                   expandStatus ? styles.expandStatusT : styles.expandStatusF
                 }`}
-                onClick={expandToggle}
               >
                 {expandStatus ? "chevron_right" : "expand_more"}
               </div>

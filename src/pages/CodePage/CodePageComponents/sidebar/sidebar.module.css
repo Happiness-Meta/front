@@ -49,11 +49,11 @@
 }
 
 .TitleSpace {
-  width: 100px;
+  flex: 1;
   height: 100%;
   display: flex;
-  justify-content: center;
   align-items: center;
+  cursor: pointer;
 }
 
 .expandStatusF,
@@ -66,11 +66,11 @@
   transition: 0.3s;
 }
 
-.expandStatusF:hover {
+.TitleSpace:hover .expandStatusF {
   transform: rotate(-90deg);
 }
 
-.expandStatusT:hover {
+.TitleSpace:hover .expandStatusT {
   transform: rotate(90deg);
 }
 
@@ -150,7 +150,7 @@
   flex-direction: column;
   align-items: start;
   width: 90%;
-  height: 100%;
+  height: 95%;
   padding-bottom: 5px;
   overflow: hidden;
   transition: height 0.3s;

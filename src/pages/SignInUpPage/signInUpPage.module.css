@@ -233,8 +233,9 @@
 }
 
 .signInUpBtn:hover {
-  background-color: #0075d5;
+  /* background-color: #0075d5; */
   color: white;
+  box-shadow: inset 0 0 10px rgba(0, 0, 0, 0.5);
 }
 
 .signInBottom {
@@ -250,12 +251,14 @@
 }
 
 .goToSignInUpBtn {
+  display: flex;
+  justify-content: center;
+  align-items: center;
   width: 70px;
-  height: 20px;
-  padding: 2px;
+  height: 25px;
   border: 1px solid gray;
   border-radius: 7px;
-  text-align: center;
+  background-color: transparent;
   font-size: 13px;
   cursor: pointer;
 }
@@ -273,43 +276,4 @@
   width: 50%;
   height: 100%;
   row-gap: 20px;
-}
-
-.oauthSpace {
-  display: flex;
-  justify-content: space-around;
-  align-items: center;
-  width: calc(50vw + 100px);
-  min-width: 700px;
-  margin-top: 20px;
-}
-
-.oauthContainers {
-  display: flex;
-  justify-content: space-around;
-  align-items: center;
-  width: 200px;
-  height: 40px;
-  padding: 5px;
-  border: 1px solid gray;
-  border-radius: 17px;
-  transition: 0.3s;
-  cursor: pointer;
-}
-
-.oauthContainers:hover {
-  transform: translateY(-3px);
-  box-shadow: 0 2px 3px gray;
-}
-
-.oauthContainers:nth-child(1) {
-  background-color: #fee500;
-}
-
-.oauthTextK {
-  color: rgb(0 0 0 / 85%);
-}
-
-.oauthSymbols {
-  width: 25px;
 }

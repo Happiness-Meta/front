@@ -24,15 +24,14 @@ function SignInUpPage() {
         >
           {welcomeMessage ? (
             <div className={styles.signUpMessage}>
-              <p>Congrats!</p>
-              <p>Welcome to Join</p>
+              <span>Congrats!</span>
+              <span>Welcome to Join</span>
             </div>
           ) : undefined}
         </div>
         <SignIn />
         <SignUp />
       </main>
-      {/* <OauthSpace /> */}
     </div>
   );
 }
