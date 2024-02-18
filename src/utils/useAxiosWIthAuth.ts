@@ -1,26 +1,37 @@
 import axios, { InternalAxiosRequestConfig } from "axios";
-import { useCookies } from "react-cookie";
 
-const api = axios.create({
-  baseURL: "http://43.203.92.111/",
+const userAxiosWithAuth = axios.create({
+  baseURL: "http://localhost:8080",
   headers: { "Content-type": "application/json" },
 });
 
-api.interceptors.request.use(
+function getCookie(cname: string) {
+  const name = cname + "=";
+  const decodedCookie = decodeURIComponent(document.cookie);
+  const ca = decodedCookie.split(";");
+  for (let i = 0; i < ca.length; i++) {
+    let c = ca[i];
+    while (c.charAt(0) == " ") {
+      c = c.substring(1);
+    }
+    if (c.indexOf(name) == 0) {
+      return c.substring(name.length, c.length);
+    }
+  }
+  return "";
+}
+
+userAxiosWithAuth.interceptors.request.use(
   (config: InternalAxiosRequestConfig): InternalAxiosRequestConfig => {
-    const [cookies] = useCookies(["id"]);
-    const token = cookies.id;
+    // const [cookies] = useCookies(["id"]);
+    const token = getCookie("id");
 
     if (!token) {
       config.headers.accessToken = null;
-      return config;
+    } else {
+      config.headers.authorization = `Bearer ${token}`;
     }
 
-    if (config.headers && token) {
-      const { accessToken } = JSON.parse(token);
-      config.headers.authorization = `Bearer ${accessToken}`;
-      return config;
-    }
     // Do something before request is sent
     console.log("request start", config);
     return config;
@@ -74,4 +85,4 @@ api.interceptors.request.use(
 //   }
 // );
 
-export default api;
+export default userAxiosWithAuth;
