@@ -87,11 +87,6 @@ function ChatSpace() {
     const message: ChatMessage = JSON.parse(payload.body);
     setMessages((prevMessages) => [...prevMessages, message]);
   };
-  useEffect(() => {
-    messages.forEach((message) => {
-      console.log("메시지 유저아이디", message.userId);
-    });
-  }, [messages]);
 
   return (
     <div id="chat-page">
