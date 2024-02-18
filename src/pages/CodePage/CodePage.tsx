@@ -4,14 +4,14 @@ import Header from "./CodePageComponents/header/Header";
 import Sidebar from "./CodePageComponents/sidebar/Sidebar";
 import EditorSpace from "./CodePageComponents/editorSpace/EditorSpace";
 import sidebarStore from "../../store/CodePageStore/sidebarStore";
-import LoadingPage from "../../globalComponents/loadingPage/LoadingPage";
+// import LoadingPage from "../../globalComponents/loadingPage/LoadingPage";
 
 function CodePage() {
   const { sidebar } = sidebarStore();
 
   return (
     <div className={styles.codePage}>
-      <LoadingPage />
+      {/* <LoadingPage /> */}
       <Header />
       <div className={styles.codePage_body}>
         <Resizable

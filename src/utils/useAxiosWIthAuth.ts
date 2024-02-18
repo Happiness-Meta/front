@@ -24,7 +24,7 @@ function getCookie(cname: string) {
 userAxiosWithAuth.interceptors.request.use(
   (config: InternalAxiosRequestConfig): InternalAxiosRequestConfig => {
     // const [cookies] = useCookies(["id"]);
-    const token = getCookie("id");
+    const token = getCookie("token");
 
     if (!token) {
       config.headers.accessToken = null;

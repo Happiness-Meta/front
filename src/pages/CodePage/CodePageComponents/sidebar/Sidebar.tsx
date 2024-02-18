@@ -3,7 +3,7 @@ import sidebarStore from "../../../../store/CodePageStore/sidebarStore";
 import EditorSettingBtn from "./editorSettingBtn/EditorSettingBtn";
 import editorStore from "../../../../store/CodePageStore/editorStore";
 import { Tree } from "react-arborist";
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import Node from "../../../../globalComponents/node/Node";
 //디렉토리 : 아이디, 경로, 이름, 칠드런 빈 배열
 // 12b4p214, /, folder 1, []
@@ -41,6 +41,14 @@ function Sidebar() {
     editorStore();
 
   const [term, setTerm] = useState("");
+
+  const treeRef = useRef();
+
+  // const createFileFolder = () => {
+  //   if (treeRef.current && treeRef.current.createInternal) {
+  //     treeRef.current.createInternal(treeRef.current.root.id);
+  //   }
+  // }
 
   return (
     <div
@@ -85,6 +93,7 @@ function Sidebar() {
             }`}
           >
             <Tree
+              ref={treeRef}
               className={styles.react_arborist}
               rowClassName={styles.arborist_row}
               width={"100%"}

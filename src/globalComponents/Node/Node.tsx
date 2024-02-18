@@ -1,15 +1,16 @@
-import { NodeApi } from "react-arborist";
+import { NodeApi, TreeApi } from "react-arborist";
 import styles from "./node.module.css";
 import { CSSProperties } from "react";
 import editorStore from "../../store/CodePageStore/editorStore";
 import SetFileTreeIcon from "../SetFileTreeIcon";
 
 interface NodeRendererProps {
-  style: CSSProperties;
   node: NodeApi;
+  tree: TreeApi<() => void>;
+  style: CSSProperties;
 }
 
-const Node: React.FC<NodeRendererProps> = ({ node, style }) => {
+const Node: React.FC<NodeRendererProps> = ({ node, tree, style }) => {
   const { addTab } = editorStore();
 
   return (
@@ -73,7 +74,7 @@ const Node: React.FC<NodeRendererProps> = ({ node, style }) => {
             </i>
             <i
               className={`${styles.actionBtn} material-symbols-outlined`}
-              // onClick={() => tree.delete(node.id)}
+              onClick={() => tree.delete(node.id)}
             >
               delete
             </i>
