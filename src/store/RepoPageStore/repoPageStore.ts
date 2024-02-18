@@ -8,7 +8,9 @@ export interface Repository {
   url: string;
   image: string;
 }
-
+interface Repositories {
+  [key: string]: Repository;
+}
 interface repoStoreState {
   repositories: { [key: string]: Repository };
   editMode: string | null;

@@ -5,6 +5,8 @@ import { Link } from "react-router-dom";
 import RepoPageStore from "../../../../store/RepoPageStore/repoPageStore";
 import headerStore from "../../../../../src/store/globalStore/globalStore";
 import ReactModal from "react-modal";
+import userAxiosWithAuth from "../../../../utils/useAxiosWIthAuth";
+import { Repository } from "../../../../store/RepoPageStore/repoPageStore";
 interface RepoComponent {
   name: string;
   description: string;
@@ -53,6 +55,25 @@ const Repositories = () => {
   const handleKeyPress = (e: React.KeyboardEvent<HTMLInputElement>, key: string) => {
     if (e.key === "Enter") {
       handleSave({ key });
+    }
+  };
+
+  const handleRepoDelete = async (repoId: string) => {
+    try {
+      const response = await userAxiosWithAuth.delete(`/api/repos/${repoId}`);
+      console.log("Deleted repository:", response.data);
+
+      // 저장소 삭제 후 스토어의 상태 업데이트
+      const updatedRepositories = Object.entries(RepoPageStore.getState().repositories)
+        .filter(([key, _]) => key !== repoId) // 삭제하려는 repoId가 아닌 항목만 필터링
+        .reduce((acc, [key, repo]) => {
+          acc[key] = repo; // 필터링된 항목을 새 객체에 추가
+          return acc;
+        }, {} as { [key: string]: Repository }); // 올바른 타입 지정
+
+      RepoPageStore.getState().setRepositories(updatedRepositories);
+    } catch (error) {
+      console.error("Error deleting repository:", error);
     }
   };
 
@@ -121,7 +142,7 @@ const Repositories = () => {
                         >
                           Edit
                         </button>
-                        <button onClick={() => console.log("Delete", repo.name)}>Delete</button>
+                        <button onClick={() => handleRepoDelete(repo.id)}>Delete</button>
                       </div>
                     )}
                   </div>
