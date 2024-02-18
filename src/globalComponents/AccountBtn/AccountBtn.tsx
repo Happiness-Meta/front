@@ -63,6 +63,14 @@ function AccountBtn() {
         style={accountBtn ? undefined : { display: "none" }}
       >
         <div className={styles.buttonSpace}>
+          <div className={styles.buttonEach}>
+            <div
+              className={`${styles.myPageBtnSymIcon} material-symbols-outlined`}
+            >
+              vpn_key
+            </div>
+            <span className={styles.myPageBtnText}>Key for Invite</span>
+          </div>
           <Link
             to="/myPage"
             className={styles.buttonEach}
@@ -91,7 +99,7 @@ function AccountBtn() {
               logout
             </i>
             <span className={styles.myPageBtnText} onClick={accountBtnToggle}>
-              logout
+              Logout
             </span>
           </Link>
         </div>

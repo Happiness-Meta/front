@@ -49,12 +49,12 @@ function HomePage() {
           </header>
         ) : (
           <header className={styles.homepageHeader}>
-            <div
+            {/* <div
               className={styles.guestBtn}
               onClick={() => navigate("/TemplatePage")}
             >
               Guest
-            </div>
+            </div> */}
             <div
               className={styles.signBtn}
               onClick={() => navigate("/SignInUpPage")}
