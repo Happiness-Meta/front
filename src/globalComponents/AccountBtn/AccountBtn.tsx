@@ -7,11 +7,7 @@ import { useCookies } from "react-cookie";
 
 function AccountBtn() {
   const accountBtnRef = useRef<HTMLDivElement>(null);
-  const [cookies, setCookie, removeCookie] = useCookies([
-    "email",
-    "nickname",
-    "token",
-  ]);
+  const [cookies, , removeCookie] = useCookies(["email", "nickname", "token"]);
   const { mode, accountBtn, accountBtnToggle } = globalStore();
 
   ClickOutsideFalse(accountBtnRef, accountBtn, accountBtnToggle);
@@ -63,14 +59,6 @@ function AccountBtn() {
         style={accountBtn ? undefined : { display: "none" }}
       >
         <div className={styles.buttonSpace}>
-          <div className={styles.buttonEach}>
-            <div
-              className={`${styles.myPageBtnSymIcon} material-symbols-outlined`}
-            >
-              vpn_key
-            </div>
-            <span className={styles.myPageBtnText}>Key for Invite</span>
-          </div>
           <Link
             to="/myPage"
             className={styles.buttonEach}

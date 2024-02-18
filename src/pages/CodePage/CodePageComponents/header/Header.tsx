@@ -4,12 +4,12 @@ import ModeToggleBtn from "../../../../globalComponents/modeToggleBtn/ModeToggle
 import ExploreBtn from "../../../../globalComponents/exploreBtn/ExploreBtn";
 import globalStore from "../../../../store/globalStore/globalStore";
 import AccountBtn from "../../../../globalComponents/accountBtn/AccountBtn";
-import { useCookies } from "react-cookie";
+import editorStore from "../../../../store/CodePageStore/editorStore";
 
 function Header() {
   const { sidebar, sidebarToggle } = sidebarStore();
   const { mode } = globalStore();
-  const [cookies] = useCookies(["token"]);
+  const { toggleInviteSpace } = editorStore();
 
   return (
     <div className={styles.headerSpace}>
@@ -40,8 +40,14 @@ function Header() {
         </div>
       </div>
       <div className={styles.rightSide_header}>
+        <i
+          className={`${styles.inviteKeyBtn} material-symbols-outlined`}
+          onClick={toggleInviteSpace}
+        >
+          person_add
+        </i>
         <ModeToggleBtn />
-        {cookies.token ? <AccountBtn /> : undefined}
+        <AccountBtn />
       </div>
     </div>
   );

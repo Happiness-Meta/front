@@ -1,0 +1,68 @@
+.body {
+  position: absolute;
+  top: 0;
+  left: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100vw;
+  height: 100vh;
+  background-color: rgba(0, 0, 0, 0.8);
+  z-index: 50;
+  animation: fadeIn 2s;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+.infoSpace {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  row-gap: 5px;
+  width: 350px;
+  height: 200px;
+  padding: 10px 20px;
+  border: 5px solid #00559a;
+  border-radius: 20px;
+  background-color: #068fff;
+}
+
+.spaceEach {
+  display: flex;
+  flex-direction: column;
+  row-gap: 5px;
+}
+
+.texts {
+  font-size: 18px;
+  font-weight: bold;
+}
+
+.input {
+  height: 35px;
+  padding: 0 10px;
+  border: 1px solid gray;
+  border-radius: 10px;
+  background-color: rgb(255 255 255 / 20%);
+}
+
+.closeBtn {
+  height: 35px;
+  border: 0.5px solid white;
+  border-radius: 10px;
+  margin-top: 10px;
+  background-color: transparent;
+  cursor: pointer;
+}
+
+.closeBtn:hover {
+  box-shadow: inset 0 0 6px black;
+  border-color: transparent;
+}
