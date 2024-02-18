@@ -32,7 +32,7 @@ const editorStore = create<aboutEditor>((set) => ({
       return { tabs: newTabSpace };
     }),
   // selectTab: (tabToSelect) => set((state) => {}),
-  rightSpace: false,
+  rightSpace: true,
   toggleRightSpace: () => set((state) => ({ rightSpace: !state.rightSpace })),
   terminal: false,
   toggleTerminal: () => set((state) => ({ terminal: !state.terminal })),

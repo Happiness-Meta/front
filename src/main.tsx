@@ -35,6 +35,7 @@ ReactDOM.createRoot(document.getElementById("root")!).render(
             <Route path="/myPage" element={<MyPage />} />
             <Route path="/templatePage" element={<TemplatePage />} />
             <Route path="/codePage" element={<CodePage />} />
+            <Route path="/dashboard/codePage/:repoId" element={<CodePage />} />
           </Routes>
         </Router>
       </CookiesProvider>
