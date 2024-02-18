@@ -65,7 +65,7 @@
     height: 0;
   }
   to {
-    height: 87.5px;
+    height: 105px;
   }
 }
 
@@ -75,7 +75,7 @@
   justify-content: start;
   align-items: center;
   width: 90%;
-  height: 50px;
+  height: 75px;
 }
 
 .buttonEach {

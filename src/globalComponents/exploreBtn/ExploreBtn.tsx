@@ -48,13 +48,13 @@ function ExploreBtn() {
         >
           <i className={`material-symbols-outlined`}>grid_view</i>
         </Link>
-        <Link
+        {/* <Link
           to={"/CodePage"}
           className={styles.exploreCode}
           onClick={exploreBtnToggle}
         >
           <i className={`material-symbols-outlined`}>code</i>
-        </Link>
+        </Link> */}
       </div>
     </div>
   );

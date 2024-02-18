@@ -2,12 +2,12 @@ import styles from "./sidebar.module.css";
 import sidebarStore from "../../../../store/CodePageStore/sidebarStore";
 import EditorSettingBtn from "./editorSettingBtn/EditorSettingBtn";
 import editorStore from "../../../../store/CodePageStore/editorStore";
-import { CreateHandler, Tree, TreeApi } from "react-arborist";
+import { Tree, TreeApi } from "react-arborist";
 import { useRef, useState } from "react";
 import Node from "../../../../globalComponents/node/Node";
 import { v4 as uuidv4 } from "uuid";
 
-let treeData = [
+const treeData = [
   {
     id: uuidv4(),
     name: "node_modules",
@@ -38,33 +38,32 @@ function Sidebar() {
     editorStore();
 
   const [term, setTerm] = useState("");
-
-  interface leafType {
-    id: string;
-    name: string;
-    type: string;
-    content: string;
-    // parentId: string;
-  }
+  // interface leafType {
+  //   id: string;
+  //   name: string;
+  //   type: string;
+  //   content: string;
+  //   // parentId: string;
+  // }
 
   const treeRef = useRef<TreeApi<string>>(null);
 
-  const onCreate: CreateHandler<leafType> = ({ type }) => {
-    const newNode: leafType = {
-      id: uuidv4(),
-      name: "",
-      type: type === "internal" ? "DIRECTORY" : "FILE",
-      ...(type === "internal" && { children: [] }),
-      // parentId: parentId === null ? "root" : parentId,
-      content: "",
-    };
-    addNode(newNode);
-    return newNode;
-  };
+  // const onCreate: CreateHandler<leafType> = ({ type }) => {
+  //   const newNode: leafType = {
+  //     id: uuidv4(),
+  //     name: "",
+  //     type: type === "internal" ? "DIRECTORY" : "FILE",
+  //     ...(type === "internal" && { children: [] }),
+  //     // parentId: parentId === null ? "root" : parentId,
+  //     content: "",
+  //   };
+  //   addNode(newNode);
+  //   return newNode;
+  // };
 
-  const addNode = (newNode: leafType) => {
-    treeData = [...treeData, newNode];
-  };
+  // const addNode = (newNode: leafType) => {
+  //   treeData = [...treeData, newNode];
+  // };
 
   return (
     <div
@@ -129,7 +128,7 @@ function Sidebar() {
                 node.data.name.toLowerCase().includes(term.toLowerCase())
               }
               // onRename={}
-              onCreate={onCreate}
+              // onCreate={onCreate}
             >
               {Node}
             </Tree>

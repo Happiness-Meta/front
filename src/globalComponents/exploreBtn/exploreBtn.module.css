@@ -9,7 +9,7 @@
 }
 
 .exploreBtnOn {
-  width: 132px;
+  width: 106px;
   background-color: rgba(128, 128, 128, 0.5);
   overflow: visible;
 }
@@ -35,7 +35,7 @@
   display: flex;
   justify-content: space-around;
   align-items: center;
-  width: 95px;
+  width: 70px;
   border-radius: 7px;
   z-index: 10;
 }
