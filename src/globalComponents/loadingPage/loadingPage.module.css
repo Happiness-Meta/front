@@ -45,10 +45,10 @@
 }
 
 @keyframes movingFigure1 {
-  from {
+  0% {
     border-radius: 10%;
   }
-  to {
+  100% {
     border-radius: 50%;
     width: 100px;
     height: 100px;
@@ -64,10 +64,10 @@
 }
 
 @keyframes movingFigure2 {
-  from {
+  0% {
     border-radius: 50%;
   }
-  to {
+  100% {
     border-radius: 10%;
     width: 20px;
     height: 20px;

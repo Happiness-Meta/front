@@ -22,7 +22,7 @@ const queryClient = new QueryClient();
 ReactDOM.createRoot(document.getElementById("root")!).render(
   <React.StrictMode>
     <QueryClientProvider client={queryClient}>
-      <CookiesProvider>
+      <CookiesProvider defaultSetOptions={{ path: "/" }}>
         <Router>
           <Routes>
             <Route path="/" element={<HomePage />} />

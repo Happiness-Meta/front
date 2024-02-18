@@ -106,7 +106,7 @@ function SignIn() {
           >
             {isVisible ? "visibility" : "visibility_off"}
           </i>
-          <div
+          <span
             className={`${
               signInErrorMessageAni
                 ? styles.errorMessageAni2
@@ -114,7 +114,7 @@ function SignIn() {
             } ${styles.signInErrorMessage}`}
           >
             {signInErrorMessage}
-          </div>
+          </span>
         </div>
 
         <button
@@ -130,7 +130,7 @@ function SignIn() {
 
       <div className={styles.signInBottom}>
         <div className={styles.bottomText}>Don't have an account?</div>
-        <div
+        <button
           className={styles.goToSignInUpBtn}
           onClick={() => {
             inUpToggle();
@@ -140,7 +140,7 @@ function SignIn() {
           }}
         >
           Sign Up
-        </div>
+        </button>
       </div>
       {/* <div className={styles.signInBottom}>
             <div className={styles.bottomText}>Forgot your password?</div>
