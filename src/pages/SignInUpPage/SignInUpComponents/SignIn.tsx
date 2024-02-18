@@ -10,7 +10,7 @@ import { useCookies } from "react-cookie";
 
 function SignIn() {
   const navigate = useNavigate();
-  const [cookies, setCookie] = useCookies(["id", "token"]);
+  const [cookies, setCookie] = useCookies(["email", "nickname", "token"]);
 
   const idInput: RefObject<HTMLInputElement> = useRef(null);
   const pwInput: RefObject<HTMLInputElement> = useRef(null);
@@ -48,6 +48,15 @@ function SignIn() {
           path: "/",
           expires: expiration,
         });
+        setCookie("email", response.data.data.email, {
+          path: "/",
+          expires: expiration,
+        });
+        setCookie("nickname", response.data.data.nickname, {
+          path: "/",
+          expires: expiration,
+        });
+        console.log(response.data.data);
         signInErrorMessageStatus("");
         navigate("/dashboard");
       } catch (error) {

@@ -4,7 +4,11 @@ import { useCookies } from "react-cookie";
 
 function HomePage() {
   const navigate = useNavigate();
-  const [cookies, setCookie, removeCookie] = useCookies(["token"]);
+  const [cookies, setCookie, removeCookie] = useCookies([
+    "email",
+    "nickname",
+    "token",
+  ]);
   console.log(cookies);
 
   const createStars = (count: number) => {
@@ -21,10 +25,11 @@ function HomePage() {
     ));
   };
 
-  // setCookie("token", null, {
-  //   path: "/",
-  //   expires: new Date(Date.now() + 1000),
-  // });
+  const removeCookies = () => {
+    removeCookie("email");
+    removeCookie("nickname");
+    removeCookie("token");
+  };
 
   return (
     <div className={styles.backSky}>
@@ -38,10 +43,7 @@ function HomePage() {
             >
               Get started
             </div>
-            <div
-              className={styles.signBtn}
-              onClick={() => removeCookie("token")}
-            >
+            <div className={styles.signBtn} onClick={() => removeCookies()}>
               Log out
             </div>
           </header>
@@ -84,7 +86,7 @@ function HomePage() {
           </div>
           <div className={styles.boxes}>
             <span className={styles.boxTitle}>CHATTING</span>
-            <span className={styles.boxSubTitle}>텍스트 및 음성 채팅 기능</span>
+            <span className={styles.boxSubTitle}>텍스트 채팅 기능</span>
           </div>
           <div className={styles.boxes}>
             <span className={styles.boxTitle}>CHANCE</span>
