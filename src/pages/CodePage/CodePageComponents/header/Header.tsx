@@ -34,9 +34,9 @@ function Header() {
         <div className={styles.IDE_name}>Earth-IDE-N</div>
       </div>
       <div className={styles.middleSide_header}>
-        <div className={styles.runBtn}>
-          <i className={`${styles.playIcon} material-icons`}>play_arrow</i>{" "}
-          <div className={styles.runText}>Run</div>
+        <div className={styles.saveBtn}>
+          <i className={`${styles.saveIcon} material-symbols-outlined`}>save</i>{" "}
+          <div className={styles.saveText}>Save</div>
         </div>
       </div>
       <div className={styles.rightSide_header}>

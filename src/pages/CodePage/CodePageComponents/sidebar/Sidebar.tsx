@@ -2,37 +2,34 @@ import styles from "./sidebar.module.css";
 import sidebarStore from "../../../../store/CodePageStore/sidebarStore";
 import EditorSettingBtn from "./editorSettingBtn/EditorSettingBtn";
 import editorStore from "../../../../store/CodePageStore/editorStore";
-import { Tree } from "react-arborist";
-import { useEffect, useRef, useState } from "react";
+import { CreateHandler, Tree, TreeApi } from "react-arborist";
+import { useRef, useState } from "react";
 import Node from "../../../../globalComponents/node/Node";
-//디렉토리 : 아이디, 경로, 이름, 칠드런 빈 배열
-// 12b4p214, /, folder 1, []
-//파일 : 아이디, 경로, 이름, 내용
-// 1894u50u, folder 1 /, script.js, contents
+import { v4 as uuidv4 } from "uuid";
 
-const treeData = [
+let treeData = [
   {
-    id: "1",
+    id: uuidv4(),
     name: "node_modules",
-    children: [{ id: "1-1", name: "bunch_of_files" }],
+    children: [{ id: uuidv4(), name: "bunch_of_files" }],
   },
   {
-    id: "2",
+    id: uuidv4(),
     name: "public",
-    children: [{ id: "2-1", name: "react.svg" }],
+    children: [{ id: uuidv4(), name: "react.svg" }],
   },
   {
-    id: "3",
+    id: uuidv4(),
     name: "src",
     children: [
-      { id: "3-1", name: "index.css" },
-      { id: "3-2", name: "main.tsx" },
+      { id: uuidv4(), name: "index.css" },
+      { id: uuidv4(), name: "main.tsx" },
     ],
   },
-  { id: "4", name: ".gitignore" },
-  { id: "5", name: "index.html" },
-  { id: "6", name: "package.json" },
-  { id: "7", name: "README.md" },
+  { id: uuidv4(), name: ".gitignore" },
+  { id: uuidv4(), name: "index.html" },
+  { id: uuidv4(), name: "package.json" },
+  { id: uuidv4(), name: "README.md" },
 ];
 
 function Sidebar() {
@@ -42,13 +39,32 @@ function Sidebar() {
 
   const [term, setTerm] = useState("");
 
-  const treeRef = useRef();
+  interface leafType {
+    id: string;
+    name: string;
+    type: string;
+    content: string;
+    // parentId: string;
+  }
 
-  // const createFileFolder = () => {
-  //   if (treeRef.current && treeRef.current.createInternal) {
-  //     treeRef.current.createInternal(treeRef.current.root.id);
-  //   }
-  // }
+  const treeRef = useRef<TreeApi<string>>(null);
+
+  const onCreate: CreateHandler<leafType> = ({ type }) => {
+    const newNode: leafType = {
+      id: uuidv4(),
+      name: "",
+      type: type === "internal" ? "DIRECTORY" : "FILE",
+      ...(type === "internal" && { children: [] }),
+      // parentId: parentId === null ? "root" : parentId,
+      content: "",
+    };
+    addNode(newNode);
+    return newNode;
+  };
+
+  const addNode = (newNode: leafType) => {
+    treeData = [...treeData, newNode];
+  };
 
   return (
     <div
@@ -79,10 +95,18 @@ function Sidebar() {
               <p className={styles.filesTitle}>Files</p>
             </div>
             <div className={styles.filesAddSpace}>
-              <div className={`material-symbols-outlined ${styles.addFile}`}>
+              <div
+                className={`material-symbols-outlined ${styles.addFile}`}
+                onClick={() => treeRef.current?.createLeaf()}
+                title="New Files..."
+              >
                 note_add
               </div>
-              <div className={`material-symbols-outlined ${styles.addFolder}`}>
+              <div
+                className={`material-symbols-outlined ${styles.addFolder}`}
+                onClick={() => treeRef.current?.createInternal()}
+                title="New Folders..."
+              >
                 create_new_folder
               </div>
             </div>
@@ -105,7 +129,7 @@ function Sidebar() {
                 node.data.name.toLowerCase().includes(term.toLowerCase())
               }
               // onRename={}
-              // onCreate={}
+              onCreate={onCreate}
             >
               {Node}
             </Tree>

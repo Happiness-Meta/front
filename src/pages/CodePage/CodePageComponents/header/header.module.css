@@ -68,9 +68,9 @@
   width: 100px;
 }
 
-.runBtn {
+.saveBtn {
   display: flex;
-  justify-content: center;
+  justify-content: space-evenly;
   align-items: center;
   width: 70px;
   height: 35px;
@@ -81,16 +81,16 @@
   cursor: pointer;
 }
 
-.runBtn:hover {
+.saveBtn:hover {
   background-color: rgb(0 200 34 / 90%);
   color: white;
 }
 
-.playIcon {
+.saveIcon {
   font-size: 18px;
 }
 
-.runText {
+.saveText {
   height: 26px;
 }
 /*  */

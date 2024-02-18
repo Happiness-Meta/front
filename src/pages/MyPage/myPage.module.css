@@ -71,7 +71,7 @@
   box-sizing: border-box;
   width: 100%;
   height: 40px;
-  padding: 0 40px;
+  padding-left: 40px;
   border: 1px solid gray;
   border-radius: 5px;
   background-color: transparent;
@@ -81,10 +81,66 @@
   box-sizing: border-box;
   width: 100%;
   height: 40px;
-  padding: 0 10px;
+  padding-left: 40px;
   border: 1px solid gray;
   border-radius: 5px;
   background-color: rgb(0 0 0 / 20%);
+}
+
+.pwInput {
+  position: relative;
+}
+
+.errorMessage {
+  position: absolute;
+  bottom: -30px;
+  left: 0;
+  color: red;
+  font-size: 13px;
+  font-weight: bold;
+}
+
+.errorMessageAni {
+  animation: shaking 0.3s;
+}
+.errorMessageAni2 {
+  animation: shaking2 0.3s;
+}
+
+@keyframes shaking {
+  0% {
+    transform: translateX(0px);
+  }
+  20% {
+    transform: translateX(-2px);
+  }
+  40% {
+    transform: translateX(2px);
+  }
+  60% {
+    transform: translateX(-2px);
+  }
+  80% {
+    transform: translateX(2px);
+  }
+}
+
+@keyframes shaking2 {
+  0% {
+    transform: translateX(0px);
+  }
+  20% {
+    transform: translateX(-2px);
+  }
+  40% {
+    transform: translateX(2px);
+  }
+  60% {
+    transform: translateX(-2px);
+  }
+  80% {
+    transform: translateX(2px);
+  }
 }
 
 .btnSpace {

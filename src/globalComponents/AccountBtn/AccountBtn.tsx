@@ -7,10 +7,20 @@ import { useCookies } from "react-cookie";
 
 function AccountBtn() {
   const accountBtnRef = useRef<HTMLDivElement>(null);
-  const [cookies, setCookie, removeCookie] = useCookies(["token"]);
+  const [cookies, setCookie, removeCookie] = useCookies([
+    "email",
+    "nickname",
+    "token",
+  ]);
   const { mode, accountBtn, accountBtnToggle } = globalStore();
 
   ClickOutsideFalse(accountBtnRef, accountBtn, accountBtnToggle);
+
+  const removeCookies = () => {
+    removeCookie("email");
+    removeCookie("nickname");
+    removeCookie("token");
+  };
 
   return (
     <div
@@ -72,7 +82,7 @@ function AccountBtn() {
             className={styles.buttonEach}
             onClick={() => {
               accountBtnToggle();
-              removeCookie("token");
+              removeCookies();
             }}
           >
             <i
@@ -86,8 +96,8 @@ function AccountBtn() {
           </Link>
         </div>
         <div className={styles.userInfo}>
-          <span>ID :</span>
-          <span>nickname :</span>
+          <span>ID : {cookies.email}</span>
+          <span>nickname : {cookies.nickname}</span>
         </div>
       </div>
     </div>
