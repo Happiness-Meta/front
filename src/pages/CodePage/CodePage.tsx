@@ -30,6 +30,7 @@ function CodePage() {
       } catch (error) {
         console.error("Error:", error);
         navigate("/");
+        //패스워드 입력하라는 컴포넌트를 추가
         // 요청 실패 처리 로직을 여기에 추가합니다.
       }
     };
