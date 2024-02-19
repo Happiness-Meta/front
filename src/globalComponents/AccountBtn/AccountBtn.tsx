@@ -18,6 +18,8 @@ function AccountBtn() {
     removeCookie("token");
   };
 
+  const FScharacters = cookies.email.slice(0, 2).toUpperCase();
+
   return (
     <div
       className={styles.accountSpace}
@@ -36,17 +38,18 @@ function AccountBtn() {
         onClick={accountBtnToggle}
         style={
           accountBtn
-            ? {
-                border: "1px solid #068fff",
-                borderRadius: "7px 7px 0 0",
-              }
+            ? { border: "1px solid #068fff", borderRadius: "7px 7px 0 0" }
             : undefined
         }
       >
         <div
           className={styles.accountImg}
-          style={mode ? { borderColor: "black" } : { borderColor: "white" }}
-        ></div>
+          style={{
+            borderColor: mode ? "black" : "white",
+          }}
+        >
+          {FScharacters}
+        </div>
         <div
           className={`${styles.accountExpand} material-icons`}
           style={accountBtn ? { transform: "rotate(0)" } : undefined}

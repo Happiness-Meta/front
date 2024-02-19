@@ -15,7 +15,7 @@ function SignIn() {
   const idInput: RefObject<HTMLInputElement> = useRef(null);
   const pwInput: RefObject<HTMLInputElement> = useRef(null);
 
-  const { isVisible, visibleToggle, inUpToggle } = LoginPageStore();
+  const { isVisible, visibleToggle, inUp, inUpToggle } = LoginPageStore();
   const {
     signInErrorMessage,
     signInErrorMessageStatus,
@@ -38,6 +38,7 @@ function SignIn() {
       };
 
       try {
+        signInErrorMessageAniToggle();
         const response = await axios.post(
           "http://43.203.92.111/api/sign/login",
           // "http://localhost:8080/api/sign/login",
@@ -76,6 +77,8 @@ function SignIn() {
     },
   });
 
+  inUp ? undefined : idInput.current?.setAttribute("autoFocus", "true");
+
   return (
     <div className={styles.signInSection}>
       <h2 className={styles.signInText}>Sign In</h2>
@@ -85,7 +88,7 @@ function SignIn() {
             person
           </i>
           <input
-            autoFocus
+            {...(!inUp ? { autoFocus: true } : {})}
             ref={idInput}
             name="id"
             type="text"
@@ -107,6 +110,9 @@ function SignIn() {
             placeholder="password"
             value={signInPw}
             onChange={(e) => setSignInPw(e.target.value)}
+            onKeyDown={(e) => {
+              if (e.key === "Enter") loginUser.mutate();
+            }}
           />
           <i
             className={`${styles.visibility} material-symbols-outlined`}
@@ -129,7 +135,6 @@ function SignIn() {
           className={styles.signInUpBtn}
           onClick={() => {
             loginUser.mutate();
-            signInErrorMessageAniToggle();
           }}
         >
           Sign In

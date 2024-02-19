@@ -23,8 +23,12 @@ function SignInUpPage() {
     <div className={styles.LoginPage_body}>
       <LoginPageHeader />
       <div className={styles.guideSpace}>
-        <h1 className={styles.guideText}>
-          {inUp ? "Sign up to Earth-IDEN" : "Sign in to Earth-IDEN"}
+        <h1
+          className={`${inUp ? styles.signUpAni : styles.signInAni} ${
+            styles.guideText
+          }`}
+        >
+          {inUp ? "Sign up to Earth-IDE-N" : "Sign in to Earth-IDE-N"}
         </h1>
       </div>
       <main className={styles.signInUpSpace}>
