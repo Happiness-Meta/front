@@ -124,11 +124,16 @@
   left: -10px;
 }
 
+.testMessage {
+  background-color: blueviolet;
+}
+
 .myMessage {
   display: flex;
   align-self: flex-end;
   flex-direction: row;
   justify-content: flex-end;
+  background-color: #007bff;
 }
 
 .myMessage_ProfilePicture {
