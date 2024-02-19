@@ -7,6 +7,9 @@ import headerStore from "../../../../../src/store/globalStore/globalStore";
 import ReactModal from "react-modal";
 import userAxiosWithAuth from "../../../../utils/useAxiosWIthAuth";
 import { Repository } from "../../../../store/RepoPageStore/repoPageStore";
+import dayjs from "dayjs";
+import relativeTime from "dayjs/plugin/relativeTime";
+dayjs.extend(relativeTime);
 interface RepoComponent {
   name: string;
   description?: string;
@@ -23,7 +26,7 @@ interface NameClickParams {
   name?: string;
 }
 
-const Repositories = () => {
+const RepoComponent = () => {
   const { repositories, editMode, setEditMode, setRepositories, show, toggleModal } =
     RepoPageStore();
   const [editName, setEditName] = useState("");
@@ -31,6 +34,8 @@ const Repositories = () => {
   const [activeDropdownKey, setActiveDropdownKey] = useState<string | null>(null);
   const [currentEditingRepoKey, setCurrentEditingRepoKey] = useState<string | null>(null);
   const dropdownRef = useRef<HTMLDivElement>(null);
+  const [repoImg, setRepoImg] = useState(undefined);
+
   const handleNameClick = ({ key, name }: NameClickParams) => {
     setEditMode(key);
     setEditName(name ?? "");
@@ -49,7 +54,7 @@ const Repositories = () => {
         updatedName: newName, // 요청 본문에 새 이름을 'updatedName' 키로 전달
       });
       console.log("Repository name updated successfully:", response.data);
-
+      setRepoImg(response.data.data.programmingLanguage.toLowerCase());
       // Zustand 스토어 업데이트
       const updatedRepositories = { ...repositories };
       updatedRepositories[repoId].name = newName;
@@ -126,8 +131,9 @@ const Repositories = () => {
               <div className={styles.repocontainer}>
                 <div className={styles.reponame_container}>
                   <div className={styles.repoimageContainer}>
-                    <img src={repo.image} alt="repo" className={styles.repoimage}></img>
+                    <img src={`/svg/${repoImg}.svg`} alt="repo" className={styles.repoimage}></img>
                   </div>
+
                   <div className={styles.reponame}>
                     {editMode === repo.name ? (
                       <div className={styles.reponame_input_container}>
@@ -175,8 +181,14 @@ const Repositories = () => {
                   <Link to={`/codePage/${repo.id}`}>View Repository</Link>
                 </div>
                 <div className={styles.dateContainer}>
-                  <p>Created at: {repo.createdAt}</p>
-                  <p>Last modified: {repo.modifiedAt}</p>
+                  <p>
+                    {new Date(repo.createdAt).toLocaleDateString("ko-KR", {
+                      year: "numeric",
+                      month: "2-digit",
+                      day: "2-digit",
+                    })}
+                  </p>
+                  <p>{dayjs(repo.modifiedAt).fromNow()}</p>
                 </div>
               </div>
             </div>
@@ -187,4 +199,4 @@ const Repositories = () => {
   );
 };
 
-export default Repositories;
+export default RepoComponent;

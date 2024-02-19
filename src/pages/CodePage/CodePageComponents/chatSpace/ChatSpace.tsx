@@ -32,9 +32,18 @@ function ChatSpace() {
   useEffect(() => {
     if (!rightSpace) {
       connect();
-      console.log("rightSpace");
     }
   }, [rightSpace]);
+
+  useEffect(() => {
+    // userName을 cookies에서 가져온 nickname으로 초기화
+    setUserName(cookies.nickname);
+
+    if (!rightSpace) {
+      connect();
+      console.log("rightSpace");
+    }
+  }, [rightSpace, cookies.nickname]);
 
   const connect = async () => {
     if (clientRef.current === null) {
@@ -72,6 +81,9 @@ function ChatSpace() {
 
   const sendMessage = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
+    setCurrentMessage("");
+    setuserId(cookies.token);
+    setUserName(cookies.nickname);
     if (currentMessage.trim() && clientRef.current) {
       const chatMessage = {
         sender: userName,
@@ -79,9 +91,7 @@ function ChatSpace() {
         type: "CHAT",
         userId: cookies.token,
       };
-      setCurrentMessage("");
-      setuserId(cookies.token);
-      setUserName(cookies.nickname);
+
       clientRef.current.send("/pub/chat.sendMessage", {}, JSON.stringify(chatMessage));
       console.log("유저아이디:", userName);
     }
