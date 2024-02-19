@@ -36,7 +36,7 @@ const SpaceForInvite = () => {
       <div ref={infoSpaceRef} className={styles.infoSpace}>
         <div className={styles.spaceEach}>
           <label className={styles.texts}>URL</label>
-          <div className={styles.input}>{url}</div>
+          <input className={styles.input}>{url}</input>
         </div>
         <div className={styles.spaceEach}>
           <label className={styles.texts}>Key</label>

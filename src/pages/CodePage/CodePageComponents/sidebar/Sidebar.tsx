@@ -2,68 +2,60 @@ import styles from "./sidebar.module.css";
 import sidebarStore from "../../../../store/CodePageStore/sidebarStore";
 import EditorSettingBtn from "./editorSettingBtn/EditorSettingBtn";
 import editorStore from "../../../../store/CodePageStore/editorStore";
-import { Tree, TreeApi } from "react-arborist";
-import { useRef, useState } from "react";
+import { CreateHandler, Tree, TreeApi } from "react-arborist";
+import { useEffect, useRef, useState } from "react";
 import Node from "../../../../globalComponents/node/Node";
 import { v4 as uuidv4 } from "uuid";
-
-const treeData = [
-  {
-    id: uuidv4(),
-    name: "node_modules",
-    children: [{ id: uuidv4(), name: "bunch_of_files" }],
-  },
-  {
-    id: uuidv4(),
-    name: "public",
-    children: [{ id: uuidv4(), name: "react.svg" }],
-  },
-  {
-    id: uuidv4(),
-    name: "src",
-    children: [
-      { id: uuidv4(), name: "index.css" },
-      { id: uuidv4(), name: "main.tsx" },
-    ],
-  },
-  { id: uuidv4(), name: ".gitignore" },
-  { id: uuidv4(), name: "index.html" },
-  { id: uuidv4(), name: "package.json" },
-  { id: uuidv4(), name: "README.md" },
-];
+import { useMutation } from "@tanstack/react-query";
+import { LeafType } from "../../../../types/typesForFileTree";
+import userAxiosWithAuth from "../../../../utils/useAxiosWIthAuth";
+import FileTreeStore from "../../../../store/FileTreeStore/FileTreeStore";
+import { useParams } from "react-router-dom";
 
 function Sidebar() {
   const { sidebar, expandStatus, expandToggle } = sidebarStore();
   const { rightSpace, toggleRightSpace, terminal, toggleTerminal } =
     editorStore();
+  const { fileTree, getNodes, addNode } = FileTreeStore();
 
   const [term, setTerm] = useState("");
-  // interface leafType {
-  //   id: string;
-  //   name: string;
-  //   type: string;
-  //   content: string;
-  //   // parentId: string;
-  // }
 
-  const treeRef = useRef<TreeApi<string>>(null);
+  const treeRef = useRef<TreeApi<LeafType>>(null);
 
-  // const onCreate: CreateHandler<leafType> = ({ type }) => {
-  //   const newNode: leafType = {
-  //     id: uuidv4(),
-  //     name: "",
-  //     type: type === "internal" ? "DIRECTORY" : "FILE",
-  //     ...(type === "internal" && { children: [] }),
-  //     // parentId: parentId === null ? "root" : parentId,
-  //     content: "",
-  //   };
-  //   addNode(newNode);
-  //   return newNode;
-  // };
-
+  const onCreate: CreateHandler<LeafType> = ({ type, parentId }) => {
+    const newNode: LeafType = {
+      id: uuidv4(),
+      name: "",
+      type: type === "internal" ? "DIRECTORY" : "FILE",
+      parentId: parentId === null ? "root" : parentId,
+      content: "",
+    };
+    addNode(newNode);
+    return newNode;
+  };
+  console.log();
   // const addNode = (newNode: leafType) => {
   //   treeData = [...treeData, newNode];
   // };
+
+  const { repoId } = useParams();
+
+  const getData = useMutation({
+    mutationFn: async () => {
+      try {
+        const response = await userAxiosWithAuth.get(
+          `/api/repos/${repoId}/files`
+        );
+        getNodes(response.data.fileData);
+      } catch (error) {
+        console.log(error);
+      }
+    },
+  });
+
+  // useEffect(() => {
+  //   getData.mutate();
+  // }, []);
 
   return (
     <div
@@ -103,7 +95,7 @@ function Sidebar() {
               </div>
               <div
                 className={`material-symbols-outlined ${styles.addFolder}`}
-                onClick={() => treeRef.current?.createInternal()}
+                onClick={() => addNode}
                 title="New Folders..."
               >
                 create_new_folder
@@ -121,14 +113,14 @@ function Sidebar() {
               rowClassName={styles.arborist_row}
               width={"100%"}
               height={1000}
-              indent={17}
-              data={treeData}
+              indent={10}
+              data={fileTree}
               searchTerm={term}
               searchMatch={(node, term) =>
                 node.data.name.toLowerCase().includes(term.toLowerCase())
               }
               // onRename={}
-              // onCreate={onCreate}
+              onCreate={onCreate}
             >
               {Node}
             </Tree>

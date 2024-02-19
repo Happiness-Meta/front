@@ -11,7 +11,7 @@ function SignUp() {
   const nicknameInput: RefObject<HTMLInputElement> = useRef(null);
   const pwInput: RefObject<HTMLInputElement> = useRef(null);
 
-  const { inUpToggle, isVisible, visibleToggle, toggleWelcomeMessage } =
+  const { inUp, inUpToggle, isVisible, visibleToggle, toggleWelcomeMessage } =
     LoginPageStore();
   const {
     signUpErrorMessage,
@@ -67,11 +67,25 @@ function SignUp() {
       } catch (error) {
         if (axios.isAxiosError(error)) {
           const axiosError = error as AxiosError;
-
           if (axiosError.response) {
             console.log(error.response?.data);
+            if (error.response?.data.code === 409) {
+              return signUpErrorMessageStatus(
+                "입력하신 이메일이 이미 존재합니다."
+              );
+            }
+            if (error.response?.data.code === 404) {
+              return signUpErrorMessageStatus(
+                "입력하신 닉네임이 이미 존재합니다."
+              );
+            }
+            if (error.response?.data.code === 400) {
+              return signUpErrorMessageStatus(
+                "비밀번호: 영문 대,소문자/숫자/특수기호 1개 이상 포함된 8 ~ 20자"
+              );
+            }
             if (error.response?.data.code !== 200) {
-              return signUpErrorMessageStatus(error.response?.data.msg);
+              return signUpErrorMessageStatus("시스템 오류");
             }
           }
         }
@@ -97,6 +111,7 @@ function SignUp() {
             person
           </i>
           <input
+            {...(!inUp ? { autoFocus: true } : {})}
             ref={idInput}
             name="id"
             type="text"
@@ -133,6 +148,9 @@ function SignUp() {
             placeholder="password"
             value={signUpPW}
             onChange={(e) => setSignUpPw(e.target.value)}
+            onKeyDown={(e) => {
+              if (e.key === "Enter") registerUser.mutate();
+            }}
           />
           <i
             className={`${styles.visibility} material-symbols-outlined`}

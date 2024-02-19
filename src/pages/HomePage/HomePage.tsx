@@ -93,8 +93,8 @@ function HomePage() {
             <span className={styles.boxSubTitle}>성장할 수 있는 기회</span>
           </div>
           <div className={styles.boxes}>
-            <span className={styles.boxTitle}>TOGETHER</span>
-            <span className={styles.boxSubTitle}>실시간 동시 편집 기능</span>
+            <span className={styles.boxTitle}>LAUNCH</span>
+            <span className={styles.boxSubTitle}>떠날 준비가 됐나요?</span>
           </div>
         </div>
       </div>

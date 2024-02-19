@@ -33,7 +33,7 @@ const Node: React.FC<NodeRendererProps> = ({ node, tree, style }) => {
               <span className={`material-symbols-outlined`}>expand_more</span>
               <img
                 className={styles.directoryIcon}
-                src="svg/openFolder.svg"
+                src="/svg/openFolder.svg"
                 alt="of"
               />
             </>
@@ -42,7 +42,7 @@ const Node: React.FC<NodeRendererProps> = ({ node, tree, style }) => {
               <span className={`material-symbols-outlined`}>chevron_right</span>
               <img
                 className={styles.directoryIcon}
-                src="svg/closedFolder.svg"
+                src="/svg/closedFolder.svg"
                 alt="cf"
               />
             </>

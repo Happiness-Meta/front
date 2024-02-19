@@ -32,7 +32,7 @@ function CodePage() {
         // 요청 성공 후 처리할 로직을 여기에 추가합니다.
       } catch (error) {
         console.error("Error:", error);
-        navigate("/");
+        // navigate("/");
         //패스워드 입력하라는 컴포넌트를 추가
         // 요청 실패 처리 로직을 여기에 추가합니다.
       }

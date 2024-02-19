@@ -30,6 +30,28 @@
   }
 }
 
+.signInAni {
+  animation: fadeIn 1.5s;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+}
+
+.signUpAni {
+  animation: fadeIn2 1.5s;
+}
+
+@keyframes fadeIn2 {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+}
+
 .signInUpSpace {
   position: relative;
   display: flex;
@@ -264,8 +286,8 @@
 }
 
 .goToSignInUpBtn:hover {
-  background-color: gray;
-  color: white;
+  box-shadow: inset 0 0 9px #068fff;
+  border-color: #068fff;
 }
 
 .signUpSection {
