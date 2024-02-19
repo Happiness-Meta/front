@@ -2,8 +2,8 @@ import styles from "./sidebar.module.css";
 import sidebarStore from "../../../../store/CodePageStore/sidebarStore";
 import EditorSettingBtn from "./editorSettingBtn/EditorSettingBtn";
 import editorStore from "../../../../store/CodePageStore/editorStore";
-import { CreateHandler, Tree, TreeApi } from "react-arborist";
-import { useEffect, useRef, useState } from "react";
+import { Tree, TreeApi } from "react-arborist";
+import { useRef, useState } from "react";
 import Node from "../../../../globalComponents/node/Node";
 import { v4 as uuidv4 } from "uuid";
 import { useMutation } from "@tanstack/react-query";
@@ -22,21 +22,23 @@ function Sidebar() {
 
   const treeRef = useRef<TreeApi<LeafType>>(null);
 
-  const onCreate: CreateHandler<LeafType> = ({ type, parentId }) => {
+  // interface newNode {
+  //   type: string;
+  //   parentId: string;
+  // }
+
+  const onCreate = (type: string, parentId?: string) => {
     const newNode: LeafType = {
       id: uuidv4(),
       name: "",
       type: type === "internal" ? "DIRECTORY" : "FILE",
       parentId: parentId === null ? "root" : parentId,
+      filePath: "",
       content: "",
     };
     addNode(newNode);
     return newNode;
   };
-  console.log();
-  // const addNode = (newNode: leafType) => {
-  //   treeData = [...treeData, newNode];
-  // };
 
   const { repoId } = useParams();
 
@@ -88,14 +90,15 @@ function Sidebar() {
             <div className={styles.filesAddSpace}>
               <div
                 className={`material-symbols-outlined ${styles.addFile}`}
-                onClick={() => treeRef.current?.createLeaf()}
+                //{ parentId: string | null; parentNode: NodeApi<newNode> | null; index: number; type: "leaf" | "internal"; }
+                onClick={() => onCreate("leaf")}
                 title="New Files..."
               >
                 note_add
               </div>
               <div
                 className={`material-symbols-outlined ${styles.addFolder}`}
-                onClick={() => addNode}
+                onClick={() => onCreate}
                 title="New Folders..."
               >
                 create_new_folder
@@ -119,8 +122,6 @@ function Sidebar() {
               searchMatch={(node, term) =>
                 node.data.name.toLowerCase().includes(term.toLowerCase())
               }
-              // onRename={}
-              onCreate={onCreate}
             >
               {Node}
             </Tree>
