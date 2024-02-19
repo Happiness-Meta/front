@@ -1,24 +1,21 @@
 import editorStore from "../../../../store/CodePageStore/editorStore";
 import styles from "./ChatSpace.module.css";
-import SockJS from "sockjs-client";
 import Stomp, { Client } from "stompjs";
-import userStore from "../../../../store/userStore/userStore";
-import { FormEvent, useEffect, useRef, useState } from "react";
-import defaultPicture from "/svg/profilePicture.svg";
+import { useEffect, useRef, useState } from "react";
 import userAxiosWithAuth from "../../../../utils/useAxiosWIthAuth";
 import { useCookies } from "react-cookie";
+import { useParams } from "react-router-dom";
 
 interface ChatMessage {
   sender: string;
   content: string;
-  profilepicture: string;
   type: "JOIN" | "LEAVE" | "CHAT";
   userId: string;
 }
 
 function ChatSpace() {
+  const { repoId } = useParams();
   const [messages, setMessages] = useState<ChatMessage[]>([]);
-  const [inputText, setInputText] = useState<string>("");
   const [currentMessage, setCurrentMessage] = useState<string>("");
   const [userName, setUserName] = useState<string>("");
   const messagesEndRef = useRef<HTMLDivElement | null>(null);
@@ -26,8 +23,7 @@ function ChatSpace() {
   const { rightSpace } = editorStore();
   const [connected, setConnected] = useState<boolean>(false);
   const [cookies] = useCookies(["token", "nickname"]);
-  const [repoId, setRepoId] = useState("");
-  const [userId, setuserId] = useState<string>("");
+  const [userId, setUserId] = useState<string>("");
 
   useEffect(() => {
     if (!rightSpace) {
@@ -48,7 +44,7 @@ function ChatSpace() {
   const connect = async () => {
     if (clientRef.current === null) {
       // 웹 소켓 fallback (소켓 통신 멈췄을 때, http로도 메시지 전송 받을 수 있게 함)
-      const socket = new WebSocket("ws://43.203.92.111:8080/ws");
+      const socket = new WebSocket(import.meta.env.VITE_WEBSOCKET_URL);
       const client = Stomp.over(socket);
       console.log("여기까지는 오게 됨");
       client.connect({}, onConnected, onError);
@@ -66,10 +62,10 @@ function ChatSpace() {
   const onConnected = () => {
     setConnected(true);
     console.log("여기까지 온거면, 메서드는 실행 된 거.");
-    clientRef.current?.subscribe("/sub/public", onMessageReceived);
+    clientRef.current?.subscribe(`/sub/repo/${repoId}`, onMessageReceived);
     console.log("구독이 문제인가? 이거 나오면 구독은 문제 아닌 걸로");
     clientRef.current?.send(
-      "/pub/chat.addUser",
+      `/pub/chat/enter/${repoId}`,
       {},
       JSON.stringify({ sender: userName, type: "JOIN" })
     );
@@ -82,7 +78,7 @@ function ChatSpace() {
   const sendMessage = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     setCurrentMessage("");
-    setuserId(cookies.token);
+    setUserId(cookies.token);
     setUserName(cookies.nickname);
     if (currentMessage.trim() && clientRef.current) {
       const chatMessage = {
@@ -92,7 +88,7 @@ function ChatSpace() {
         userId: cookies.token,
       };
 
-      clientRef.current.send("/pub/chat.sendMessage", {}, JSON.stringify(chatMessage));
+      clientRef.current.send(`/pub/chat/send/${repoId}`, {}, JSON.stringify(chatMessage));
       console.log("유저아이디:", userName);
     }
   };
@@ -107,99 +103,65 @@ function ChatSpace() {
   };
 
   return (
-    <div id="chat-page">
-      <div className="chat-container">
-        <div className="chat-header">
-          <h2>Spring WebSocket Chat Demo</h2>
-        </div>
+    <div className={styles.chattingWrapper}>
+      <div className={styles.chattingSpace}>
+        <div className={styles.chatHeader}></div>
         {!connected && (
           <div className={styles.messages} ref={messagesEndRef}>
             Connecting...
           </div>
         )}
-        <ul id="messageArea">
+        <ul className={styles.messageArea}>
           {messages.map((message, index) => (
             <li
               key={index}
               className={`${message.sender === userName ? styles.myMessage : styles.testMessage}`}
             >
               {message.type === "CHAT" && (
-                <>
-                  <strong>{message.sender}</strong> : {message.content}
-                </>
+                <div
+                  className={`${
+                    message.sender === userName ? styles.mysenderWrapper : styles.senderWrapper
+                  }`}
+                >
+                  <div
+                    className={`${
+                      message.sender === userName ? styles.mysenderName : styles.senderName
+                    }`}
+                  >
+                    <strong>{message.sender}</strong>
+                  </div>
+                  <div className={styles.chat_bubble}>{message.content}</div>
+                </div>
               )}
-              {message.type === "JOIN" && <em>{message.sender} 님이 참가했습니다.</em>}
-              {message.type === "LEAVE" && <em>{message.sender} 님이 퇴장했습니다.</em>}
+              <div className={styles.senderNoticeWrapper}>
+                {message.type === "JOIN" && (
+                  <div className={styles.senderEntranceNotice}>
+                    {message.sender} 님이 참가했습니다.
+                  </div>
+                )}
+                {message.type === "LEAVE" && (
+                  <div className={styles.senderOutNotice}>{message.sender} 님이 퇴장했습니다.</div>
+                )}
+              </div>
             </li>
           ))}
         </ul>
-        <form id="messageForm" name="messageForm" onSubmit={sendMessage}>
+        <form className={styles.messageForm} name="messageForm" onSubmit={sendMessage}>
           <input
-            style={{ color: "black" }}
             type="text"
             id="message"
             placeholder="Type a message..."
             autoComplete="off"
-            className="form-control"
+            className={styles.messageInput}
             value={currentMessage}
             onChange={(e) => setCurrentMessage(e.target.value)}
           />
-          <button type="submit" className="primary" style={{ color: "black" }}>
+          <button type="submit" className={styles.sendButton}>
             Send
           </button>
         </form>
       </div>
     </div>
-    // <div className={`${rightSpace ? styles.rightSpaceOn : undefined} ${styles.rightSpace}`}>
-    //   <div className={styles.filesTabSpace}> 채팅</div>
-    //   <div className={` ${styles.chattingSpace} `}></div>
-    //   <div className={styles.chat_room}>
-    //     <div className={styles.messages} ref={messagesEndRef}>
-    //       {messages.map((message, index) => (
-    //         <div
-    //           key={index}
-    //           className={`${styles.message} ${
-    //             message.userId === cookies.token ? styles.myMessage : ""
-    //           }`}
-    //         >
-    //           <img
-    //             src={message.profilepicture}
-    //             alt="Profile"
-    //             className={`${styles.profilePicture} ${
-    //               message.userId === cookies.token ? styles.myMessage_ProfilePicture : ""
-    //             }`}
-    //           />
-    //           <div
-    //             className={`${styles.messageDetail} ${
-    //               message.userId === cookies.token ? styles.myMessage_Detail : ""
-    //             }`}
-    //           >
-    //             <div className={styles.userName}>{message.sender}</div>
-    //             <div
-    //               className={`${styles.chat_bubble} ${
-    //                 message.userId === cookies.token ? styles.myChat_bubble : ""
-    //               }`}
-    //             >
-    //               {message.content}
-    //             </div>
-    //           </div>
-    //         </div>
-    //       ))}
-    //     </div>
-    //     <form className={styles.messageForm} onSubmit={sendMessage}>
-    //       <input
-    //         type="text"
-    //         className={styles.messageInput}
-    //         placeholder="메시지를 입력하세요..."
-    //         value={inputText}
-    //         onChange={(e) => setInputText(e.target.value)}
-    //       />
-    //       <button type="submit" className={styles.sendButton}>
-    //         Send
-    //       </button>
-    //     </form>
-    //   </div>
-    // </div>
   );
 }
 
