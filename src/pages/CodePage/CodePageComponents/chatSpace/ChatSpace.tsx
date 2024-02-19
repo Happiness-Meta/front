@@ -25,15 +25,25 @@ function ChatSpace() {
   const clientRef = useRef<Client | null>(null);
   const { rightSpace } = editorStore();
   const [connected, setConnected] = useState<boolean>(false);
-  const [cookies] = useCookies(["token"]);
+  const [cookies] = useCookies(["token", "nickname"]);
   const [repoId, setRepoId] = useState("");
+  const [userId, setuserId] = useState<string>("");
 
   useEffect(() => {
     if (!rightSpace) {
       connect();
-      console.log("rightSpace");
     }
   }, [rightSpace]);
+
+  useEffect(() => {
+    // userName을 cookies에서 가져온 nickname으로 초기화
+    setUserName(cookies.nickname);
+
+    if (!rightSpace) {
+      connect();
+      console.log("rightSpace");
+    }
+  }, [rightSpace, cookies.nickname]);
 
   const connect = async () => {
     if (clientRef.current === null) {
@@ -71,6 +81,9 @@ function ChatSpace() {
 
   const sendMessage = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
+    setCurrentMessage("");
+    setuserId(cookies.token);
+    setUserName(cookies.nickname);
     if (currentMessage.trim() && clientRef.current) {
       const chatMessage = {
         sender: userName,
@@ -78,10 +91,15 @@ function ChatSpace() {
         type: "CHAT",
         userId: cookies.token,
       };
+
       clientRef.current.send("/pub/chat.sendMessage", {}, JSON.stringify(chatMessage));
-      setCurrentMessage("");
+      console.log("유저아이디:", userName);
     }
   };
+
+  //안되는 부분: userid가 안받아와짐(...어 된다)
+  //레포 경로 재설정
+  //초대 마무리, 권한 관리
 
   const onMessageReceived = (payload: any) => {
     const message: ChatMessage = JSON.parse(payload.body);
@@ -94,16 +112,24 @@ function ChatSpace() {
         <div className="chat-header">
           <h2>Spring WebSocket Chat Demo</h2>
         </div>
-        {!connected && <div className="connecting">Connecting...</div>}
+        {!connected && (
+          <div className={styles.messages} ref={messagesEndRef}>
+            Connecting...
+          </div>
+        )}
         <ul id="messageArea">
           {messages.map((message, index) => (
-            <li key={index} className={message.userId === cookies.token ? styles.myMessage : ""}>
+            <li
+              key={index}
+              className={`${message.sender === userName ? styles.myMessage : styles.testMessage}`}
+            >
               {message.type === "CHAT" && (
                 <>
                   <strong>{message.sender}</strong> : {message.content}
                 </>
               )}
-              {message.type !== "CHAT" && <em>{message.sender} 참가/퇴장했습니다.</em>}
+              {message.type === "JOIN" && <em>{message.sender} 님이 참가했습니다.</em>}
+              {message.type === "LEAVE" && <em>{message.sender} 님이 퇴장했습니다.</em>}
             </li>
           ))}
         </ul>

@@ -57,7 +57,7 @@ const Dashboard = () => {
 
     try {
       const response = await userAxiosWithAuth.post(`/api/repos`, data);
-      // console.log(response.data);
+      // console.log("프로그래밍 랭귀지:", response.data.data.programmingLanguage);
       // 저장소 생성 후 필요한 상태 업데이트나 UI 반응
 
       RepoPageStore.getState().setRepositories({
@@ -68,7 +68,7 @@ const Dashboard = () => {
           id: response.data.data.id,
           createdAt: response.data.data.createdAt,
           modifiedAt: response.data.data.modifiedAt,
-          url: `codePage/${response.data.data.id}`,
+          url: `/codePage/${response.data.data.id}`,
           image: `/svg/${response.data.data.programmingLanguage.toLowerCase()}.svg`,
         },
       });
@@ -105,8 +105,8 @@ const Dashboard = () => {
         const response = await userAxiosWithAuth.get(`/api/repos/all`);
         console.log("Fetched repositories:", response.data); // 변경된 접근 방식 확인
 
-        // API 응답 구조가 { data: { data: [...] } } 형태라고 가정. 추후 data"s"에서 data로 바꿔야 됨
-        const repositoryArray = response.data.datas || []; // response.data.data가 배열이라고 가정
+        // API 응답 구조가 { data: { data: [...] } } 형태라고 가정.
+        const repositoryArray = response.data.data || []; // response.data.data가 배열이라고 가정
         const fetchedRepositories = repositoryArray.reduce(
           (acc: { [key: string]: Repository }, currentRepo: Repository) => {
             acc[currentRepo.id] = currentRepo;
