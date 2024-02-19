@@ -105,8 +105,8 @@ const Dashboard = () => {
         const response = await userAxiosWithAuth.get(`/api/repos/all`);
         console.log("Fetched repositories:", response.data); // 변경된 접근 방식 확인
 
-        // API 응답 구조가 { data: { data: [...] } } 형태라고 가정. 추후 data"s"에서 data로 바꿔야 됨
-        const repositoryArray = response.data.datas || []; // response.data.data가 배열이라고 가정
+        // API 응답 구조가 { data: { data: [...] } } 형태라고 가정.
+        const repositoryArray = response.data.data || []; // response.data.data가 배열이라고 가정
         const fetchedRepositories = repositoryArray.reduce(
           (acc: { [key: string]: Repository }, currentRepo: Repository) => {
             acc[currentRepo.id] = currentRepo;
