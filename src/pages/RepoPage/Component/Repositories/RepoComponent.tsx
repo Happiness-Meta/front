@@ -1,7 +1,7 @@
 import React, { useEffect, useRef, useState } from "react";
 import styles from "./Repositories.module.css";
 import RepoPage from "../../RepoPage";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import RepoPageStore from "../../../../store/RepoPageStore/repoPageStore";
 import headerStore from "../../../../../src/store/globalStore/globalStore";
 import ReactModal from "react-modal";
@@ -35,8 +35,10 @@ const RepoComponent = () => {
   const [currentEditingRepoKey, setCurrentEditingRepoKey] = useState<string | null>(null);
   const dropdownRef = useRef<HTMLDivElement>(null);
   const [repoImg, setRepoImg] = useState(undefined);
+  const navigate = useNavigate();
 
-  const handleNameClick = ({ key, name }: NameClickParams) => {
+  const handleNameClick = ({ key, name }: NameClickParams, event: React.MouseEvent) => {
+    event.stopPropagation();
     setEditMode(key);
     setEditName(name ?? "");
   };
@@ -44,7 +46,8 @@ const RepoComponent = () => {
     setEditName(e.target.value);
   };
 
-  const toggleDropdown = (key: string) => {
+  const toggleDropdown = (key: string, event: React.MouseEvent<HTMLDivElement>) => {
+    event.stopPropagation();
     setActiveDropdownKey(activeDropdownKey === key ? null : key);
   };
 
@@ -82,7 +85,8 @@ const RepoComponent = () => {
     }
   };
 
-  const handleRepoDelete = async (repoId: string) => {
+  const handleRepoDelete = async (repoId: string, event: React.MouseEvent) => {
+    event.stopPropagation();
     try {
       const response = await userAxiosWithAuth.delete(`/api/repos/${repoId}`);
       console.log("Deleted repository:", response.data);
@@ -127,11 +131,13 @@ const RepoComponent = () => {
             <div
               key={index}
               className={`${mode ? styles.repo_wrapperSun : styles.repo_wrapperNight}`}
+              onClick={() => navigate(`/codePage/${repo.id}`)}
             >
               <div className={styles.repocontainer}>
                 <div className={styles.reponame_container}>
                   <div className={styles.repoimageContainer}>
-                    <img src={`/svg/${repoImg}.svg`} alt="repo" className={styles.repoimage}></img>
+                    <span className="material-symbols-outlined">public</span>
+                    {/* <img src={repo.image} alt="repo" className={styles.repoimage}></img> */}
                   </div>
 
                   <div className={styles.reponame}>
@@ -149,11 +155,14 @@ const RepoComponent = () => {
                         />
                       </div>
                     ) : (
-                      <h3 onClick={() => handleNameClick({ key: repo.name, name: repo.name })}>
+                      <h3 onClick={(e) => handleNameClick({ key: repo.name, name: repo.name }, e)}>
                         {repo.name}
                       </h3>
                     )}
-                    <div onClick={() => toggleDropdown(repo.id)}>
+                    <div
+                      className={styles.moreHorizContainer}
+                      onClick={(e) => toggleDropdown(repo.id, e)}
+                    >
                       <span className="material-symbols-outlined">more_horiz</span>
                     </div>
                     {activeDropdownKey === repo.id && (
@@ -169,7 +178,7 @@ const RepoComponent = () => {
                         >
                           Edit
                         </button>
-                        <button onClick={() => handleRepoDelete(repo.id)}>Delete</button>
+                        <button onClick={(e) => handleRepoDelete(repo.id, e)}>Delete</button>
                       </div>
                     )}
                   </div>
@@ -177,9 +186,7 @@ const RepoComponent = () => {
                 <div className={styles.repodescription_container}>
                   <p>{repo.createdAt}</p>
                 </div>
-                <div className={styles.repoLinkContainer}>
-                  <Link to={`/codePage/${repo.id}`}>View Repository</Link>
-                </div>
+                <div className={styles.repoLinkContainer}></div>
                 <div className={styles.dateContainer}>
                   <p>
                     {new Date(repo.createdAt).toLocaleDateString("ko-KR", {
