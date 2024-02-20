@@ -3,6 +3,7 @@ import styles from "./node.module.css";
 import { CSSProperties } from "react";
 import editorStore from "../../store/CodePageStore/editorStore";
 import SetFileTreeIcon from "../SetFileTreeIcon";
+import FileTreeStore from "../../store/FileTreeStore/FileTreeStore";
 
 interface NodeRendererProps {
   node: NodeApi;
@@ -12,13 +13,17 @@ interface NodeRendererProps {
 
 const Node: React.FC<NodeRendererProps> = ({ node, tree, style }) => {
   const { addTab, showContent } = editorStore();
+  const { setParentId } = FileTreeStore();
 
   return (
     <div
       className={styles.node_container}
       style={style}
       onClick={() => {
+        console.log(node.data.parentId);
         node.isInternal && node.toggle();
+        node.isInternal && setParentId(node.data.id);
+        !node.isInternal && setParentId(node.data.parentId);
         !node.isInternal && addTab(node.data);
         !node.isInternal && showContent(node.data);
       }}

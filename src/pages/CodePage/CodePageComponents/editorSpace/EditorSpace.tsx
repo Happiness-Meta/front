@@ -45,7 +45,6 @@ function EditorSpace() {
       >
         <div className={styles.filesTabSpace}>
           {tabs.map((tab) => {
-            console.log(tab);
             return (
               <div
                 key={tab.id}
