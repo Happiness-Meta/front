@@ -1,7 +1,7 @@
 import axios, { InternalAxiosRequestConfig } from "axios";
 
 const userAxiosWithAuth = axios.create({
-  baseURL: "http://43.203.92.111",
+  baseURL: import.meta.env.VITE_BASE_URL,
   headers: { "Content-type": "application/json" },
 });
 
