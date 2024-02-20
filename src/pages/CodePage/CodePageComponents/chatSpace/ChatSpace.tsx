@@ -26,7 +26,7 @@ function ChatSpace() {
     useEffect(() => {
         // userName을 cookies에서 가져온 nickname으로 초기화
         setUserName(cookies.nickname);
-        console.log("이건 닉네임인가?", userName);
+        console.log("이건 닉네임인가? ", userName);
 
         if (!rightSpace) {
             connect();
