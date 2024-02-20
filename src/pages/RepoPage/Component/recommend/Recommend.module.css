@@ -129,7 +129,7 @@
 .reponame_container {
   position: relative;
   width: 211px;
-
+  align-items: flex-start;
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -316,4 +316,86 @@
   bottom: 0;
   background-color: rgba(251, 251, 251, 0.25);
   z-index: 100;
+}
+
+.createRepoModal {
+  background-color: #1e1e26;
+  width: 410px;
+  height: 413px;
+  margin: auto;
+  position: relative;
+  border-radius: 8px;
+  padding: 20px;
+  box-sizing: border-box;
+  outline: none;
+}
+
+.createRepoModal button {
+  color: #1e1e26;
+}
+
+.createRepoOverlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.75);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.titleText {
+  font-size: 24px;
+  font-weight: 600;
+  color: #ffffff;
+  margin-bottom: 20px;
+}
+
+.submitContainer input {
+  background-color: #2e2e35;
+  border: none;
+  color: #eeeeee;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-radius: 10px;
+  width: 255px;
+  height: 30px;
+  margin-top: 20px;
+}
+
+.submitContainer input::placeholder {
+  text-align: center;
+}
+
+/* .submitContainer:hover,
+.submitContainer:focus {
+  background-color: #65656a;
+  border: none;
+} */
+
+.createRepoOverlay {
+  display: flex;
+}
+
+.MenuWrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.titleAndCloseContainer {
+  display: flex;
+  align-items: center;
+}
+.closeButton {
+  background-color: transparent;
+  position: absolute;
+  right: 20px;
+  color: white !important;
+  border: none;
+  font-size: 24px;
+  cursor: pointer;
 }
