@@ -1,15 +1,54 @@
-import React from "react";
+import React, { useState } from "react";
 import styles from "./Recommend.module.css";
-import RepoPage from "../../RepoPage";
+import RepoPageStore from "../../../../store/RepoPageStore/repoPageStore";
 import headerStore from "../../../../../src/store/globalStore/globalStore";
 import RecommendStore from "../../../../store/RecommendStore/recommendstore";
+import useModalStore from "../../../../store/ModalStore/ModalStore";
+import ReactModal from "react-modal";
+import userAxiosWithAuth from "../../../../utils/useAxiosWIthAuth";
 
 const Repositories = () => {
   const { mode } = headerStore();
   const { repositories } = RecommendStore();
-
+  const { isRecommendModalOpen, toggleRecommendedModal } = useModalStore();
+  const [inputValue, setInputValue] = useState("");
+  const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setInputValue(event.target.value);
+  };
   const isEmpty = Object.keys(repositories).length === 0;
+  const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
 
+    // 비동기 요청을 통해 새 저장소 생성
+    const data = {
+      name: inputValue, // 사용자가 입력한 타이틀
+    };
+
+    try {
+      const response = await userAxiosWithAuth.post(`/api/repos`, data);
+      // console.log("프로그래밍 랭귀지:", response.data.data.programmingLanguage);
+      // 저장소 생성 후 필요한 상태 업데이트나 UI 반응
+
+      RepoPageStore.getState().setRepositories({
+        ...RepoPageStore.getState().repositories, // 기존 저장소 유지
+        [response.data.data.id]: {
+          // 새로운 저장소 추가
+          name: response.data.data.name,
+          id: response.data.data.id,
+          createdAt: response.data.data.createdAt,
+          modifiedAt: response.data.data.modifiedAt,
+          url: `/codePage/${response.data.data.id}`,
+          // image: `/svg/${response.data.data.programmingLanguage.toLowerCase()}.svg`,
+        },
+      });
+
+      toggleRecommendedModal(); // 모달 닫기
+      setInputValue(""); // 입력 필드 초기화
+    } catch (error) {
+      console.error("Error creating new repository:", error);
+    }
+    setInputValue("");
+  };
   return (
     <div>
       {/* <h2>Recommend</h2> */}
@@ -22,7 +61,7 @@ const Repositories = () => {
               key={key}
               className={`${mode ? styles.repo_wrapperSun : styles.repo_wrapperNight}`}
             >
-              <div className={styles.repocontainer}>
+              <div className={styles.repocontainer} onClick={toggleRecommendedModal}>
                 <div className={styles.reponame_container}>
                   <div className={styles.repoimageContaier}>
                     <img src={repo.image} className={styles.repoimage}></img>
@@ -41,6 +80,36 @@ const Repositories = () => {
           ))
         )}
       </div>
+      <ReactModal
+        isOpen={isRecommendModalOpen}
+        onRequestClose={toggleRecommendedModal}
+        contentLabel="Create Recommend Repository"
+        className={styles.createRecommendModal}
+        overlayClassName={styles.createRecommendOverlay}
+      >
+        <form onSubmit={handleSubmit} className={styles.MenuWrapper}>
+          <div className={styles.titleAndCloseContainer}>
+            <h2>Create New Repository🚀</h2>
+            <button type="button" className={styles.closeButton} onClick={toggleRecommendedModal}>
+              <span className="material-symbols-outlined">close</span>
+            </button>
+          </div>
+
+          <div className={styles.submitAndButtonContainer}>
+            <div className={styles.submitContainer}>
+              <input
+                type="text"
+                placeholder="Enter your title..."
+                value={inputValue}
+                onChange={handleChange}
+                className={styles.titleinput}
+                required
+              />
+            </div>
+            <button type="submit">Create🚀</button>
+          </div>
+        </form>
+      </ReactModal>
     </div>
   );
 };

@@ -11,15 +11,7 @@ import ChatSpace from "../chatSpace/ChatSpace";
 function EditorSpace() {
   const { sidebar, codeFontSize } = sidebarStore();
   const { mode } = globalStore();
-  const {
-    tabs,
-    deleteTab,
-    content,
-    filePath,
-    showContent,
-    rightSpace,
-    terminal,
-  } = editorStore();
+  const { tabs, deleteTab, content, filePath, showContent, rightSpace, terminal } = editorStore();
 
   const textStyle = {
     backgroundImage: "linear-gradient(to right, pink, skyblue)",
@@ -30,15 +22,9 @@ function EditorSpace() {
   };
 
   return (
-    <div
-      className={`${sidebar ? styles.sidebarToggle : undefined} ${
-        styles.editorSpace
-      }`}
-    >
+    <div className={`${sidebar ? styles.sidebarToggle : undefined} ${styles.editorSpace}`}>
       <Resizable
-        className={`${rightSpace ? styles.leftWidthFull : undefined} ${
-          styles.leftSpace
-        }`}
+        className={`${rightSpace ? styles.leftWidthFull : undefined} ${styles.leftSpace}`}
         defaultSize={{ width: "70%", height: "100%" }}
         enable={{ top: false, bottom: false, right: true, left: false }}
         handleClasses={{ right: "resizeHandle2" }}
@@ -53,14 +39,10 @@ function EditorSpace() {
                 style={{
                   backgroundColor: mode ? "white" : "#1e1e1e",
                   opacity: tab.content === content ? "1" : undefined,
-                  borderTop:
-                    tab.content === content ? "1px solid #068fff" : undefined,
+                  borderTop: tab.content === content ? "1px solid #068fff" : undefined,
                 }}
               >
-                <button
-                  className={styles.tabEach}
-                  onClick={() => showContent(tab)}
-                >
+                <button className={styles.tabEach} onClick={() => showContent(tab)}>
                   {SetFileTreeIcon(tab.name)}
                   <span className={styles.tabName}>{tab.name}</span>
                 </button>
@@ -77,33 +59,23 @@ function EditorSpace() {
 
         <div
           className={styles.filePathSpace}
-          style={
-            mode ? { backgroundColor: "white" } : { backgroundColor: "#1e1e1e" }
-          }
+          style={mode ? { backgroundColor: "white" } : { backgroundColor: "#1e1e1e" }}
         >
-          <span
-            style={{ marginLeft: "10px", color: "#a9a9a9", fontSize: "13px" }}
-          >
+          <span style={{ marginLeft: "10px", color: "#a9a9a9", fontSize: "13px" }}>
             {tabs.length === 0 ? null : filePath}
           </span>
         </div>
         <div className={styles.editorAndTerminal}>
           <Resizable
             defaultSize={{ width: "100%", height: "calc(100% - 56px)" }}
-            className={`${terminal ? styles.withTerminal : undefined} ${
-              styles.editorWrapper
-            }`}
+            className={`${terminal ? styles.withTerminal : undefined} ${styles.editorWrapper}`}
             enable={{ top: false, bottom: true, right: false, left: false }}
             handleClasses={{ bottom: "resizeHandle3" }}
           >
             {tabs.length === 0 ? (
               <div
                 className={styles.hideCodeEditor}
-                style={
-                  mode
-                    ? { backgroundColor: "white" }
-                    : { backgroundColor: "#1e1e1e" }
-                }
+                style={mode ? { backgroundColor: "white" } : { backgroundColor: "#1e1e1e" }}
               >
                 <TypeIt
                   style={textStyle}
@@ -140,11 +112,7 @@ function EditorSpace() {
               />
             )}
           </Resizable>
-          <div
-            className={`${terminal ? styles.terminalOn : undefined} ${
-              styles.terminalSpace
-            }`}
-          >
+          <div className={`${terminal ? styles.terminalOn : undefined} ${styles.terminalSpace}`}>
             <div className={styles.terminal_header}>터미널</div>
           </div>
         </div>

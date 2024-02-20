@@ -21,7 +21,7 @@ const RecommendStore = create<repoStoreState>((set) => ({
     },
     repo2: {
       name: "To-do apps",
-      description: "repo2 description",
+      description: "Let's make simple todo app",
       url: "repo2 url",
       image: "/svg/React-icon.svg",
     },
