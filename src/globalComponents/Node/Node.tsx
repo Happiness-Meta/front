@@ -20,7 +20,6 @@ const Node: React.FC<NodeRendererProps> = ({ node, tree, style }) => {
       className={styles.node_container}
       style={style}
       onClick={() => {
-        console.log(node.data.parentId);
         node.isInternal && node.toggle();
         node.isInternal && setParentId(node.data.id);
         !node.isInternal && setParentId(node.data.parentId);
@@ -36,7 +35,7 @@ const Node: React.FC<NodeRendererProps> = ({ node, tree, style }) => {
         <>
           {node.isOpen ? (
             <>
-              <span className={`material-symbols-outlined`}>expand_more</span>
+              {/* <span className={`material-symbols-outlined`}>expand_more</span> */}
               <img
                 className={styles.directoryIcon}
                 src="/svg/openFolder.svg"
@@ -45,7 +44,7 @@ const Node: React.FC<NodeRendererProps> = ({ node, tree, style }) => {
             </>
           ) : (
             <>
-              <span className={`material-symbols-outlined`}>chevron_right</span>
+              {/* <span className={`material-symbols-outlined`}>chevron_right</span> */}
               <img
                 className={styles.directoryIcon}
                 src="/svg/closedFolder.svg"
