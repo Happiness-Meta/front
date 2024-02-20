@@ -41,8 +41,6 @@
   width: fit-content;
   height: 100%;
   opacity: 0.5;
-  /* border-top: 1px solid #068fff; */
-  /* border-right: 0.5px solid gray; */
 }
 
 .tab:hover {
@@ -102,8 +100,21 @@
 }
 
 .editorWrapper {
+  position: relative;
   height: 70%;
   margin-bottom: 7px;
+}
+
+.hideCodeEditor {
+  position: absolute;
+  top: 0;
+  left: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  height: 100%;
+  z-index: 10;
 }
 
 .editor {
