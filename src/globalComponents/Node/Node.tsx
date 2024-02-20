@@ -11,7 +11,7 @@ interface NodeRendererProps {
 }
 
 const Node: React.FC<NodeRendererProps> = ({ node, tree, style }) => {
-  const { addTab } = editorStore();
+  const { addTab, showContent } = editorStore();
 
   return (
     <div
@@ -20,6 +20,7 @@ const Node: React.FC<NodeRendererProps> = ({ node, tree, style }) => {
       onClick={() => {
         node.isInternal && node.toggle();
         !node.isInternal && addTab(node.data);
+        !node.isInternal && showContent(node.data);
       }}
     >
       {node.isLeaf ? (

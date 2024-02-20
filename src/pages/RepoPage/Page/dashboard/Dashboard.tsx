@@ -18,7 +18,7 @@ import { useCookies } from "react-cookie";
 const Dashboard = () => {
   const [isAnimated, setIsAnimated] = useState(false);
   const { isModalOpen, toggleCreateModal } = useModalStore();
-  const { repositories } = RepoPageStore();
+  const { repositories, setRepositories } = RepoPageStore();
   const isEmpty = Object.keys(repositories).length === 0;
   const [isDropdownView, setDropdownView] = useState(false);
   const [inputValue, setInputValue] = useState("");
