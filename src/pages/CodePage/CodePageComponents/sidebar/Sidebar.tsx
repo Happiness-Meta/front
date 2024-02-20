@@ -16,23 +16,17 @@ function Sidebar() {
   const { sidebar, expandStatus, expandToggle } = sidebarStore();
   const { rightSpace, toggleRightSpace, terminal, toggleTerminal } =
     editorStore();
-  const { fileTree, getNodes, addNode } = FileTreeStore();
+  const { fileTree, parentId, setParentId, getNodes, addNode } =
+    FileTreeStore();
 
   const [term, setTerm] = useState("");
-
-  const treeRef = useRef<TreeApi<LeafType>>(null);
-
-  // interface newNode {
-  //   type: string;
-  //   parentId: string;
-  // }
 
   const onCreate = (type: string, parentId?: string) => {
     const newNode: LeafType = {
       id: uuidv4(),
       name: "",
-      type: type === "internal" ? "DIRECTORY" : "FILE",
-      parentId: parentId === null ? "root" : parentId,
+      type: type,
+      parentId: parentId === undefined ? "root" : parentId,
       filePath: "",
       content: "",
     };
@@ -90,16 +84,13 @@ function Sidebar() {
             <div className={styles.filesAddSpace}>
               <div
                 className={`material-symbols-outlined ${styles.addFile}`}
-                //{ parentId: string | null; parentNode: NodeApi<newNode> | null; index: number; type: "leaf" | "internal"; }
-                onClick={() => onCreate("leaf")}
-                title="New Files..."
+                onClick={() => onCreate("leaf", parentId)}
               >
                 note_add
               </div>
               <div
                 className={`material-symbols-outlined ${styles.addFolder}`}
-                onClick={() => onCreate}
-                title="New Folders..."
+                onClick={() => onCreate("internal", parentId)}
               >
                 create_new_folder
               </div>
@@ -111,7 +102,6 @@ function Sidebar() {
             }`}
           >
             <Tree
-              ref={treeRef}
               className={styles.react_arborist}
               rowClassName={styles.arborist_row}
               width={"100%"}

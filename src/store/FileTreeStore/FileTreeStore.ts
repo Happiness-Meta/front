@@ -3,8 +3,11 @@ import { create } from "zustand";
 
 interface aboutFileTree {
   fileTree: LeafType[];
+  parentId?: string;
+  setParentId: (parentId: string | undefined) => void;
   getNodes: (T: LeafType[]) => void;
-  addNode: (newNode: LeafType, parentId?: string) => void;
+  addNode: (newNode: LeafType) => void;
+  deleteNode: (tabToDelete: LeafType) => void;
 }
 
 const FileTreeStore = create<aboutFileTree>((set) => ({
@@ -23,7 +26,7 @@ const FileTreeStore = create<aboutFileTree>((set) => ({
           type: "leaf",
           content: "//타입스크립트 기본 내용",
           filePath: "h2 > hhoho.ts",
-          parentId: "root",
+          parentId: "id2",
         },
       ],
     },
@@ -44,11 +47,35 @@ const FileTreeStore = create<aboutFileTree>((set) => ({
       parentId: "root",
     },
   ],
+  parentId: undefined,
+  setParentId: (parentId) => set({ parentId: parentId }),
   getNodes: (nodes) => set((state) => ({ ...state, nodes })),
-  addNode: (newNode) =>
-    set((state) => {
-      [...state.fileTree, newNode];
-    }),
+  addNode: (newNode: LeafType) => {
+    if (newNode.type === "internal") {
+      newNode.children = [];
+    }
+    if (newNode.parentId !== "root") {
+      console.log("no root way");
+
+      console.log(newNode.parentId);
+      set((state) => ({
+        fileTree: state.fileTree.map((node) =>
+          node.id === newNode.parentId
+            ? {
+                ...node,
+                children: [...(node.children || []), newNode],
+              }
+            : node
+        ),
+      }));
+    } else
+      set((state) => ({
+        fileTree: [...state.fileTree, newNode],
+      }));
+  },
+  deleteNode: (tabToDelete) => {
+    // const treeAfterDelete =
+  },
 }));
 
 export default FileTreeStore;

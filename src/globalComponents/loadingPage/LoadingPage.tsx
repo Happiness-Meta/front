@@ -14,7 +14,7 @@ const LoadingPage = () => {
     `코드 블록에 일관된 들여쓰기 스타일을 적용해서 가독성을 향상시키세요.`,
   ];
   const tipToShow = tips[Math.floor(Math.random() * 10)];
-  console.log(Math.floor(Math.random() * 10));
+
   return (
     <div className={styles.mainBody}>
       <div className={styles.figureSpace}>
