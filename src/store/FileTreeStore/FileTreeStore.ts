@@ -16,7 +16,6 @@ const FileTreeStore = create<aboutFileTree>((set) => ({
       id: "id2",
       name: "h2",
       type: "internal",
-      content: "//hisContent",
       filePath: "h2 ",
       parentId: "root",
       children: [
@@ -49,15 +48,22 @@ const FileTreeStore = create<aboutFileTree>((set) => ({
   ],
   parentId: undefined,
   setParentId: (parentId) => set({ parentId: parentId }),
-  getNodes: (nodes) => set((state) => ({ ...state, nodes })),
+  getNodes: (nodes) =>
+    set((state) => ({
+      fileTree: [
+        // ...state.fileTree,
+        ...nodes,
+      ],
+    })),
   addNode: (newNode: LeafType) => {
+    console.log("노드 추가 중:", newNode);
     if (newNode.type === "internal") {
       newNode.children = [];
     }
     if (newNode.parentId !== "root") {
-      console.log("no root way");
+      // console.log("no root way");
 
-      console.log(newNode.parentId);
+      console.log(newNode.id);
       set((state) => ({
         fileTree: state.fileTree.map((node) =>
           node.id === newNode.parentId

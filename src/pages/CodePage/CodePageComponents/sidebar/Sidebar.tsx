@@ -3,7 +3,7 @@ import sidebarStore from "../../../../store/CodePageStore/sidebarStore";
 import EditorSettingBtn from "./editorSettingBtn/EditorSettingBtn";
 import editorStore from "../../../../store/CodePageStore/editorStore";
 import { Tree, TreeApi } from "react-arborist";
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import Node from "../../../../globalComponents/node/Node";
 import { v4 as uuidv4 } from "uuid";
 import { useMutation } from "@tanstack/react-query";
@@ -22,10 +22,11 @@ function Sidebar() {
   const [term, setTerm] = useState("");
 
   const onCreate = (type: string, parentId?: string) => {
+    postCreate.mutate();
     const newNode: LeafType = {
       id: uuidv4(),
       name: "",
-      type: type,
+      type: type === "leaf" ? "leaf" : "internal",
       parentId: parentId === undefined ? "root" : parentId,
       filePath: "",
       content: "",
@@ -42,16 +43,30 @@ function Sidebar() {
         const response = await userAxiosWithAuth.get(
           `/api/repos/${repoId}/files`
         );
-        getNodes(response.data.fileData);
+        getNodes(response.data.data.treeData.children);
+        console.log(response.data.data.treeData.children);
       } catch (error) {
-        console.log(error);
+        return console.log(error);
       }
     },
   });
 
-  // useEffect(() => {
-  //   getData.mutate();
-  // }, []);
+  useEffect(() => {
+    getData.mutate();
+  }, []);
+
+  const postCreate = useMutation({
+    mutationFn: async () => {
+      const body = {};
+      try {
+        const response = await userAxiosWithAuth.post(
+          `/api/files/${repoId}`,
+          body
+        );
+        console.log(response);
+      } catch {}
+    },
+  });
 
   return (
     <div
