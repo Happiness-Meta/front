@@ -1,147 +1,140 @@
+.tab::-webkit-scrollbar {
+    display: none;
+}
+
 .editorSpace {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  width: 100%;
-  height: calc(100vh - 50px);
-  border-radius: 5px;
-  overflow: hidden;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    height: calc(100vh - 50px);
+    border-radius: 5px;
+    overflow: hidden;
 }
 
 .sidebarToggle {
-  width: 100%;
+    width: 100%;
 }
 
 .leftSpace {
-  display: flex;
-  flex-direction: column;
-  width: 50%;
-  height: 100%;
-  margin-right: 10px;
+    display: flex;
+    flex-direction: column;
+    width: 50%;
+    height: 100%;
+    margin-right: 10px;
 }
 
 .leftWidthFull {
-  width: 100% !important;
-  transition: 0.3s;
+    width: 100% !important;
+    transition: 0.3s;
 }
 
 .filesTabSpace {
-  display: flex;
-  width: 100%;
-  height: 30px;
-  background-color: rgb(128 128 128 / 10%);
-  overflow-x: scroll;
+    display: flex;
+    width: 100%;
+    height: 30px;
+    background-color: rgb(128 128 128 / 10%);
+    overflow-x: scroll;
 }
 
 .tab {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  box-sizing: border-box;
-  width: fit-content;
-  height: 100%;
-  opacity: 0.5;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    box-sizing: border-box;
+    width: fit-content;
+    height: 100%;
+    opacity: 0.5;
+    /* border-top: 1px solid #068fff; */
+    /* border-right: 0.5px solid gray; */
 }
 
 .tab:hover {
-  opacity: 1;
+    opacity: 1;
 }
 
 .tabEach {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  height: 100%;
-  gap: 5px;
-  padding: 0 5px;
-  border: none;
-  background-color: transparent;
-  cursor: pointer;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+    gap: 5px;
+    padding: 0 5px;
+    border: none;
+    background-color: transparent;
+    cursor: pointer;
 }
 
 .tabEach:hover,
 .tabRemove:hover {
-  background-color: rgb(128 128 128 / 20%);
+    background-color: rgb(128 128 128 / 20%);
 }
 
 .tabIcon {
-  width: 15px;
-  height: 100%;
+    width: 15px;
+    height: 100%;
 }
 
 .tabRemove {
-  visibility: hidden;
-  width: 20px;
-  height: 100%;
-  border: none;
-  background-color: transparent;
-  font-size: 15px;
-  opacity: 0.5;
+    visibility: hidden;
+    width: 20px;
+    height: 100%;
+    border: none;
+    background-color: transparent;
+    font-size: 15px;
+    opacity: 0.5;
 }
 
 .tab:hover .tabRemove {
-  visibility: visible !important;
+    visibility: visible !important;
 }
 
 .tabRemove:hover {
-  opacity: 1;
+    opacity: 1;
 }
 
 .filePathSpace {
-  width: 100%;
-  height: 25px;
-  border-bottom: 0.5px solid rgb(128 128 128 / 10%);
+    width: 100%;
+    height: 25px;
+    border-bottom: 0.5px solid rgb(128 128 128 / 10%);
 }
 
 .editorAndTerminal {
-  display: flex;
-  flex-direction: column;
-  height: calc(100% - 56px);
+    display: flex;
+    flex-direction: column;
+    height: calc(100% - 56px);
 }
 
 .editorWrapper {
-  position: relative;
-  height: 70%;
-  margin-bottom: 7px;
-}
-
-.hideCodeEditor {
-  position: absolute;
-  top: 0;
-  left: 0;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  width: 100%;
-  height: 100%;
-  z-index: 10;
+    height: 70%;
+    margin-bottom: 7px;
 }
 
 .editor {
-  padding-top: 5px;
+    padding-top: 5px;
 }
 
 .withTerminal {
-  height: 100% !important;
-  transition: 0.3s;
+    height: 100% !important;
+    transition: 0.3s;
 }
 
 .terminalSpace {
-  width: 100%;
-  height: 100%;
-  display: flex;
-  flex-direction: column;
-  background-color: transparent;
-  overflow: hidden;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    background-color: transparent;
+    overflow: hidden;
 }
 
 .terminalOn {
-  height: 0;
-  transition: 0.3s;
+    height: 0;
+    transition: 0.3s;
 }
 
 .terminal_header {
-  width: 100%;
-  height: 30px;
-  background-color: rgb(128 128 128 / 10%);
+    width: 100%;
+    height: 30px;
+    background-color: rgb(128 128 128 / 10%);
 }

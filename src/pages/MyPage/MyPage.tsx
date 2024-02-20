@@ -42,7 +42,7 @@ function MyPage() {
 
       try {
         const response = await userAxiosWithAuth.put(
-          `http://43.203.92.111/api/user`,
+            import.meta.env.VITE_BASE_URL +"/api/user",
           // "http://localhost:8080/api/sign/login",
           body
         );

@@ -47,7 +47,7 @@ function SignUp() {
       try {
         signUpErrorMessageStatus("");
         const response = await axios.post(
-          "http://43.203.92.111/api/sign/register",
+          import.meta.env.VITE_BASE_URL+"/api/sign/register",
           // "http://localhost:8080/api/sign/register",
           body
         );
