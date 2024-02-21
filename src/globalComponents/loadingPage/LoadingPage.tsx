@@ -1,7 +1,11 @@
 import { useNavigate } from "react-router-dom";
 import styles from "./loadingPage.module.css";
 
-const LoadingPage = () => {
+interface LoadingPageProps {
+  finishedGettingData: boolean;
+}
+
+const LoadingPage: React.FC<LoadingPageProps> = (finishedGettingData) => {
   const navigate = useNavigate();
 
   const tips = [
@@ -19,10 +23,14 @@ const LoadingPage = () => {
   const tipToShow = tips[Math.floor(Math.random() * 10)];
 
   return (
-    <div className={styles.mainBody}>
+    <div
+      className={`${finishedGettingData ? styles.fadeOut : undefined} ${
+        styles.mainBody
+      }`}
+    >
       <div className={styles.figureSpace}>
         <div className={styles.movingFigure1}>
-          <div className={styles.movingFigure2}></div>
+          <div className={styles.movingFigure2}> </div>
         </div>
         <section className={styles.errorSpace}>
           <span>서버에 에러가 났습니다. 홈으로 돌아가주세요.</span>
@@ -31,7 +39,7 @@ const LoadingPage = () => {
           </button>
         </section>
       </div>
-      <p>{tipToShow}</p>
+      <p>{finishedGettingData ? `완료! ✅` : tipToShow}</p>
     </div>
   );
 };

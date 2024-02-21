@@ -9,6 +9,7 @@ import userAxiosWithAuth from "../../../../utils/useAxiosWIthAuth";
 import { Repository } from "../../../../store/RepoPageStore/repoPageStore";
 import dayjs from "dayjs";
 import relativeTime from "dayjs/plugin/relativeTime";
+import editorStore from "../../../../store/CodePageStore/editorStore";
 dayjs.extend(relativeTime);
 interface RepoComponent {
   name: string;
@@ -27,17 +28,31 @@ interface NameClickParams {
 }
 
 const RepoComponent = () => {
-  const { repositories, editMode, setEditMode, setRepositories, show, toggleModal } =
-    RepoPageStore();
+  const {
+    repositories,
+    editMode,
+    setEditMode,
+    setRepositories,
+    show,
+    toggleModal,
+  } = RepoPageStore();
+  const { deleteAllTabs } = editorStore();
   const [editName, setEditName] = useState("");
   const isEmpty = Object.keys(repositories).length === 0;
-  const [activeDropdownKey, setActiveDropdownKey] = useState<string | null>(null);
-  const [currentEditingRepoKey, setCurrentEditingRepoKey] = useState<string | null>(null);
+  const [activeDropdownKey, setActiveDropdownKey] = useState<string | null>(
+    null
+  );
+  const [currentEditingRepoKey, setCurrentEditingRepoKey] = useState<
+    string | null
+  >(null);
   const dropdownRef = useRef<HTMLDivElement>(null);
   const [repoImg, setRepoImg] = useState(undefined);
   const navigate = useNavigate();
 
-  const handleNameClick = ({ key, name }: NameClickParams, event: React.MouseEvent) => {
+  const handleNameClick = (
+    { key, name }: NameClickParams,
+    event: React.MouseEvent
+  ) => {
     event.stopPropagation();
     setEditMode(key);
     setEditName(name ?? "");
@@ -46,7 +61,10 @@ const RepoComponent = () => {
     setEditName(e.target.value);
   };
 
-  const toggleDropdown = (key: string, event: React.MouseEvent<HTMLDivElement>) => {
+  const toggleDropdown = (
+    key: string,
+    event: React.MouseEvent<HTMLDivElement>
+  ) => {
     event.stopPropagation();
     setActiveDropdownKey(activeDropdownKey === key ? null : key);
   };
@@ -79,7 +97,10 @@ const RepoComponent = () => {
     setEditMode(null);
   };
 
-  const handleKeyPress = (e: React.KeyboardEvent<HTMLInputElement>, key: string) => {
+  const handleKeyPress = (
+    e: React.KeyboardEvent<HTMLInputElement>,
+    key: string
+  ) => {
     if (e.key === "Enter") {
       handleSave({ key });
     }
@@ -92,7 +113,9 @@ const RepoComponent = () => {
       console.log("Deleted repository:", response.data);
 
       // 저장소 삭제 후 스토어의 상태 업데이트
-      const updatedRepositories = Object.entries(RepoPageStore.getState().repositories)
+      const updatedRepositories = Object.entries(
+        RepoPageStore.getState().repositories
+      )
         .filter(([key, _]) => key !== repoId) // 삭제하려는 repoId가 아닌 항목만 필터링
         .reduce((acc, [key, repo]) => {
           acc[key] = repo; // 필터링된 항목을 새 객체에 추가
@@ -108,7 +131,10 @@ const RepoComponent = () => {
   // 외부 클릭 시 드롭다운 메뉴 닫기
   useEffect(() => {
     function handleClickOutside(event: MouseEvent) {
-      if (dropdownRef.current && !dropdownRef.current.contains(event.target as Node)) {
+      if (
+        dropdownRef.current &&
+        !dropdownRef.current.contains(event.target as Node)
+      ) {
         setActiveDropdownKey(null);
       }
     }
@@ -130,10 +156,12 @@ const RepoComponent = () => {
           Object.values(repositories).map((repo, index) => (
             <div
               key={index}
-              className={`${mode ? styles.repo_wrapperSun : styles.repo_wrapperNight}`}
+              className={`${
+                mode ? styles.repo_wrapperSun : styles.repo_wrapperNight
+              }`}
               onClick={() => navigate(`/codePage/${repo.id}`)}
             >
-              <div className={styles.repocontainer}>
+              <div className={styles.repocontainer} onClick={deleteAllTabs}>
                 <div className={styles.reponame_container}>
                   <div className={styles.repoimageContainer}>
                     <span className="material-symbols-outlined">public</span>
@@ -147,7 +175,8 @@ const RepoComponent = () => {
                           value={editName}
                           onChange={(e) => setEditName(e.target.value)}
                           onKeyDown={(e) =>
-                            e.key === "Enter" && handleNameUpdate(repo.id, editName)
+                            e.key === "Enter" &&
+                            handleNameUpdate(repo.id, editName)
                           }
                           onBlur={() => handleNameUpdate(repo.id, editName)}
                           autoFocus
@@ -155,7 +184,14 @@ const RepoComponent = () => {
                         />
                       </div>
                     ) : (
-                      <h3 onClick={(e) => handleNameClick({ key: repo.name, name: repo.name }, e)}>
+                      <h3
+                        onClick={(e) =>
+                          handleNameClick(
+                            { key: repo.name, name: repo.name },
+                            e
+                          )
+                        }
+                      >
                         {repo.name}
                       </h3>
                     )}
@@ -163,11 +199,17 @@ const RepoComponent = () => {
                       className={styles.moreHorizContainer}
                       onClick={(e) => toggleDropdown(repo.id, e)}
                     >
-                      <span className="material-symbols-outlined">more_horiz</span>
+                      <span className="material-symbols-outlined">
+                        more_horiz
+                      </span>
                     </div>
                     {activeDropdownKey === repo.id && (
                       <div
-                        className={mode ? styles.dropdownMenuSun : styles.dropdownMenuNight}
+                        className={
+                          mode
+                            ? styles.dropdownMenuSun
+                            : styles.dropdownMenuNight
+                        }
                         ref={dropdownRef}
                       >
                         <button
@@ -178,7 +220,9 @@ const RepoComponent = () => {
                         >
                           Edit
                         </button>
-                        <button onClick={(e) => handleRepoDelete(repo.id, e)}>Delete</button>
+                        <button onClick={(e) => handleRepoDelete(repo.id, e)}>
+                          Delete
+                        </button>
                       </div>
                     )}
                   </div>

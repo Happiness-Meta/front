@@ -2,7 +2,7 @@ import styles from "./sidebar.module.css";
 import sidebarStore from "../../../../store/CodePageStore/sidebarStore";
 import EditorSettingBtn from "./editorSettingBtn/EditorSettingBtn";
 import editorStore from "../../../../store/CodePageStore/editorStore";
-import { Tree, TreeApi } from "react-arborist";
+import { CreateHandler, DeleteHandler, Tree, TreeApi } from "react-arborist";
 import { useEffect, useRef, useState } from "react";
 import Node from "../../../../globalComponents/node/Node";
 import { v4 as uuidv4 } from "uuid";
@@ -16,24 +16,29 @@ function Sidebar() {
   const { sidebar, expandStatus, expandToggle } = sidebarStore();
   const { rightSpace, toggleRightSpace, terminal, toggleTerminal } =
     editorStore();
-  const { fileTree, parentId, getNodes, addNode } = FileTreeStore();
+  const { fileTree, getNodes, addNode, deleteNode } = FileTreeStore();
 
   const [term, setTerm] = useState("");
 
   const { repoId } = useParams();
+  const treeRef = useRef<TreeApi<nodeType>>();
 
-  const onCreate = (type: string, parentId?: string) => {
+  const onCreate: CreateHandler<nodeType> = ({ type, parentId }) => {
     // postCreate.mutate();
     const newNode: nodeType = {
       id: uuidv4(),
       name: "",
       type: type,
-      parentId: parentId === undefined ? "root" : parentId,
-      filePath: "",
+      parentId: parentId === null ? undefined : parentId,
+      key: "", //filePath
       content: "",
     };
     addNode(newNode);
     return newNode;
+  };
+
+  const onDelete: DeleteHandler<nodeType> = ({ ids }) => {
+    deleteNode(ids[0]);
   };
 
   const getData = useMutation({
@@ -51,9 +56,9 @@ function Sidebar() {
     },
   });
 
-  // useEffect(() => {
-  //   getData.mutate();
-  // }, []);
+  useEffect(() => {
+    getData.mutate();
+  }, []);
 
   return (
     <div
@@ -86,13 +91,15 @@ function Sidebar() {
             <div className={styles.filesAddSpace}>
               <div
                 className={`material-symbols-outlined ${styles.addFile}`}
-                onClick={() => onCreate("file", parentId)}
+                onClick={() => {
+                  treeRef.current?.createLeaf();
+                }}
               >
                 note_add
               </div>
               <div
                 className={`material-symbols-outlined ${styles.addFolder}`}
-                onClick={() => onCreate("directory", parentId)}
+                onClick={() => treeRef.current?.createInternal()}
               >
                 create_new_folder
               </div>
@@ -104,12 +111,15 @@ function Sidebar() {
             }`}
           >
             <Tree
+              ref={treeRef}
               className={styles.react_arborist}
               rowClassName={styles.arborist_row}
               width={"100%"}
               height={1000}
               indent={17}
               data={fileTree}
+              onCreate={onCreate}
+              onDelete={onDelete}
               openByDefault={false}
               searchTerm={term}
               searchMatch={(node, term) =>
