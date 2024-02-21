@@ -4,13 +4,13 @@ import EditorSettingBtn from "./editorSettingBtn/EditorSettingBtn";
 import editorStore from "../../../../store/CodePageStore/editorStore";
 import { CreateHandler, DeleteHandler, Tree, TreeApi } from "react-arborist";
 import { useEffect, useRef, useState } from "react";
-import Node from "../../../../globalComponents/node/Node";
 import { v4 as uuidv4 } from "uuid";
 import { useMutation } from "@tanstack/react-query";
 import { nodeType } from "../../../../types/typesForFileTree";
 import userAxiosWithAuth from "../../../../utils/useAxiosWIthAuth";
 import FileTreeStore from "../../../../store/FileTreeStore/FileTreeStore";
 import { useParams } from "react-router-dom";
+import Node from "../../../../globalComponents/Node/Node";
 
 function Sidebar() {
   const { sidebar, expandStatus, expandToggle } = sidebarStore();

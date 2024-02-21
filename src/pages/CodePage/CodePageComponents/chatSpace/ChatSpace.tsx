@@ -5,12 +5,15 @@ import { useEffect, useRef, useState } from "react";
 import userAxiosWithAuth from "../../../../utils/useAxiosWIthAuth";
 import { useCookies } from "react-cookie";
 import { useParams } from "react-router-dom";
-import axios from "axios";
 
 interface ChatMessage {
   sender: string;
   content: string;
   type: "JOIN" | "LEAVE" | "CHAT";
+}
+
+interface StompMessagePayload {
+  body: string;
 }
 
 function ChatSpace() {
@@ -23,14 +26,17 @@ function ChatSpace() {
   const [cookies] = useCookies(["token", "nickname"]);
   const messagesEndRef = useRef<HTMLDivElement | null>(null);
   const clientRef = useRef<Client | null>(null);
-  const [entered, setEntered] = useState(false);
+  // const [entered, setEntered] = useState(false);
   const [initialDataLoaded, setInitialDataLoaded] = useState(false);
   const [nowExistUser, setNowExistUser] = useState("");
 
   const requestChatInitialData = async () => {
     try {
       const response = await userAxiosWithAuth.get(`/chat/${repoId}/messages`);
-      setMessages((prevMessages) => [...prevMessages, ...response.data.results]);
+      setMessages((prevMessages) => [
+        ...prevMessages,
+        ...response.data.results,
+      ]);
       // console.log(messages);
       setInitialDataLoaded(true);
       // console.log("이거 리스폰스", response);
@@ -90,7 +96,6 @@ function ChatSpace() {
         {},
         JSON.stringify({ sender: userName, type: "JOIN" })
       );
-      setEntered(true);
       setNowExistUser(cookies.nickname);
     }
     clientRef.current?.subscribe(`/sub/repo/${repoId}`, onMessageReceived);
@@ -110,7 +115,11 @@ function ChatSpace() {
         content: currentMessage,
         type: "CHAT",
       };
-      clientRef.current?.send(`/pub/chat/send/${repoId}`, {}, JSON.stringify(chatMessage));
+      clientRef.current?.send(
+        `/pub/chat/send/${repoId}`,
+        {},
+        JSON.stringify(chatMessage)
+      );
       console.log("클라이언트 메시지 전송 메서드 내부 유저아이디:", userName);
       console.log("클라이언트 메시지 전송 메서드 내부 메시지 리스트", messages);
       setCurrentMessage("");
@@ -118,7 +127,7 @@ function ChatSpace() {
   };
 
   // todo: 지금 여기 부분에서 메시지를 받을 때 실행이 안됨.
-  const onMessageReceived = (payload: any) => {
+  const onMessageReceived = (payload: StompMessagePayload) => {
     const message: ChatMessage = JSON.parse(payload.body);
     // console.log("방금 받아낸 메시지", message);
     setMessages((prevMessages) => [...prevMessages, message]);
@@ -144,17 +153,25 @@ function ChatSpace() {
           {messages.map((message, index) => (
             <li
               key={index}
-              className={`${message.sender === userName ? styles.myMessage : styles.testMessage}`}
+              className={`${
+                message.sender === userName
+                  ? styles.myMessage
+                  : styles.testMessage
+              }`}
             >
               {message.type === "CHAT" && (
                 <div
                   className={`${
-                    message.sender === userName ? styles.mysenderWrapper : styles.senderWrapper
+                    message.sender === userName
+                      ? styles.mysenderWrapper
+                      : styles.senderWrapper
                   }`}
                 >
                   <div
                     className={`${
-                      message.sender === userName ? styles.mysenderName : styles.senderName
+                      message.sender === userName
+                        ? styles.mysenderName
+                        : styles.senderName
                     }`}
                   >
                     <strong>{message.sender}</strong>
@@ -163,7 +180,8 @@ function ChatSpace() {
                 </div>
               )}
               <div className={styles.senderNoticeWrapper}>
-                {message.type === "JOIN" && messages.some((m) => m.sender === nowExistUser) ? (
+                {message.type === "JOIN" &&
+                messages.some((m) => m.sender === nowExistUser) ? (
                   <div className={styles.senderEntranceNotice}>
                     {message.sender} 님이 참가했습니다.
                   </div>
@@ -171,13 +189,19 @@ function ChatSpace() {
                   <></>
                 )}
                 {message.type === "LEAVE" && (
-                  <div className={styles.senderOutNotice}>{message.sender} 님이 퇴장했습니다.</div>
+                  <div className={styles.senderOutNotice}>
+                    {message.sender} 님이 퇴장했습니다.
+                  </div>
                 )}
               </div>
             </li>
           ))}
         </ul>
-        <form className={styles.messageForm} name="messageForm" onSubmit={sendMessage}>
+        <form
+          className={styles.messageForm}
+          name="messageForm"
+          onSubmit={sendMessage}
+        >
           <input
             type="text"
             id="message"

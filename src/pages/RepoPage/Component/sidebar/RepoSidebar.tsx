@@ -1,4 +1,3 @@
-import React, { ChangeEvent, useState } from "react";
 import styles from "./sidebar.module.css";
 import sidebarStore from "../../../../store/CodePageStore/sidebarStore";
 import Profile from "../../Component/profile/Profile";
@@ -6,7 +5,7 @@ import { Link } from "react-router-dom";
 import { useCookies } from "react-cookie";
 
 function Sidebar() {
-  const { expandStatus, expandToggle } = sidebarStore();
+  const { expandStatus } = sidebarStore();
   const { sidebar } = sidebarStore();
   const [cookies] = useCookies();
 
