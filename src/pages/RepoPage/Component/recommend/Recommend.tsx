@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import styles from "./Recommend.module.css";
 import RepoPageStore from "../../../../store/RepoPageStore/repoPageStore";
 import headerStore from "../../../../../src/store/globalStore/globalStore";
-import RecommendStore from "../../../../store/RecommendStore/recommendstore";
+import RecommendStore, { Repository } from "../../../../store/RecommendStore/recommendstore";
 import useModalStore from "../../../../store/ModalStore/ModalStore";
 import ReactModal from "react-modal";
 import userAxiosWithAuth from "../../../../utils/useAxiosWIthAuth";
@@ -12,6 +12,14 @@ const Repositories = () => {
   const { repositories } = RecommendStore();
   const { isRecommendModalOpen, toggleRecommendedModal } = useModalStore();
   const [inputValue, setInputValue] = useState("");
+  const [selectedRepo, setSelectedRepo] = useState<Repository | null>(null);
+
+  const handleRepoClick = (repoKey: string) => {
+    const repoInfo = repositories[repoKey];
+    setSelectedRepo(repoInfo);
+    toggleRecommendedModal();
+  };
+
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setInputValue(event.target.value);
   };
@@ -25,9 +33,8 @@ const Repositories = () => {
     };
 
     try {
-      const response = await userAxiosWithAuth.post(`/api/repos`, data);
+      const response = await userAxiosWithAuth.post(`/api/repos/template`, data);
       // console.log("프로그래밍 랭귀지:", response.data.data.programmingLanguage);
-      // 저장소 생성 후 필요한 상태 업데이트나 UI 반응
 
       RepoPageStore.getState().setRepositories({
         ...RepoPageStore.getState().repositories, // 기존 저장소 유지
@@ -38,12 +45,13 @@ const Repositories = () => {
           createdAt: response.data.data.createdAt,
           modifiedAt: response.data.data.modifiedAt,
           url: `/codePage/${response.data.data.id}`,
-          // image: `/svg/${response.data.data.programmingLanguage.toLowerCase()}.svg`,
+          image: `/svg/${response.data.data.programmingLanguage.toLowerCase()}.svg`,
         },
       });
 
       toggleRecommendedModal(); // 모달 닫기
       setInputValue(""); // 입력 필드 초기화
+      setSelectedRepo(null); //선택된 레포정보 초기화
     } catch (error) {
       console.error("Error creating new repository:", error);
     }
@@ -51,7 +59,6 @@ const Repositories = () => {
   };
   return (
     <div>
-      {/* <h2>Recommend</h2> */}
       <div className={styles.recommendcontainer}>
         {isEmpty ? (
           <></>
@@ -61,7 +68,7 @@ const Repositories = () => {
               key={key}
               className={`${mode ? styles.repo_wrapperSun : styles.repo_wrapperNight}`}
             >
-              <div className={styles.repocontainer} onClick={toggleRecommendedModal}>
+              <div key={key} className={styles.repocontainer} onClick={() => handleRepoClick(key)}>
                 <div className={styles.reponame_container}>
                   <div className={styles.repoimageContaier}>
                     <img src={repo.image} className={styles.repoimage}></img>
@@ -94,7 +101,11 @@ const Repositories = () => {
               <span className="material-symbols-outlined">close</span>
             </button>
           </div>
-
+          <div className={styles.selectedRepoContainer}>
+            <img src={selectedRepo?.image} />
+            <h3>{selectedRepo?.name}</h3>
+            <p>{selectedRepo?.description}</p>
+          </div>
           <div className={styles.submitAndButtonContainer}>
             <div className={styles.submitContainer}>
               <input

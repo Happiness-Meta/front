@@ -7,6 +7,9 @@ export interface Repository {
   image: string;
 }
 
+//위에 인터페이스 이거 어떤 식으로 보내야 하는지 준수님한테 물어보기
+//예를들어 repoPageStore처럼 보낸다든가
+
 interface repoStoreState {
   repositories: { [key: string]: Repository };
 }
@@ -27,13 +30,13 @@ const RecommendStore = create<repoStoreState>((set) => ({
     },
     repo3: {
       name: "Next.js",
-      description: "repo3 description",
+      description: "Let's make simple todo app",
       url: "repo3 url",
       image: "/svg/nextjs.svg",
     },
     repo4: {
       name: "Next.js",
-      description: "repo4 description",
+      description: "Let's make simple todo app",
       url: "repo4 url",
       image: "/svg/nextjs.svg",
     },
