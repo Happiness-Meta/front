@@ -39,11 +39,17 @@ function ChatSpace() {
     }
   };
 
+  //전체 불러왔을 때 채팅량이 많아지면 어떻게 할 것인가? (더 불러오기 같은것들)
+  //전체 다 구현할 것 / 스크롤로 미리 불러오되 버튼 누르면 보여지게 한다든지
+  //한번에 다 불러올 때의 문제점 생각해본다. -> 시간상 못 구현, 앞으로 구현 예정이라고 답해도 ok
+
   useEffect(() => {
     if (!initialDataLoaded) {
       requestChatInitialData();
     }
   }, [repoId, initialDataLoaded]);
+
+  //useEffect를 두번 쓰는 이유?
 
   useEffect(() => {
     // userName을 cookies에서 가져온 nickname으로 초기화
