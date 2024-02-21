@@ -13,6 +13,7 @@
 }
 
 .figureSpace {
+  position: relative;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -69,16 +70,41 @@
   }
 }
 
-.btnForTips {
-  padding: 5px 10px;
-  border: 1px solid gray;
-  border-radius: 7px;
-  background-color: transparent;
-  color: gray;
-  cursor: pointer;
+.errorSpace {
+  position: absolute;
+  bottom: -130px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  row-gap: 10px;
+  color: #ff4b4b;
+  animation: fadeIn 0.5s forwards 10s;
+  visibility: hidden;
 }
 
-.btnForTips:hover {
-  color: white;
-  font-weight: 500;
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    display: flex;
+    visibility: visible;
+    opacity: 1;
+  }
+}
+
+.homeButton {
+  width: 80px;
+  height: 30px;
+  background-color: transparent;
+  cursor: pointer;
+  border-color: #ff4b4b;
+  color: #ff4b4b;
+  transition: 0.3s;
+}
+
+.homeButton:hover {
+  border-color: #068fff;
+  color: #068fff;
 }

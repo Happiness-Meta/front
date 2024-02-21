@@ -1,6 +1,9 @@
+import { useNavigate } from "react-router-dom";
 import styles from "./loadingPage.module.css";
 
 const LoadingPage = () => {
+  const navigate = useNavigate();
+
   const tips = [
     `HTML문서에 시멘틱 태그를 상황에 맞게 사용해 코드의 가독성을 높이세요!`,
     `JS, Java, C++ 등의 주석방법은 "//" 또는 "/* */이고, Python은 "#" 혹은 "''' '''", HTML은 "<!-- -->"입니다.`,
@@ -21,6 +24,12 @@ const LoadingPage = () => {
         <div className={styles.movingFigure1}>
           <div className={styles.movingFigure2}></div>
         </div>
+        <section className={styles.errorSpace}>
+          <span>서버에 에러가 났습니다. 홈으로 돌아가주세요.</span>
+          <button className={styles.homeButton} onClick={() => navigate(`/`)}>
+            Home
+          </button>
+        </section>
       </div>
       <p>{tipToShow}</p>
     </div>

@@ -30,7 +30,7 @@ function CodePage() {
       }
       try {
         const response = await userAxiosWithAuth.get(`/api/repos/${repoId}`);
-        console.log(response.data);
+        // console.log(response.data);
         // 요청 성공 후 처리할 로직을 여기에 추가합니다.
         setFinishedGettingData(true);
       } catch (error) {
@@ -48,7 +48,7 @@ function CodePage() {
   return (
     <div className={styles.codePage}>
       {finishedGettingData ? null : <LoadingPage />}
-      {inviteSpace ? <SpaceForInvite /> : undefined}
+      {inviteSpace && <SpaceForInvite />}
       {showInputInvite && <InputInviteKey />}
       <Header />
       <div className={styles.codePage_body}>

@@ -33,7 +33,7 @@ userAxiosWithAuth.interceptors.request.use(
     }
 
     // Do something before request is sent
-    console.log("request start", config);
+    // console.log("request start", config);
     return config;
   },
   function (error) {

@@ -1,87 +1,118 @@
-import { LeafType } from "../../types/typesForFileTree";
+import { nodeType } from "../../types/typesForFileTree";
 import { create } from "zustand";
 
 interface aboutFileTree {
-  fileTree: LeafType[];
+  fileTree: nodeType[];
+  // fileTree: backDataType[];
   parentId?: string;
   setParentId: (parentId: string | undefined) => void;
-  getNodes: (T: LeafType[]) => void;
-  addNode: (newNode: LeafType) => void;
-  deleteNode: (tabToDelete: LeafType) => void;
+  getNodes: (T: nodeType[]) => void;
+  // getNodes: (T: backDataType[]) => void;
+  addNode: (newNode: nodeType) => void;
+  // addNode: (newNode: backDataType) => void;
+  deleteNode: (tabToDelete: nodeType) => void;
+  // deleteNode: (tabToDelete: backDataType) => void;
 }
 
 const FileTreeStore = create<aboutFileTree>((set) => ({
   fileTree: [
     {
-      id: "id2",
-      name: "h2",
-      type: "internal",
-      filePath: "h2 ",
+      id: "a",
       parentId: "root",
+      name: "directory",
+      type: "internal",
+      // key: "/",
+      // uuid: "",
       children: [
         {
-          id: "id4",
-          name: "hhoho.ts",
+          id: "b",
+          parentId: "a",
+          name: "script.js",
           type: "leaf",
-          content: "//타입스크립트 기본 내용",
-          filePath: "h2 > hhoho.ts",
-          parentId: "id2",
+          content: "//hello",
+          filePath: "/directory/script.js",
+          // uuid: "",
+        },
+        {
+          id: "c",
+          parentId: "a",
+          name: "style.css",
+          type: "leaf",
+          content: "/* css */",
+          filePath: "/directory/style.css",
+          // uuid: "",
         },
       ],
     },
     {
-      id: "id",
-      name: "hi.js",
-      type: "leaf",
-      content: "//자바스크립트 기본 내용",
-      filePath: "ht.js ",
+      id: "d",
       parentId: "root",
+      name: "package.json",
+      type: "leaf",
+      content: "",
+      filePath: "/package.json",
+      // uuid: "",
     },
     {
-      id: "id3",
-      name: "hehe.html",
-      type: "leaf",
-      content: "//HTML 기본 내용",
-      filePath: "hehe.html ",
+      id: "e",
       parentId: "root",
+      name: "README.md",
+      type: "leaf",
+      content: "# This is the title",
+      filePath: "/README.md",
+      // uuid: "",
     },
   ],
   parentId: undefined,
   setParentId: (parentId) => set({ parentId: parentId }),
   getNodes: (nodes) =>
     set((state) => ({
-      fileTree: [
-        // ...state.fileTree,
-        ...nodes,
-      ],
+      fileTree: state.fileTree ? [...state.fileTree, ...nodes] : nodes,
     })),
-  addNode: (newNode: LeafType) => {
+  addNode: (newNode: nodeType) => {
     console.log("노드 추가 중:", newNode);
-    if (newNode.type === "internal") {
+    if (newNode.type === "directory") {
       newNode.children = [];
     }
-    if (newNode.parentId !== "root") {
-      // console.log("no root way");
+    const findAndAddNode = (nodes: nodeType[]): nodeType[] => {
+      const updatedNodes = nodes.map((node) => {
+        if (node.id === newNode.parentId) {
+          return {
+            ...node,
+            children: [...(node.children || []), newNode],
+          };
+        } else if (node.children) {
+          return {
+            ...node,
+            children: findAndAddNode(node.children),
+          };
+        }
+        return node;
+      });
 
-      console.log(newNode.id);
-      set((state) => ({
-        fileTree: state.fileTree.map((node) =>
-          node.id === newNode.parentId
-            ? {
-                ...node,
-                children: [...(node.children || []), newNode],
-              }
-            : node
-        ),
-      }));
-    } else
-      set((state) => ({
-        fileTree: [...state.fileTree, newNode],
-      }));
+      return updatedNodes;
+    };
+
+    set((state) => ({
+      fileTree: findAndAddNode(state.fileTree),
+    }));
   },
-  deleteNode: (tabToDelete) => {
-    // const treeAfterDelete =
-  },
+
+  deleteNode: (tabToDelete) =>
+    set((state) => {
+      const treeAfterDelete = state.fileTree.filter(
+        (node) => node.id !== tabToDelete.id
+      );
+      if (treeAfterDelete === state.fileTree) {
+        const childrenFiltered = state.fileTree.map((node) => {
+          if (node.children) {
+            node.children.filter((node) => node.id !== tabToDelete.id);
+          }
+        });
+        console.log(childrenFiltered);
+      }
+      return { fileTree: treeAfterDelete };
+    }),
 }));
 
 export default FileTreeStore;
