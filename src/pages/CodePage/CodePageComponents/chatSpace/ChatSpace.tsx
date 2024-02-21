@@ -30,10 +30,13 @@ function ChatSpace() {
   const requestChatInitialData = async () => {
     try {
       const response = await userAxiosWithAuth.get(`/chat/${repoId}/messages`);
-      setMessages((prevMessages) => [...prevMessages, ...response.data.results]);
-      console.log(messages);
+      setMessages((prevMessages) => [
+        ...prevMessages,
+        ...response.data.results,
+      ]);
+      // console.log(messages);
       setInitialDataLoaded(true);
-      console.log("이거 리스폰스", response);
+      // console.log("이거 리스폰스", response);
     } catch (error) {
       console.error("이거 나오면 엑시오스 에러", error);
     }
@@ -104,7 +107,11 @@ function ChatSpace() {
         content: currentMessage,
         type: "CHAT",
       };
-      clientRef.current?.send(`/pub/chat/send/${repoId}`, {}, JSON.stringify(chatMessage));
+      clientRef.current?.send(
+        `/pub/chat/send/${repoId}`,
+        {},
+        JSON.stringify(chatMessage)
+      );
       console.log("클라이언트 메시지 전송 메서드 내부 유저아이디:", userName);
       console.log("클라이언트 메시지 전송 메서드 내부 메시지 리스트", messages);
       setCurrentMessage("");
@@ -132,17 +139,25 @@ function ChatSpace() {
           {messages.map((message, index) => (
             <li
               key={index}
-              className={`${message.sender === userName ? styles.myMessage : styles.testMessage}`}
+              className={`${
+                message.sender === userName
+                  ? styles.myMessage
+                  : styles.testMessage
+              }`}
             >
               {message.type === "CHAT" && (
                 <div
                   className={`${
-                    message.sender === userName ? styles.mysenderWrapper : styles.senderWrapper
+                    message.sender === userName
+                      ? styles.mysenderWrapper
+                      : styles.senderWrapper
                   }`}
                 >
                   <div
                     className={`${
-                      message.sender === userName ? styles.mysenderName : styles.senderName
+                      message.sender === userName
+                        ? styles.mysenderName
+                        : styles.senderName
                     }`}
                   >
                     <strong>{message.sender}</strong>
@@ -159,13 +174,19 @@ function ChatSpace() {
                   <></>
                 )}
                 {message.type === "LEAVE" && (
-                  <div className={styles.senderOutNotice}>{message.sender} 님이 퇴장했습니다.</div>
+                  <div className={styles.senderOutNotice}>
+                    {message.sender} 님이 퇴장했습니다.
+                  </div>
                 )}
               </div>
             </li>
           ))}
         </ul>
-        <form className={styles.messageForm} name="messageForm" onSubmit={sendMessage}>
+        <form
+          className={styles.messageForm}
+          name="messageForm"
+          onSubmit={sendMessage}
+        >
           <input
             type="text"
             id="message"

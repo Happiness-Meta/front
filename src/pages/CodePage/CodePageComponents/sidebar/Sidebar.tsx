@@ -7,7 +7,7 @@ import { useEffect, useRef, useState } from "react";
 import Node from "../../../../globalComponents/node/Node";
 import { v4 as uuidv4 } from "uuid";
 import { useMutation } from "@tanstack/react-query";
-import { LeafType } from "../../../../types/typesForFileTree";
+import { nodeType } from "../../../../types/typesForFileTree";
 import userAxiosWithAuth from "../../../../utils/useAxiosWIthAuth";
 import FileTreeStore from "../../../../store/FileTreeStore/FileTreeStore";
 import { useParams } from "react-router-dom";
@@ -16,17 +16,18 @@ function Sidebar() {
   const { sidebar, expandStatus, expandToggle } = sidebarStore();
   const { rightSpace, toggleRightSpace, terminal, toggleTerminal } =
     editorStore();
-  const { fileTree, parentId, setParentId, getNodes, addNode } =
-    FileTreeStore();
+  const { fileTree, parentId, getNodes, addNode } = FileTreeStore();
 
   const [term, setTerm] = useState("");
 
+  const { repoId } = useParams();
+
   const onCreate = (type: string, parentId?: string) => {
-    postCreate.mutate();
-    const newNode: LeafType = {
+    // postCreate.mutate();
+    const newNode: nodeType = {
       id: uuidv4(),
       name: "",
-      type: type === "leaf" ? "leaf" : "internal",
+      type: type,
       parentId: parentId === undefined ? "root" : parentId,
       filePath: "",
       content: "",
@@ -35,8 +36,6 @@ function Sidebar() {
     return newNode;
   };
 
-  const { repoId } = useParams();
-
   const getData = useMutation({
     mutationFn: async () => {
       try {
@@ -44,29 +43,17 @@ function Sidebar() {
           `/api/repos/${repoId}/files`
         );
         getNodes(response.data.data.treeData.children);
+        //id 의 값을 uuid로,
         console.log(response.data.data.treeData.children);
       } catch (error) {
-        return console.log(error);
+        // return console.log(error);
       }
     },
   });
 
-  useEffect(() => {
-    getData.mutate();
-  }, []);
-
-  const postCreate = useMutation({
-    mutationFn: async () => {
-      const body = {};
-      try {
-        const response = await userAxiosWithAuth.post(
-          `/api/files/${repoId}`,
-          body
-        );
-        console.log(response);
-      } catch {}
-    },
-  });
+  // useEffect(() => {
+  //   getData.mutate();
+  // }, []);
 
   return (
     <div
@@ -99,13 +86,13 @@ function Sidebar() {
             <div className={styles.filesAddSpace}>
               <div
                 className={`material-symbols-outlined ${styles.addFile}`}
-                onClick={() => onCreate("leaf", parentId)}
+                onClick={() => onCreate("file", parentId)}
               >
                 note_add
               </div>
               <div
                 className={`material-symbols-outlined ${styles.addFolder}`}
-                onClick={() => onCreate("internal", parentId)}
+                onClick={() => onCreate("directory", parentId)}
               >
                 create_new_folder
               </div>
@@ -121,8 +108,9 @@ function Sidebar() {
               rowClassName={styles.arborist_row}
               width={"100%"}
               height={1000}
-              indent={10}
+              indent={17}
               data={fileTree}
+              openByDefault={false}
               searchTerm={term}
               searchMatch={(node, term) =>
                 node.data.name.toLowerCase().includes(term.toLowerCase())

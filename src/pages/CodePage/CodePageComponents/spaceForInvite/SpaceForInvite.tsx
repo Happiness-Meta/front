@@ -16,7 +16,9 @@ const SpaceForInvite = () => {
   const goInvite = useMutation({
     mutationFn: async () => {
       try {
-        const response = await userAxiosWithAuth.get(`/api/repos/${repoId}/invite`);
+        const response = await userAxiosWithAuth.get(
+          `/api/repos/${repoId}/invite`
+        );
         setUrl(response.data.data.repoUrl);
         setPassword(response.data.data.repoPassword);
       } catch (error) {

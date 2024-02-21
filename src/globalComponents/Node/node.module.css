@@ -45,6 +45,11 @@
   visibility: visible;
 }
 
+.input {
+  background-color: transparent;
+  border: none;
+}
+
 .actionBtn {
   font-size: 15px;
   opacity: 0.5;

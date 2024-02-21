@@ -1,14 +1,19 @@
 import { create } from "zustand";
-import { LeafType } from "../../types/typesForFileTree";
+import { nodeType } from "../../types/typesForFileTree";
+// import { nodeType } from "../../types/typesForFileTree";
 
 interface aboutEditor {
-  tabs: LeafType[];
-  content: string;
+  tabs: nodeType[];
+  // tabs: backDataType[];
   filePath: string;
-  addTab: (newTab: LeafType) => void;
-  deleteTab: (tabToDelete: LeafType) => void;
-  // selectTab: (tabToSelect: Tab) => void;
-  showContent: (nodeData: LeafType) => void;
+  nodeContent: [id: string, content: string | undefined];
+  language: string;
+  addTab: (newTab: nodeType) => void;
+  // addTab: (newTab: backDataType) => void;
+  deleteTab: (tabToDelete: nodeType) => void;
+  // deleteTab: (tabToDelete: backDataType) => void;
+  showContent: (nodeData: nodeType) => void;
+  // showContent: (nodeData: backDataType) => void;
   rightSpace: boolean;
   toggleRightSpace: () => void;
   terminal: boolean;
@@ -21,8 +26,9 @@ interface aboutEditor {
 
 const editorStore = create<aboutEditor>((set) => ({
   tabs: [],
-  content: "",
+  nodeContent: ["", ""],
   filePath: "",
+  language: "",
   addTab: (newTab) =>
     set((state) => {
       const alreadyExists = state.tabs.some((tab) => tab.id === newTab.id);
@@ -33,12 +39,22 @@ const editorStore = create<aboutEditor>((set) => ({
     }),
   deleteTab: (tabToDelete) =>
     set((state) => {
+      console.log(state.tabs);
       const newTabSpace = state.tabs.filter((tab) => tab.id !== tabToDelete.id);
       return { tabs: newTabSpace };
     }),
-  // selectTab: (tabToSelect) => set((state) => {}),
+  // showContent: (nodeData) =>
+  //   set({
+  //     nodeContent: [nodeData.id, nodeData.content],
+  //     filePath: nodeData.filePath,
+  //     language: nodeData.name,
+  //   }),
   showContent: (nodeData) =>
-    set({ content: nodeData.content, filePath: nodeData.filePath }),
+    set({
+      nodeContent: [nodeData.id, nodeData.content],
+      filePath: nodeData.filePath,
+      language: nodeData.name,
+    }),
   rightSpace: true,
   toggleRightSpace: () => set((state) => ({ rightSpace: !state.rightSpace })),
   terminal: false,
