@@ -4,12 +4,7 @@ import { useCookies } from "react-cookie";
 
 function HomePage() {
   const navigate = useNavigate();
-  const [cookies, setCookie, removeCookie] = useCookies([
-    "email",
-    "nickname",
-    "token",
-  ]);
-  console.log(cookies);
+  const [cookies, , removeCookie] = useCookies(["email", "nickname", "token"]);
 
   const createStars = (count: number) => {
     return Array.from({ length: count }).map((_, index) => (

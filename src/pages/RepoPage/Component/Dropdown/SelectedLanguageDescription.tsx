@@ -1,4 +1,3 @@
-import React from "react";
 import styles from "./SelectedLanguageDescription.module.css";
 
 const languageDescriptions: { [key: string]: string } = {
@@ -10,18 +9,25 @@ const languageDescriptions: { [key: string]: string } = {
 };
 
 export default function renderLanguageDescription(selectedLanguage: string) {
-  const isValidLanguage = Object.keys(languageDescriptions).includes(selectedLanguage);
+  const isValidLanguage =
+    Object.keys(languageDescriptions).includes(selectedLanguage);
   return (
     <div className={styles.languageDescriptionContainer}>
       <div className={styles.languageImg}>
         {isValidLanguage && (
-          <img src={`/svg/${selectedLanguage.toLowerCase()}.svg`} alt={selectedLanguage} />
+          <img
+            src={`/svg/${selectedLanguage.toLowerCase()}.svg`}
+            alt={selectedLanguage}
+          />
         )}
       </div>
 
-      <div className={styles.languageTitle}>{selectedLanguage.toLowerCase()}</div>
+      <div className={styles.languageTitle}>
+        {selectedLanguage.toLowerCase()}
+      </div>
       <div className={styles.description}>
-        {languageDescriptions[selectedLanguage] || "사용하실 언어를 선택하세요."}
+        {languageDescriptions[selectedLanguage] ||
+          "사용하실 언어를 선택하세요."}
       </div>
     </div>
   );

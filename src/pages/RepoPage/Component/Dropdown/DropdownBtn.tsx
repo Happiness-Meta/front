@@ -1,4 +1,3 @@
-import React from "react";
 import styles from "./Dropdown.module.css";
 
 interface AboutDropdown {
@@ -6,7 +5,7 @@ interface AboutDropdown {
   onSelectTemplate: (key: string) => void;
 }
 
-export default function Dropdown({ onSelectTemplate, isDropdownView }: AboutDropdown) {
+export default function Dropdown({ onSelectTemplate }: AboutDropdown) {
   const programmingLanguages = [
     { key: "JAVA", name: "Java" },
     { key: "PYTHON", name: "Python" },

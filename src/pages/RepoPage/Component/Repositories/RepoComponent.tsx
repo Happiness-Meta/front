@@ -1,7 +1,6 @@
 import React, { useEffect, useRef, useState } from "react";
 import styles from "./Repositories.module.css";
-import RepoPage from "../../RepoPage";
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import RepoPageStore from "../../../../store/RepoPageStore/repoPageStore";
 import headerStore from "../../../../../src/store/globalStore/globalStore";
 import ReactModal from "react-modal";
@@ -20,31 +19,36 @@ interface RepoComponent {
   image: string;
 }
 
-interface Repositories {
-  [key: string]: RepoComponent;
-}
+// interface Repositories {
+//   [key: string]: RepoComponent;
+// }
 
-interface NameClickParams {
-  key: string;
-  name?: string;
-}
+// interface NameClickParams {
+//   key: string;
+//   name?: string;
+// }
 
 const RepoComponent = () => {
-  const { repositories, editMode, setEditMode, setRepositories, show, toggleModal } =
-    RepoPageStore();
+  const { repositories, setEditMode, setRepositories } = RepoPageStore();
   const { isEditModalOpen, toggleEditModal } = useModalStore();
   const [editName, setEditName] = useState("");
   const isEmpty = Object.keys(repositories).length === 0;
-  const [activeDropdownKey, setActiveDropdownKey] = useState<string | null>(null);
+  const [activeDropdownKey, setActiveDropdownKey] = useState<string | null>(
+    null
+  );
   const { deleteAllTabs } = editorStore();
-  const [currentEditingRepoKey, setCurrentEditingRepoKey] = useState<string | null>(null);
+  const [currentEditingRepoKey, setCurrentEditingRepoKey] = useState<
+    string | null
+  >(null);
   const dropdownRef = useRef<HTMLDivElement>(null);
-  const [repoImg, setRepoImg] = useState(undefined);
+  // const [, setRepoImg] = useState(undefined);
   const navigate = useNavigate();
-  const [inputValue, setInputValue] = useState("");
-  const [selectedRepo, setSelectedRepo] = useState<Repository | null>(null);
+  const [, setSelectedRepo] = useState<Repository | null>(null);
 
-  const toggleDropdown = (key: string, event: React.MouseEvent<HTMLDivElement>) => {
+  const toggleDropdown = (
+    key: string,
+    event: React.MouseEvent<HTMLDivElement>
+  ) => {
     event.stopPropagation();
     setActiveDropdownKey(activeDropdownKey === key ? null : key);
   };
@@ -66,11 +70,14 @@ const RepoComponent = () => {
       return;
     }
     try {
-      const response = await userAxiosWithAuth.patch(`/api/repos/${currentEditingRepoKey}`, {
-        updatedName: editName,
-      });
+      const response = await userAxiosWithAuth.patch(
+        `/api/repos/${currentEditingRepoKey}`,
+        {
+          updatedName: editName,
+        }
+      );
       console.log("Repository name updated successfully:", response.data);
-      setRepoImg(response.data.data.programmingLanguage.toLowerCase());
+      // setRepoImg(response.data.data.programmingLanguage.toLowerCase());
       // Zustand 스토어 업데이트
       const updatedRepositories = { ...repositories };
       updatedRepositories[currentEditingRepoKey].name = editName;
@@ -85,14 +92,14 @@ const RepoComponent = () => {
     setEditName("");
   };
 
-  const handleSave = ({ key }: NameClickParams) => {
-    const newRepositories = {
-      ...repositories,
-      [key]: { ...repositories[key], name: editName },
-    };
-    setRepositories(newRepositories);
-    setEditMode(null);
-  };
+  // const handleSave = ({ key }: NameClickParams) => {
+  //   const newRepositories = {
+  //     ...repositories,
+  //     [key]: { ...repositories[key], name: editName },
+  //   };
+  //   setRepositories(newRepositories);
+  //   setEditMode(null);
+  // };
 
   const handleRepoDelete = async (repoId: string, event: React.MouseEvent) => {
     event.stopPropagation();
@@ -101,7 +108,9 @@ const RepoComponent = () => {
       console.log("Deleted repository:", response.data);
 
       // 저장소 삭제 후 스토어의 상태 업데이트
-      const updatedRepositories = Object.entries(RepoPageStore.getState().repositories)
+      const updatedRepositories = Object.entries(
+        RepoPageStore.getState().repositories
+      )
         .filter(([key, _]) => key !== repoId) // 삭제하려는 repoId가 아닌 항목만 필터링
         .reduce((acc, [key, repo]) => {
           acc[key] = repo; // 필터링된 항목을 새 객체에 추가
@@ -117,7 +126,10 @@ const RepoComponent = () => {
   // 외부 클릭 시 드롭다운 메뉴 닫기
   useEffect(() => {
     function handleClickOutside(event: MouseEvent) {
-      if (dropdownRef.current && !dropdownRef.current.contains(event.target as Node)) {
+      if (
+        dropdownRef.current &&
+        !dropdownRef.current.contains(event.target as Node)
+      ) {
         setActiveDropdownKey(null);
       }
     }
@@ -139,10 +151,12 @@ const RepoComponent = () => {
           Object.values(repositories).map((repo, index) => (
             <div
               key={index}
-              className={`${mode ? styles.repo_wrapperSun : styles.repo_wrapperNight}`}
+              className={`${
+                mode ? styles.repo_wrapperSun : styles.repo_wrapperNight
+              }`}
               onClick={() => navigate(`/codePage/${repo.id}`)}
             >
-              <div className={styles.repocontainer} onClick={deleteAllTabs} >
+              <div className={styles.repocontainer} onClick={deleteAllTabs}>
                 <div className={styles.reponame_container}>
                   <div className={styles.repoimageContainer}>
                     <span className="material-symbols-outlined">public</span>
@@ -156,15 +170,27 @@ const RepoComponent = () => {
                       className={styles.moreHorizContainer}
                       onClick={(e) => toggleDropdown(repo.id, e)}
                     >
-                      <span className="material-symbols-outlined">more_horiz</span>
+                      <span className="material-symbols-outlined">
+                        more_horiz
+                      </span>
                     </div>
                     {activeDropdownKey === repo.id && (
                       <div
-                        className={mode ? styles.dropdownMenuSun : styles.dropdownMenuNight}
+                        className={
+                          mode
+                            ? styles.dropdownMenuSun
+                            : styles.dropdownMenuNight
+                        }
                         ref={dropdownRef}
                       >
-                        <button onClick={(event) => handleEditClick(repo.id, event)}>Edit</button>
-                        <button onClick={(e) => handleRepoDelete(repo.id, e)}>Delete</button>
+                        <button
+                          onClick={(event) => handleEditClick(repo.id, event)}
+                        >
+                          Edit
+                        </button>
+                        <button onClick={(e) => handleRepoDelete(repo.id, e)}>
+                          Delete
+                        </button>
                       </div>
                     )}
                   </div>

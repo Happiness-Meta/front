@@ -1,18 +1,17 @@
-import { RefObject, useEffect, useRef, useState } from "react";
+import { RefObject, useRef, useState } from "react";
 import editorStore from "../../../../store/CodePageStore/editorStore";
 import styles from "./InputInviteKey.module.css";
-import { useMutation } from "@tanstack/react-query";
 import userAxiosWithAuth from "../../../../utils/useAxiosWIthAuth";
-import { useNavigate, useParams } from "react-router-dom";
+import { useParams } from "react-router-dom";
 
 const InputInviteKey = () => {
   const infoSpaceRef: RefObject<HTMLDivElement> = useRef(null);
 
   const { toggleInviteKey } = editorStore();
   const { repoId } = useParams();
-  const [url, setUrl] = useState("");
+  // const [url, setUrl] = useState("");
   const [password, setPassword] = useState("");
-  const navigate = useNavigate();
+  // const navigate = useNavigate();
 
   const handlePasswordChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setPassword(event.target.value);
@@ -23,7 +22,10 @@ const InputInviteKey = () => {
     // 여기에 API 호출 코드 추가
     try {
       const data = { password: password };
-      const response = await userAxiosWithAuth.post(`/api/repos/invite/${repoId}`, data);
+      const response = await userAxiosWithAuth.post(
+        `/api/repos/invite/${repoId}`,
+        data
+      );
       console.log(response.data);
 
       if (response.data.code === 200) {

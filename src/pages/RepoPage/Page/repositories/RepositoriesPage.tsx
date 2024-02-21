@@ -2,8 +2,7 @@ import React, { useEffect, useState } from "react";
 import styles from "./Repositories.module.css";
 import RepoPage from "../../RepoPage";
 import Recommend from "../../Component/recommend/Recommend";
-import Recent from "../../Component/Recent/Recent";
-import RepoPageStore from "../../../../store/RepoPageStore/repoPageStore";
+// import RepoPageStore from "../../../../store/RepoPageStore/repoPageStore";
 import ReactModal from "react-modal";
 import useModalStore from "../../../../store/ModalStore/ModalStore";
 import DropdownBtn from "../../Component/Dropdown/DropdownBtn";
@@ -14,11 +13,13 @@ import userAxiosWithAuth from "../../../../utils/useAxiosWIthAuth";
 const RepositoriesPage = () => {
   const [isAnimated, setIsAnimated] = useState(false);
   const { isModalOpen, toggleCreateModal } = useModalStore();
-  const { repositories } = RepoPageStore();
-  const isEmpty = Object.keys(repositories).length === 0;
+  // const { repositories } = RepoPageStore();
+  // const isEmpty = Object.keys(repositories).length === 0;
   const [isDropdownView, setDropdownView] = useState(false);
   const [inputValue, setInputValue] = useState("");
-  const [selectedTemplateKey, setSelectedTemplateKey] = useState<string | null>(null);
+  const [selectedTemplateKey, setSelectedTemplateKey] = useState<string | null>(
+    null
+  );
   const [selectedLanguage, setSelectedLanguage] = useState("language");
 
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -69,7 +70,9 @@ const RepositoriesPage = () => {
 
   return (
     <RepoPage>
-      <div className={`${isAnimated ? styles.fadeIn : styles.dashboardContainer}`}>
+      <div
+        className={`${isAnimated ? styles.fadeIn : styles.dashboardContainer}`}
+      >
         <div>
           <button onClick={toggleCreateModal} className={styles.newrepobutton2}>
             CREATE REPOSITORY
@@ -103,12 +106,19 @@ const RepositoriesPage = () => {
         <form onSubmit={handleSubmit} className={styles.MenuWrapper}>
           <div className={styles.titleAndCloseContainer}>
             <h2>Create New Repository🚀</h2>
-            <button type="button" className={styles.closeButton} onClick={toggleCreateModal}>
+            <button
+              type="button"
+              className={styles.closeButton}
+              onClick={toggleCreateModal}
+            >
               <span className="material-symbols-outlined">close</span>
             </button>
           </div>
           <div className={styles.DropdownAndsubmitWrapper}>
-            <div className={styles.DropdownMenucontainer} onBlur={handleBlurContainer}>
+            <div
+              className={styles.DropdownMenucontainer}
+              onBlur={handleBlurContainer}
+            >
               <button type="button" onClick={handleClickContainer}>
                 <p>{selectedLanguage}</p>
                 {isDropdownView ? (

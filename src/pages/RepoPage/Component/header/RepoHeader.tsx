@@ -1,6 +1,5 @@
 import styles from "./header.module.css";
 import sidebarStore from "../../../../store/CodePageStore/sidebarStore";
-import { Link } from "react-router-dom";
 import ModeToggleBtn from "../../../../globalComponents/modeToggleBtn/ModeToggleBtn";
 import ExploreBtn from "../../../../globalComponents/exploreBtn/ExploreBtn";
 import globalStore from "../../../../store/globalStore/globalStore";
@@ -19,7 +18,9 @@ function Header() {
           style={mode ? { borderColor: "black" } : { borderColor: "white" }}
         >
           <div
-            className={`${sidebar ? styles.sidebarToggleInnerT : styles.sidebarToggleInnerF}`}
+            className={`${
+              sidebar ? styles.sidebarToggleInnerT : styles.sidebarToggleInnerF
+            }`}
             style={
               sidebar
                 ? { backgroundColor: "black", borderColor: "white" }
@@ -29,7 +30,10 @@ function Header() {
         </i>
 
         <ExploreBtn />
-        <div className={styles.IDE_name} style={mode ? { color: "black" } : { color: "white" }}>
+        <div
+          className={styles.IDE_name}
+          style={mode ? { color: "black" } : { color: "white" }}
+        >
           Earth-IDE-N
         </div>
       </div>
