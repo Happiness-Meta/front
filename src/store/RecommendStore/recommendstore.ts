@@ -12,6 +12,7 @@ export interface Repository {
 
 interface repoStoreState {
   repositories: { [key: string]: Repository };
+  setRepositories: (newRepositories: { [key: string]: Repository }) => void;
 }
 
 const RecommendStore = create<repoStoreState>((set) => ({
@@ -41,6 +42,7 @@ const RecommendStore = create<repoStoreState>((set) => ({
       image: "/svg/nextjs.svg",
     },
   },
+  setRepositories: (newRepositories) => set(() => ({ repositories: newRepositories })),
   editMode: null,
 }));
 

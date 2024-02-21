@@ -229,13 +229,13 @@
   height: 55px;
 }
 
-.dropdownMenu {
+.dropdownMenuNight {
   position: absolute;
-  background-color: #1e1e26;
   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.6);
-  z-index: 10;
-  top: 17px;
-  left: 80px;
+  background-color: #1e1e26;
+
+  top: 25px;
+  left: 32px;
   width: 100px;
   border-radius: 10px;
 }
@@ -244,14 +244,14 @@
   position: absolute;
   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.6);
   background-color: #eeeeee;
-  z-index: 10;
-  top: 40px;
-  left: 80px;
+
+  top: 25px;
+  left: 32px;
   width: 100px;
   border-radius: 10px;
 }
 
-.dropdownMenu button,
+.dropdownMenuNight button,
 .dropdownMenuSun button {
   display: block;
   width: 100%;
@@ -323,4 +323,8 @@
   position: absolute;
   left: 37px;
   top: 4px;
+}
+
+.changeInput {
+  color: black;
 }

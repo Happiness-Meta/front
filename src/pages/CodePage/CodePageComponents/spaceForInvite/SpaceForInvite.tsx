@@ -16,9 +16,7 @@ const SpaceForInvite = () => {
   const goInvite = useMutation({
     mutationFn: async () => {
       try {
-        const response = await userAxiosWithAuth.get(
-          `/api/repos/${repoId}/invite`
-        );
+        const response = await userAxiosWithAuth.get(`/api/repos/${repoId}/invite`);
         setUrl(response.data.data.repoUrl);
         setPassword(response.data.data.repoPassword);
       } catch (error) {
@@ -38,7 +36,7 @@ const SpaceForInvite = () => {
       <div ref={infoSpaceRef} className={styles.infoSpace}>
         <div className={styles.spaceEach}>
           <label className={styles.texts}>URL</label>
-          <input className={styles.input} value={url} />
+          <input className={styles.input} defaultValue={url} />
         </div>
         <div className={styles.spaceEach}>
           <label className={styles.texts}>Key</label>

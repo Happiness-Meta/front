@@ -7,8 +7,6 @@ import RepoPageStore from "../../../../store/RepoPageStore/repoPageStore";
 import ReactModal from "react-modal";
 import useModalStore from "../../../../store/ModalStore/ModalStore";
 import DropdownBtn from "../../Component/Dropdown/DropdownBtn";
-import templateDescriptionStore from "../../../../store/TemplateDescriptionStore/templateDescriptionStore";
-import axios from "axios";
 import renderLanguageDescription from "../../Component/Dropdown/SelectedLanguageDescription";
 import Repositories from "../../Component/Repositories/RepoComponent";
 import userAxiosWithAuth from "../../../../utils/useAxiosWIthAuth";
@@ -21,13 +19,7 @@ const RepositoriesPage = () => {
   const [isDropdownView, setDropdownView] = useState(false);
   const [inputValue, setInputValue] = useState("");
   const [selectedTemplateKey, setSelectedTemplateKey] = useState<string | null>(null);
-  const templates = templateDescriptionStore((state) => state.template);
   const [selectedLanguage, setSelectedLanguage] = useState("language");
-
-  const handleTemplateSelection = (key: string) => {
-    setSelectedTemplateKey(key);
-  };
-  const selectedTemplate = selectedTemplateKey ? templates[selectedTemplateKey] : null;
 
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setInputValue(event.target.value);

@@ -29,7 +29,7 @@ function CodePage() {
         return;
       }
       try {
-        const response = await userAxiosWithAuth.get(`/api/repos/${repoId}`);
+        await userAxiosWithAuth.get(`/api/repos/${repoId}`);
         // console.log(response.data);
         // 요청 성공 후 처리할 로직을 여기에 추가합니다.
         setFinishedGettingData(true);
@@ -58,9 +58,7 @@ function CodePage() {
             height: "calc(100vh - 50px)",
           }}
           enable={{ top: false, bottom: false, right: true, left: false }}
-          className={`${sidebar ? styles.sidebarToggle : ""} ${
-            styles.sidebarResizable
-          }`}
+          className={`${sidebar ? styles.sidebarToggle : ""} ${styles.sidebarResizable}`}
           handleClasses={{ right: "resizeHandle1" }}
         >
           <Sidebar />

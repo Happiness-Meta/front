@@ -9,6 +9,7 @@ import userAxiosWithAuth from "../../../../utils/useAxiosWIthAuth";
 import { Repository } from "../../../../store/RepoPageStore/repoPageStore";
 import dayjs from "dayjs";
 import relativeTime from "dayjs/plugin/relativeTime";
+import useModalStore from "../../../../store/ModalStore/ModalStore";
 dayjs.extend(relativeTime);
 interface RepoComponent {
   name: string;
@@ -29,6 +30,7 @@ interface NameClickParams {
 const RepoComponent = () => {
   const { repositories, editMode, setEditMode, setRepositories, show, toggleModal } =
     RepoPageStore();
+  const { isEditModalOpen, toggleEditModal } = useModalStore();
   const [editName, setEditName] = useState("");
   const isEmpty = Object.keys(repositories).length === 0;
   const [activeDropdownKey, setActiveDropdownKey] = useState<string | null>(null);
@@ -36,38 +38,48 @@ const RepoComponent = () => {
   const dropdownRef = useRef<HTMLDivElement>(null);
   const [repoImg, setRepoImg] = useState(undefined);
   const navigate = useNavigate();
-
-  const handleNameClick = ({ key, name }: NameClickParams, event: React.MouseEvent) => {
-    event.stopPropagation();
-    setEditMode(key);
-    setEditName(name ?? "");
-  };
-  const handleNameChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setEditName(e.target.value);
-  };
+  const [inputValue, setInputValue] = useState("");
+  const [selectedRepo, setSelectedRepo] = useState<Repository | null>(null);
 
   const toggleDropdown = (key: string, event: React.MouseEvent<HTMLDivElement>) => {
     event.stopPropagation();
     setActiveDropdownKey(activeDropdownKey === key ? null : key);
   };
 
-  const handleNameUpdate = async (repoId: string, newName: string) => {
+  const handleEditClick = (repoId: string, event: React.MouseEvent) => {
+    event.stopPropagation();
+    const repoInfo = repositories[repoId];
+    setSelectedRepo(repoInfo);
+    setCurrentEditingRepoKey(repoId);
+    toggleEditModal();
+    setEditMode;
+  };
+
+  const handleNameUpdate = async (event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault(); // 폼 제출 이벤트의 기본 동작 방지
+
+    if (!currentEditingRepoKey || !editName) {
+      console.error("Repository ID or new name is missing");
+      return;
+    }
     try {
-      const response = await userAxiosWithAuth.patch(`/api/repos/${repoId}`, {
-        updatedName: newName, // 요청 본문에 새 이름을 'updatedName' 키로 전달
+      const response = await userAxiosWithAuth.patch(`/api/repos/${currentEditingRepoKey}`, {
+        updatedName: editName,
       });
       console.log("Repository name updated successfully:", response.data);
       setRepoImg(response.data.data.programmingLanguage.toLowerCase());
       // Zustand 스토어 업데이트
       const updatedRepositories = { ...repositories };
-      updatedRepositories[repoId].name = newName;
+      updatedRepositories[currentEditingRepoKey].name = editName;
       setRepositories(updatedRepositories);
 
       // 편집 모드 해제
       setEditMode(null);
+      toggleEditModal();
     } catch (error) {
       console.error("Error updating repository name:", error);
     }
+    setEditName("");
   };
 
   const handleSave = ({ key }: NameClickParams) => {
@@ -77,12 +89,6 @@ const RepoComponent = () => {
     };
     setRepositories(newRepositories);
     setEditMode(null);
-  };
-
-  const handleKeyPress = (e: React.KeyboardEvent<HTMLInputElement>, key: string) => {
-    if (e.key === "Enter") {
-      handleSave({ key });
-    }
   };
 
   const handleRepoDelete = async (repoId: string, event: React.MouseEvent) => {
@@ -141,24 +147,8 @@ const RepoComponent = () => {
                   </div>
 
                   <div className={styles.reponame}>
-                    {editMode === repo.name ? (
-                      <div className={styles.reponame_input_container}>
-                        <input
-                          value={editName}
-                          onChange={(e) => setEditName(e.target.value)}
-                          onKeyDown={(e) =>
-                            e.key === "Enter" && handleNameUpdate(repo.id, editName)
-                          }
-                          onBlur={() => handleNameUpdate(repo.id, editName)}
-                          autoFocus
-                          className={styles.reponame_input}
-                        />
-                      </div>
-                    ) : (
-                      <h3 onClick={(e) => handleNameClick({ key: repo.name, name: repo.name }, e)}>
-                        {repo.name}
-                      </h3>
-                    )}
+                    {repo.name}
+
                     <div
                       className={styles.moreHorizContainer}
                       onClick={(e) => toggleDropdown(repo.id, e)}
@@ -170,14 +160,7 @@ const RepoComponent = () => {
                         className={mode ? styles.dropdownMenuSun : styles.dropdownMenuNight}
                         ref={dropdownRef}
                       >
-                        <button
-                          onClick={() => {
-                            setCurrentEditingRepoKey(repo.name); // 현재 편집 중인 레포지토리 키 설정
-                            toggleModal();
-                          }}
-                        >
-                          Edit
-                        </button>
+                        <button onClick={(event) => handleEditClick(repo.id, event)}>Edit</button>
                         <button onClick={(e) => handleRepoDelete(repo.id, e)}>Delete</button>
                       </div>
                     )}
@@ -201,6 +184,24 @@ const RepoComponent = () => {
             </div>
           ))
         )}
+        <ReactModal
+          isOpen={isEditModalOpen}
+          onRequestClose={toggleEditModal}
+          contentLabel="Create New Repository"
+          className={styles.createRepoModal}
+          overlayClassName={styles.createRepoOverlay}
+        >
+          <form onSubmit={handleNameUpdate} className={styles.MenuWrapper}>
+            <input
+              type="text"
+              placeholder="change your repo name..."
+              value={editName}
+              onChange={(e) => setEditName(e.target.value)}
+              autoFocus
+              className={styles.changeInput}
+            ></input>
+          </form>
+        </ReactModal>
       </div>
     </div>
   );

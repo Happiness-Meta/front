@@ -30,10 +30,7 @@ function ChatSpace() {
   const requestChatInitialData = async () => {
     try {
       const response = await userAxiosWithAuth.get(`/chat/${repoId}/messages`);
-      setMessages((prevMessages) => [
-        ...prevMessages,
-        ...response.data.results,
-      ]);
+      setMessages((prevMessages) => [...prevMessages, ...response.data.results]);
       // console.log(messages);
       setInitialDataLoaded(true);
       // console.log("이거 리스폰스", response);
@@ -87,7 +84,7 @@ function ChatSpace() {
     console.log("웹소켓 연결 완료");
     setConnected(true);
 
-    if (!entered) {
+    if (!messages.some((m) => m.sender === nowExistUser)) {
       clientRef.current?.send(
         `/pub/chat/enter/${repoId}`,
         {},
@@ -113,11 +110,7 @@ function ChatSpace() {
         content: currentMessage,
         type: "CHAT",
       };
-      clientRef.current?.send(
-        `/pub/chat/send/${repoId}`,
-        {},
-        JSON.stringify(chatMessage)
-      );
+      clientRef.current?.send(`/pub/chat/send/${repoId}`, {}, JSON.stringify(chatMessage));
       console.log("클라이언트 메시지 전송 메서드 내부 유저아이디:", userName);
       console.log("클라이언트 메시지 전송 메서드 내부 메시지 리스트", messages);
       setCurrentMessage("");
@@ -127,10 +120,16 @@ function ChatSpace() {
   // todo: 지금 여기 부분에서 메시지를 받을 때 실행이 안됨.
   const onMessageReceived = (payload: any) => {
     const message: ChatMessage = JSON.parse(payload.body);
-    console.log("방금 받아낸 메시지", message);
+    // console.log("방금 받아낸 메시지", message);
     setMessages((prevMessages) => [...prevMessages, message]);
-    console.log("상태관리 되고 있는 메시지 리스트", messages);
   };
+
+  useEffect(() => {
+    console.log(
+      "메시지 타입 확인1",
+      messages.some((m) => m.sender === nowExistUser)
+    );
+  }, [messages]);
 
   return (
     <div className={styles.chattingWrapper}>
@@ -145,25 +144,17 @@ function ChatSpace() {
           {messages.map((message, index) => (
             <li
               key={index}
-              className={`${
-                message.sender === userName
-                  ? styles.myMessage
-                  : styles.testMessage
-              }`}
+              className={`${message.sender === userName ? styles.myMessage : styles.testMessage}`}
             >
               {message.type === "CHAT" && (
                 <div
                   className={`${
-                    message.sender === userName
-                      ? styles.mysenderWrapper
-                      : styles.senderWrapper
+                    message.sender === userName ? styles.mysenderWrapper : styles.senderWrapper
                   }`}
                 >
                   <div
                     className={`${
-                      message.sender === userName
-                        ? styles.mysenderName
-                        : styles.senderName
+                      message.sender === userName ? styles.mysenderName : styles.senderName
                     }`}
                   >
                     <strong>{message.sender}</strong>
@@ -172,7 +163,7 @@ function ChatSpace() {
                 </div>
               )}
               <div className={styles.senderNoticeWrapper}>
-                {message.type === "JOIN" && nowExistUser ? (
+                {message.type === "JOIN" && messages.some((m) => m.sender === nowExistUser) ? (
                   <div className={styles.senderEntranceNotice}>
                     {message.sender} 님이 참가했습니다.
                   </div>
@@ -180,19 +171,13 @@ function ChatSpace() {
                   <></>
                 )}
                 {message.type === "LEAVE" && (
-                  <div className={styles.senderOutNotice}>
-                    {message.sender} 님이 퇴장했습니다.
-                  </div>
+                  <div className={styles.senderOutNotice}>{message.sender} 님이 퇴장했습니다.</div>
                 )}
               </div>
             </li>
           ))}
         </ul>
-        <form
-          className={styles.messageForm}
-          name="messageForm"
-          onSubmit={sendMessage}
-        >
+        <form className={styles.messageForm} name="messageForm" onSubmit={sendMessage}>
           <input
             type="text"
             id="message"

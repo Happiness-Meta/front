@@ -5,13 +5,14 @@
   justify-content: space-between;
   align-items: center;
   width: 100%;
-  height: 59.5px;
+  height: 100%;
 }
 
 .chattingSpace {
   display: flex;
   flex-direction: column;
-  height: 80vh;
+  height: 100%;
+  width: 100%;
 }
 
 .chattingSpace ul {
@@ -57,7 +58,7 @@
 
 .myMessage .chat_bubble,
 .testMessage .chat_bubble {
-  padding: 0 15px;
+  padding: 8px;
   margin: 0 5px;
   word-wrap: break-word;
   overflow-wrap: break-word;
