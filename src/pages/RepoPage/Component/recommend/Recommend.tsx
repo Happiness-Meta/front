@@ -7,9 +7,9 @@ import useModalStore from "../../../../store/ModalStore/ModalStore";
 import ReactModal from "react-modal";
 import userAxiosWithAuth from "../../../../utils/useAxiosWIthAuth";
 
-const Repositories = () => {
+const Recommend = () => {
   const { mode } = headerStore();
-  const { repositories } = RecommendStore();
+  const { repositories, setRepositories } = RecommendStore();
   const { isRecommendModalOpen, toggleRecommendedModal } = useModalStore();
   const [inputValue, setInputValue] = useState("");
   const [selectedRepo, setSelectedRepo] = useState<Repository | null>(null);
@@ -34,7 +34,7 @@ const Repositories = () => {
 
     try {
       const response = await userAxiosWithAuth.post(`/api/repos/template`, data);
-      // console.log("프로그래밍 랭귀지:", response.data.data.programmingLanguage);
+      console.log("프로그래밍 랭귀지:", response.data);
 
       RepoPageStore.getState().setRepositories({
         ...RepoPageStore.getState().repositories, // 기존 저장소 유지
@@ -125,4 +125,4 @@ const Repositories = () => {
   );
 };
 
-export default Repositories;
+export default Recommend;
