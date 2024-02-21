@@ -10,6 +10,8 @@ import { Repository } from "../../../../store/RepoPageStore/repoPageStore";
 import dayjs from "dayjs";
 import relativeTime from "dayjs/plugin/relativeTime";
 import useModalStore from "../../../../store/ModalStore/ModalStore";
+import editorStore from "../../../../store/CodePageStore/editorStore";
+
 dayjs.extend(relativeTime);
 interface RepoComponent {
   name: string;
@@ -34,6 +36,7 @@ const RepoComponent = () => {
   const [editName, setEditName] = useState("");
   const isEmpty = Object.keys(repositories).length === 0;
   const [activeDropdownKey, setActiveDropdownKey] = useState<string | null>(null);
+  const { deleteAllTabs } = editorStore();
   const [currentEditingRepoKey, setCurrentEditingRepoKey] = useState<string | null>(null);
   const dropdownRef = useRef<HTMLDivElement>(null);
   const [repoImg, setRepoImg] = useState(undefined);
@@ -139,7 +142,7 @@ const RepoComponent = () => {
               className={`${mode ? styles.repo_wrapperSun : styles.repo_wrapperNight}`}
               onClick={() => navigate(`/codePage/${repo.id}`)}
             >
-              <div className={styles.repocontainer}>
+              <div className={styles.repocontainer} onClick={deleteAllTabs} >
                 <div className={styles.reponame_container}>
                   <div className={styles.repoimageContainer}>
                     <span className="material-symbols-outlined">public</span>

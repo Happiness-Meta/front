@@ -12,6 +12,20 @@
   z-index: 100;
 }
 
+.fadeOut {
+  animation: fadeOut 1s forwards;
+}
+
+@keyframes fadeOut {
+  50% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+    display: none;
+  }
+}
+
 .figureSpace {
   position: relative;
   display: flex;

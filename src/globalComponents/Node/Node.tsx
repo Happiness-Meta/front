@@ -1,12 +1,12 @@
 import { NodeApi, TreeApi } from "react-arborist";
 import styles from "./node.module.css";
-import { CSSProperties, RefObject, useRef, useState } from "react";
+import { CSSProperties } from "react";
 import editorStore from "../../store/CodePageStore/editorStore";
 import SetFileTreeIcon from "../SetFileTreeIcon";
 import FileTreeStore from "../../store/FileTreeStore/FileTreeStore";
-import { useMutation } from "@tanstack/react-query";
-import userAxiosWithAuth from "../../utils/useAxiosWIthAuth";
-import { useParams } from "react-router-dom";
+// import { useMutation } from "@tanstack/react-query";
+// import userAxiosWithAuth from "../../utils/useAxiosWIthAuth";
+// import { useParams } from "react-router-dom";
 
 interface NodeRendererProps {
   node: NodeApi;
@@ -14,12 +14,10 @@ interface NodeRendererProps {
   style: CSSProperties;
 }
 
-const Node: React.FC<NodeRendererProps> = ({ node, style }) => {
+const Node: React.FC<NodeRendererProps> = ({ node, tree, style }) => {
   const { addTab, deleteTab, showContent } = editorStore();
-  const { setParentId, deleteNode } = FileTreeStore();
-  const { repoId } = useParams();
-  const inputRef: RefObject<HTMLInputElement> = useRef(null);
-  const [isEditing, setIsEditing] = useState(false);
+  const { setParentId } = FileTreeStore();
+  // const { repoId } = useParams();
 
   // const postCreate = useMutation({
   //   mutationFn: async () => {
@@ -53,6 +51,26 @@ const Node: React.FC<NodeRendererProps> = ({ node, style }) => {
   //     }
   //   },
   // });
+
+  const checkValue = (value: string) => {
+    if (value === "") {
+      alert("한 글자 이상 입력해 주세요.");
+      return false;
+    } else if (value === "." || value === "..") {
+      alert("올바르지 않은 이름입니다.");
+      return false;
+    }
+    return true;
+  };
+
+  const nameAndRename = (id: string, value: string) => {
+    if (checkValue(value)) {
+      node.submit(value);
+    } else {
+      node.reset();
+      tree.delete(id);
+    }
+  };
 
   return (
     <div
@@ -101,19 +119,15 @@ const Node: React.FC<NodeRendererProps> = ({ node, style }) => {
           onBlur={() => node.reset()}
           onKeyDown={(e) => {
             if (e.key === "Escape") node.reset();
-            if (e.key === "Enter") node.submit(e.currentTarget.value);
+            if (e.key === "Enter")
+              nameAndRename(node.data.id, e.currentTarget.value);
           }}
           autoFocus
         />
       ) : (
         <div className={styles.nodeNameContainer}>
           <span>{node.data.name}</span>
-          {/* <input
-            ref={inputRef}
-            className={styles.input}
-            onChange={(e) => e.currentTarget.value}
-            defaultValue={node.data.name}
-          ></input> */}
+
           <div className={styles.nodeActionBtns}>
             <i
               className={`${styles.actionBtn} material-symbols-outlined`}
@@ -128,7 +142,7 @@ const Node: React.FC<NodeRendererProps> = ({ node, style }) => {
               className={`${styles.actionBtn} material-symbols-outlined`}
               onClick={(e) => {
                 e.stopPropagation();
-                deleteNode(node.data);
+                tree.delete(node.data.id);
                 deleteTab(node.data);
               }}
             >
