@@ -4,16 +4,13 @@ import { nodeType } from "../../types/typesForFileTree";
 
 interface aboutEditor {
   tabs: nodeType[];
-  // tabs: backDataType[];
   filePath: string;
   nodeContent: [id: string, content: string | undefined];
   language: string;
   addTab: (newTab: nodeType) => void;
-  // addTab: (newTab: backDataType) => void;
   deleteTab: (tabToDelete: nodeType) => void;
-  // deleteTab: (tabToDelete: backDataType) => void;
+  deleteAllTabs: () => void;
   showContent: (nodeData: nodeType) => void;
-  // showContent: (nodeData: backDataType) => void;
   rightSpace: boolean;
   toggleRightSpace: () => void;
   terminal: boolean;
@@ -43,16 +40,11 @@ const editorStore = create<aboutEditor>((set) => ({
       const newTabSpace = state.tabs.filter((tab) => tab.id !== tabToDelete.id);
       return { tabs: newTabSpace };
     }),
-  // showContent: (nodeData) =>
-  //   set({
-  //     nodeContent: [nodeData.id, nodeData.content],
-  //     filePath: nodeData.filePath,
-  //     language: nodeData.name,
-  //   }),
+  deleteAllTabs: () => set({ tabs: [] }),
   showContent: (nodeData) =>
     set({
       nodeContent: [nodeData.id, nodeData.content],
-      filePath: nodeData.filePath,
+      filePath: nodeData.key,
       language: nodeData.name,
     }),
   rightSpace: true,
