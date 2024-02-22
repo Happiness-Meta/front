@@ -1,14 +1,18 @@
-import { RefObject, useRef, useState } from "react";
-import LoginPageStore from "../../../store/LoginPageStore/LoginPageStore";
+import { Dispatch, RefObject, SetStateAction, useRef, useState } from "react";
+import LoginPageStore from "../../../store/SignInUpPageStore/SignInUpPageStore";
 import styles from "../signInUpPage.module.css";
 import LoginFormDto from "../../../dto/LoginFormDto";
 import axios, { AxiosError } from "axios";
 import { useNavigate } from "react-router-dom";
-import SignInStore from "../../../store/LoginPageStore/SignInStore";
+import SignInStore from "../../../store/SignInUpPageStore/SignInStore";
 import { useMutation } from "@tanstack/react-query";
 import { useCookies } from "react-cookie";
 
-function SignIn() {
+interface SignInProps {
+  setWidthZero: Dispatch<SetStateAction<boolean>>;
+}
+
+const SignIn: React.FC<SignInProps> = ({ setWidthZero }) => {
   const navigate = useNavigate();
   const [, setCookie] = useCookies(["email", "nickname", "token"]);
 
@@ -40,11 +44,12 @@ function SignIn() {
       try {
         signInErrorMessageAniToggle();
         const response = await axios.post(
-            import.meta.env.VITE_BASE_URL +"/api/sign/login",
+          import.meta.env.VITE_BASE_URL + "/api/sign/login",
           // "http://localhost:8080/api/sign/login",
           body
         );
         const expiration = new Date(Date.now() + 1000 * 60 * 30);
+        setWidthZero(true);
         setCookie("token", response.data.data.token, {
           path: "/",
           expires: expiration,
@@ -57,11 +62,10 @@ function SignIn() {
           path: "/",
           expires: expiration,
         });
-        setTimeout(() => {
-          alert("로그인 세션이 만료되었습니다.");
-        }, 1000 * 60 * 30);
         signInErrorMessageStatus("");
-        navigate("/dashboard");
+        setTimeout(() => {
+          navigate("/dashboard");
+        }, 1000);
       } catch (error) {
         if (axios.isAxiosError(error)) {
           const axiosError = error as AxiosError;
@@ -159,6 +163,6 @@ function SignIn() {
       </div>
     </div>
   );
-}
+};
 
 export default SignIn;

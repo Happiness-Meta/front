@@ -198,13 +198,13 @@
   }
 }
 
-.homePage_image {
+.earthImg {
   position: absolute;
-  /* left: -300px;
-  bottom: -30vw; */
-  width: 100vh;
+  left: -125px;
+  bottom: -140px;
+  width: 700px;
   z-index: -1;
-  animation: flying 3s both, floating 2s infinite alternate linear;
+  animation: flying 3s, floating 2s infinite alternate linear;
 }
 
 @keyframes flying {
@@ -214,8 +214,8 @@
     bottom: 100%;
   }
   to {
-    left: -200px;
-    bottom: -20vw;
+    left: -125px;
+    bottom: -140px;
   }
 }
 @keyframes floating {
@@ -228,19 +228,25 @@
 }
 
 .diveIn {
+  position: absolute;
+  left: -125px;
+  bottom: -20vw;
+  width: 700px;
   animation: diveIn 4s forwards;
 }
 
 @keyframes diveIn {
-  50% {
-    top: 50%;
+  0% {
+  }
+  40% {
+    bottom: 50%;
     left: 50%;
-    transform: translate(-50%, -50%);
+    transform: translate(-50%, 50%) scale(0.7);
   }
   100% {
-    top: 50%;
+    bottom: -250%;
     left: 50%;
-    /* transform: translate(-50%, -50%) scale(3); */
+    transform: translate(-50%, 50%) scale(5);
   }
 }
 

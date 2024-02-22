@@ -1,15 +1,13 @@
 import { useMutation } from "@tanstack/react-query";
-import { RefObject, useEffect, useRef, useState } from "react";
+import { RefObject, useRef, useState } from "react";
 import { useCookies } from "react-cookie";
-import { useNavigate } from "react-router-dom";
-import SignInStore from "../../../store/LoginPageStore/SignInStore";
+import SignInStore from "../../../store/SignInUpPageStore/SignInStore";
 import UserUpdateDto from "../../../dto/UserUpdateDto";
 import userAxiosWithAuth from "../../../utils/useAxiosWIthAuth";
 import axios, { AxiosError } from "axios";
 import styles from "./back.module.css";
 
 const Back = () => {
-  const navigate = useNavigate();
   const [cookies, setCookie] = useCookies(["email", "nickname", "token"]);
 
   const nicknameRef: RefObject<HTMLInputElement> = useRef(null);
@@ -18,12 +16,6 @@ const Back = () => {
   const [errorMessage, setErrorMessage] = useState("");
   const [isClicked, setIsClicked] = useState(false);
   const { signInErrorMessageAni, signInErrorMessageAniToggle } = SignInStore();
-
-  useEffect(() => {
-    if (!cookies) {
-      navigate("/");
-    }
-  }, []);
 
   const changeUserInfo = useMutation({
     mutationFn: async () => {

@@ -130,18 +130,20 @@
 }
 
 .button {
-  width: 100%;
+  width: 90%;
   height: 35px;
   padding: 0 20px;
   border: none;
   border-radius: 5px;
   background-color: #068fff;
   color: white !important;
+  transition: 0.3s;
   cursor: pointer;
 }
 
 .button:hover {
-  box-shadow: inset 0 0 7px black;
+  width: 100%;
+  font-weight: bold;
 }
 
 .projectName {

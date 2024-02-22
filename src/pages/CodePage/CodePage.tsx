@@ -29,7 +29,6 @@ function CodePage() {
         return;
       }
       try {
-
         await userAxiosWithAuth.get(`/api/repos/${repoId}`);
         // console.log(response.data);
 
@@ -45,7 +44,7 @@ function CodePage() {
     };
 
     fetchData();
-  }, [cookies, navigate]);
+  }, [cookies, navigate, repoId]);
 
   return (
     <div className={styles.codePage}>
@@ -62,7 +61,9 @@ function CodePage() {
             height: "calc(100vh - 50px)",
           }}
           enable={{ top: false, bottom: false, right: true, left: false }}
-          className={`${sidebar ? styles.sidebarToggle : ""} ${styles.sidebarResizable}`}
+          className={`${sidebar ? styles.sidebarToggle : ""} ${
+            styles.sidebarResizable
+          }`}
           handleClasses={{ right: "resizeHandle1" }}
         >
           <Sidebar />

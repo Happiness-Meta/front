@@ -1,7 +1,7 @@
 import { RefObject, useRef, useState } from "react";
-import LoginPageStore from "../../../store/LoginPageStore/LoginPageStore";
+import LoginPageStore from "../../../store/SignInUpPageStore/SignInUpPageStore";
 import styles from "../signInUpPage.module.css";
-import SignUpStore from "../../../store/LoginPageStore/SignUpStore";
+import SignUpStore from "../../../store/SignInUpPageStore/SignUpStore";
 import UserRegisterDto from "../../../dto/UserRegisterDto";
 import axios, { AxiosError } from "axios";
 import { useMutation } from "@tanstack/react-query";
@@ -47,7 +47,7 @@ function SignUp() {
       try {
         signUpErrorMessageStatus("");
         const response = await axios.post(
-          import.meta.env.VITE_BASE_URL+"/api/sign/register",
+          import.meta.env.VITE_BASE_URL + "/api/sign/register",
           // "http://localhost:8080/api/sign/register",
           body
         );

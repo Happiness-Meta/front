@@ -1,17 +1,18 @@
 import styles from "./signInUpPage.module.css";
-import LoginPageStore from "../../store/LoginPageStore/LoginPageStore.ts";
+import LoginPageStore from "../../store/SignInUpPageStore/SignInUpPageStore.ts";
 // import OauthSpace from "./OauthSpace/OauthSpace.tsx";
 import LoginPageHeader from "./header/LoginPageHeader.tsx";
 import SignIn from "./SignInUpComponents/SignIn.tsx";
 import SignUp from "./SignInUpComponents/SignUp.tsx";
 import { useCookies } from "react-cookie";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 
 function SignInUpPage() {
   const navigate = useNavigate();
   const { inUp, welcomeMessage } = LoginPageStore();
   const [cookies] = useCookies(["token"]);
+  const [widthZero, setWidthZero] = useState(false);
 
   useEffect(() => {
     if (cookies.token) {
@@ -31,7 +32,11 @@ function SignInUpPage() {
           {inUp ? "Sign up to Earth-IDE-N" : "Sign in to Earth-IDE-N"}
         </h1>
       </div>
-      <main className={styles.signInUpSpace}>
+      <main
+        className={`${widthZero ? styles.widthZero : undefined} ${
+          styles.signInUpSpace
+        }`}
+      >
         <div
           className={`${inUp ? styles.inUpToggle : undefined}  ${
             styles.sliderFrame
@@ -44,7 +49,7 @@ function SignInUpPage() {
             </div>
           ) : undefined}
         </div>
-        <SignIn />
+        <SignIn setWidthZero={setWidthZero} />
         <SignUp />
       </main>
     </div>
