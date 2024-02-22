@@ -1,7 +1,9 @@
 .tab::-webkit-scrollbar {
   display: none;
 }
-
+.filesTabSpace::-webkit-scrollbar {
+  display: none;
+}
 .editorSpace {
   display: flex;
   justify-content: space-between;
