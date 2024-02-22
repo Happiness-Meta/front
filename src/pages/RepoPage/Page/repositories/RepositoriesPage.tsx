@@ -17,9 +17,7 @@ const RepositoriesPage = () => {
   // const isEmpty = Object.keys(repositories).length === 0;
   const [isDropdownView, setDropdownView] = useState(false);
   const [inputValue, setInputValue] = useState("");
-  const [selectedTemplateKey, setSelectedTemplateKey] = useState<string | null>(
-    null
-  );
+  const [selectedTemplateKey, setSelectedTemplateKey] = useState<string | null>(null);
   const [selectedLanguage, setSelectedLanguage] = useState("language");
 
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -70,9 +68,7 @@ const RepositoriesPage = () => {
 
   return (
     <RepoPage>
-      <div
-        className={`${isAnimated ? styles.fadeIn : styles.dashboardContainer}`}
-      >
+      <div className={`${isAnimated ? styles.fadeIn : styles.dashboardContainer}`}>
         <div>
           <button onClick={toggleCreateModal} className={styles.newrepobutton2}>
             CREATE REPOSITORY
@@ -91,8 +87,10 @@ const RepositoriesPage = () => {
           <div className={styles.recommend_fill}>
             <Recommend />
           </div>
-          <h2>All</h2>
-          <Repositories />
+          <div className={styles.repositories_fill}>
+            <h2>All</h2>
+            <Repositories />
+          </div>
         </div>
       </div>
 
@@ -106,19 +104,12 @@ const RepositoriesPage = () => {
         <form onSubmit={handleSubmit} className={styles.MenuWrapper}>
           <div className={styles.titleAndCloseContainer}>
             <h2>Create New Repository🚀</h2>
-            <button
-              type="button"
-              className={styles.closeButton}
-              onClick={toggleCreateModal}
-            >
+            <button type="button" className={styles.closeButton} onClick={toggleCreateModal}>
               <span className="material-symbols-outlined">close</span>
             </button>
           </div>
           <div className={styles.DropdownAndsubmitWrapper}>
-            <div
-              className={styles.DropdownMenucontainer}
-              onBlur={handleBlurContainer}
-            >
+            <div className={styles.DropdownMenucontainer} onBlur={handleBlurContainer}>
               <button type="button" onClick={handleClickContainer}>
                 <p>{selectedLanguage}</p>
                 {isDropdownView ? (

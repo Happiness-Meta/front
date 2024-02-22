@@ -19,10 +19,17 @@
   list-style: none;
   padding: 0;
   margin: 0;
+  overflow-y: auto;
+}
+
+.chattingSpace ul::-webkit-scrollbar {
+  display: none;
 }
 
 .chatHeader {
-  /* 채팅 헤더 스타일 */
+  height: 30px;
+  background-color: rgba(128 128 128 / 10%);
+  margin-bottom: 10px;
 }
 
 .messages {
@@ -142,4 +149,8 @@
   flex-direction: column;
   align-items: center;
   justify-content: center;
+}
+
+.messageContaier {
+  flex-grow: 1;
 }

@@ -10,17 +10,9 @@ function Sidebar() {
   const [cookies] = useCookies();
 
   return (
-    <div
-      className={`${sidebar ? styles.sidebarToggle : undefined} ${
-        styles.sidebarSpace
-      }`}
-    >
+    <div className={`${sidebar ? styles.sidebarToggle : undefined} ${styles.sidebarSpace}`}>
       <form>
-        <input
-          type="text"
-          className={styles.search_input}
-          placeholder="Search"
-        ></input>
+        <input type="text" className={styles.search_input} placeholder="Search"></input>
       </form>
 
       <div className={styles.filesSpace}>
@@ -28,9 +20,7 @@ function Sidebar() {
           <div className={styles.TitleSpace}></div>
         </div>
         <div
-          className={`${expandStatus ? styles.FCExpandStatus : undefined} ${
-            styles.fileContainer
-          }`}
+          className={`${expandStatus ? styles.FCExpandStatus : undefined} ${styles.fileContainer}`}
         ></div>
       </div>
       <div className={styles.profileContainer}>
@@ -48,26 +38,12 @@ function Sidebar() {
       <div className={styles.dashboardContainer}>
         <div className={styles.dashboard}>
           <Link to="/dashboard" className={styles.dashboard}>
-            <span className="material-symbols-outlined">schedule</span> &nbsp;
-            Dashboard
+            <span className="material-symbols-outlined">schedule</span> &nbsp; Dashboard
           </Link>
         </div>
         <div>
           <Link to="/repositories" className={styles.repositories}>
-            <span className="material-symbols-outlined">library_books</span>{" "}
-            &nbsp;Repositories
-          </Link>
-        </div>
-        <div>
-          <Link to="/projects" className={styles.projects}>
-            <span className="material-symbols-outlined">list</span>{" "}
-            &nbsp;Projects
-          </Link>
-        </div>
-        <div>
-          <Link to="/settings" className={styles.settings}>
-            <span className="material-symbols-outlined">settings</span> &nbsp;
-            Settings
+            <span className="material-symbols-outlined">library_books</span> &nbsp;Repositories
           </Link>
         </div>
       </div>

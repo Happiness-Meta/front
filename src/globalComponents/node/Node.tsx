@@ -23,6 +23,7 @@ const Node: React.FC<NodeRendererProps> = ({ node, tree, style }) => {
 
   const getDataMutation = useGetData();
 
+
   const handleCreateFileRequest = async (
     newNode: nodeType,
     newNodeName: string
@@ -33,9 +34,12 @@ const Node: React.FC<NodeRendererProps> = ({ node, tree, style }) => {
     try {
       let sendFilePath;
 
+
       const parentPath = FileTreeStore.getState().findNodePath(
         newNode.parentId
       );
+
+      const parentPath = FileTreeStore.getState().findNodePath(node.parentId);
 
       if (parentPath === null) {
         sendFilePath = newNodeName;
@@ -101,6 +105,7 @@ const Node: React.FC<NodeRendererProps> = ({ node, tree, style }) => {
       return false;
     } else if (value === "." || value === "..") {
       return false;
+
     } else if (value === node.data.name) {
       alert("파일/디렉토리 이름이 이미 존재합니다.");
       return false;
@@ -184,7 +189,6 @@ const Node: React.FC<NodeRendererProps> = ({ node, tree, style }) => {
       ) : (
         <div className={styles.nodeNameContainer}>
           <span
-            onDoubleClick={() => node.edit()}
             onKeyDown={(e) => {
               if (e.key === "Enter") node.edit();
             }}
