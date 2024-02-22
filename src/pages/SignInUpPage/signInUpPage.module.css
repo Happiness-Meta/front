@@ -67,6 +67,11 @@
   box-shadow: 0 0 10px gray;
 }
 
+.widthZero {
+  width: 0 !important;
+  transition: 1s;
+}
+
 .sliderFrame {
   position: absolute;
   top: 0;

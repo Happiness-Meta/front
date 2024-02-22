@@ -4,7 +4,7 @@ import { useCookies } from "react-cookie";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import Front from "./front/Front";
-import Back from "./back/back";
+import Back from "./back/Back";
 
 function MyPage() {
   const navigate = useNavigate();
@@ -17,19 +17,21 @@ function MyPage() {
   //   if (!cookies.token) {
   //     navigate("/");
   //   }
-  // }, []);
+  // }, [cookies.token, navigate]);
 
   return (
     <div className={styles.myPage}>
       <MyPageHeader />
       <div className={styles.myPage_body}>
-        <main
-          className={styles.card}
-          style={isClicked ? { transform: "rotateY(180deg)" } : undefined}
-        >
-          <Front />
-          <Back />
-        </main>
+        <div className={styles.wrap}>
+          <main
+            className={styles.card}
+            style={isClicked ? { transform: "rotateY(180deg)" } : undefined}
+          >
+            <Front />
+            <Back />
+          </main>
+        </div>
         <button
           className={styles.flipBtn}
           onClick={() => setIsClicked(!isClicked)}

@@ -28,14 +28,16 @@ function HomePage() {
     removeCookie("token");
   };
 
-  // if (isLaunched) {
-  //   setTimeout(() => {
-  //     if (!cookies.token) {
-  //       navigate("/loginPage");
-  //     }
-  //     navigate("/dashboard");
-  //   }, 5000);
-  // }
+  if (isLaunched) {
+    console.log(cookies.token);
+    setTimeout(() => {
+      if (!cookies.token) {
+        navigate("/signInUpPage");
+        return;
+      }
+      navigate("/dashboard");
+    }, 4000);
+  }
 
   return (
     <div className={styles.backSky}>
@@ -89,9 +91,7 @@ function HomePage() {
 
         <img
           src="https://blog.kakaocdn.net/dn/2sdHV/btsEdHtN2Px/V0a6TqK2tXooCXhLKKDMk0/img.png"
-          className={`${isLaunched ? styles.diveIn : undefined} ${
-            styles.homePage_image
-          }`}
+          className={`${isLaunched ? styles.diveIn : styles.earthImg} `}
         />
 
         <div
@@ -118,6 +118,7 @@ function HomePage() {
               console.log(isLaunched);
               setIsLaunched(true);
             }}
+            style={{ cursor: "pointer" }}
           >
             <span className={styles.boxTitle}>LAUNCH</span>
             <span className={styles.boxSubTitle}>떠날 준비가 됐나요?</span>
