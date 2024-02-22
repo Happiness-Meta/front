@@ -23,9 +23,9 @@ const Node: React.FC<NodeRendererProps> = ({ node, tree, style }) => {
 
   const getDataMutation = useGetData();
 
-  //필요한거 : 노드, 새로운 이름, 파일경로
+
   const handleCreateFileRequest = async (
-    node: nodeType,
+    newNode: nodeType,
     newNodeName: string
   ) => {
     if (!newNodeName.includes(".")) {
@@ -33,6 +33,11 @@ const Node: React.FC<NodeRendererProps> = ({ node, tree, style }) => {
     }
     try {
       let sendFilePath;
+
+
+      const parentPath = FileTreeStore.getState().findNodePath(
+        newNode.parentId
+      );
 
       const parentPath = FileTreeStore.getState().findNodePath(node.parentId);
 
@@ -42,7 +47,7 @@ const Node: React.FC<NodeRendererProps> = ({ node, tree, style }) => {
         sendFilePath = parentPath + "/" + newNodeName;
       }
 
-      if (node.type === "leaf") {
+      if (newNode.type === "leaf") {
         const body = {
           filepath: sendFilePath,
         };
@@ -78,39 +83,13 @@ const Node: React.FC<NodeRendererProps> = ({ node, tree, style }) => {
     }
   };
 
-  // const handleSaveRequest = async (node: nodeType, newNodeName: string) => {
-  //   const originalFilePath = removeLeadingSlash(node.key);
-  //   let newFilePath;
-
-  //   const parentPath = FileTreeStore.getState().findNodePath(node.parentId);
-
-  //   if (parentPath === null) {
-  //     newFilePath = newNodeName;
-  //   } else {
-  //     newFilePath = parentPath + "/" + newNodeName;
-  //   }
-  //   const sendNewFilePath = removeLeadingSlash(newFilePath);
-
-  //   const body = {
-  //     originFilepath: originalFilePath,
-  //     newFilepath: sendNewFilePath,
-  //     content: node.content,
-  //   };
-  //   try {
-  //     const response = await userAxiosWithAuth.put(
-  //       `/api/files/${repoId}`,
-  //       body
-  //     );
-  //     console.log(response);
-  //   } catch (error) {
-  //     console.log(error);
-  //   }
-  // };
-
   const handleCreateFile = async (newNodeName: string, type: string) => {
     if (type === "internal") {
       return;
+    } else if (node.data.name === "") {
+      node.reset();
     }
+
     const fileNode = {
       ...node.data,
       name: newNodeName,
@@ -118,9 +97,6 @@ const Node: React.FC<NodeRendererProps> = ({ node, tree, style }) => {
 
     await handleCreateFileRequest(fileNode as nodeType, newNodeName);
 
-    if (node.data.name === "") {
-      FileTreeStore.getState().deleteNode(node.data.id);
-    }
     getDataMutation.mutate();
   };
 
@@ -129,16 +105,21 @@ const Node: React.FC<NodeRendererProps> = ({ node, tree, style }) => {
       return false;
     } else if (value === "." || value === "..") {
       return false;
+
+    } else if (value === node.data.name) {
+      alert("파일/디렉토리 이름이 이미 존재합니다.");
+      return false;
     }
+
     return true;
   };
 
-  const nameAndRename = (id: string, type: string, value: string) => {
-    if (checkValue(value)) {
-      updateNodeName(id, value);
-      handleCreateFile(value, type);
+  const nameAndRename = (id: string, type: string, name: string) => {
+    if (checkValue(name)) {
+      updateNodeName(id, name);
+      handleCreateFile(name, type);
       showContent(node.data);
-      node.submit(value);
+      node.submit(name);
     } else {
       node.reset();
       tree.delete(id);
@@ -208,10 +189,9 @@ const Node: React.FC<NodeRendererProps> = ({ node, tree, style }) => {
       ) : (
         <div className={styles.nodeNameContainer}>
           <span
-            onDoubleClick={() => node.edit()}
-            // onKeyDown={(e) => {
-            //   if (e.key === "Enter") node.edit();
-            // }}
+            onKeyDown={(e) => {
+              if (e.key === "Enter") node.edit();
+            }}
           >
             {node.data.name}
           </span>

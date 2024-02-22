@@ -9,11 +9,11 @@ const Front = () => {
       <span className={styles.member}>Astronaut</span>
       <div className={styles.IDcard_inner}>
         <div className={styles.formEachSpace}>
-          <span className={styles.nickname} defaultValue={cookies.nickname} />
+          <span className={styles.nickname}>{cookies.nickname}</span>
         </div>
 
         <div className={styles.formEachSpace}>
-          <span className={styles.id} defaultValue={cookies.email} />
+          <span className={styles.id}>{cookies.email}</span>
         </div>
 
         <figure className={styles.picture}>
