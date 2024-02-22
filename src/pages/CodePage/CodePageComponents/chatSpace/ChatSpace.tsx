@@ -19,76 +19,76 @@ interface StompMessagePayload {
 function ChatSpace() {
   const { repoId } = useParams();
   const [messages, setMessages] = useState<ChatMessage[]>([]);
-  const { rightSpace } = editorStore();
+  const { rightSpace, setRightSpace } = editorStore();
   const [currentMessage, setCurrentMessage] = useState<string>("");
   const [userName, setUserName] = useState<string>("");
-  const [connected, setConnected] = useState<boolean>(false);
   const [cookies] = useCookies(["token", "nickname"]);
-  const messagesEndRef = useRef<HTMLDivElement | null>(null);
+  const messagesEndRef = useRef<HTMLUListElement | null>(null);
   const clientRef = useRef<Client | null>(null);
-  // const [entered, setEntered] = useState(false);
   const [initialDataLoaded, setInitialDataLoaded] = useState(false);
   const [nowExistUser, setNowExistUser] = useState("");
 
   const requestChatInitialData = async () => {
     try {
       const response = await userAxiosWithAuth.get(`/chat/${repoId}/messages`);
-      setMessages((prevMessages) => [
-        ...prevMessages,
-        ...response.data.results,
-      ]);
-      // console.log(messages);
+      setMessages((prevMessages) => [...prevMessages, ...response.data.results]);
+
       setInitialDataLoaded(true);
-      // console.log("이거 리스폰스", response);
     } catch (error) {
       console.error("이거 나오면 엑시오스 에러", error);
     }
   };
+
+  //rightspace 언제나 닫힌 상태로 불러오기
+  useEffect(() => {
+    setRightSpace();
+    console.log("111111111111번");
+  }, []);
 
   //전체 불러왔을 때 채팅량이 많아지면 어떻게 할 것인가? (더 불러오기 같은것들)
   //전체 다 구현할 것 / 스크롤로 미리 불러오되 버튼 누르면 보여지게 한다든지
   //한번에 다 불러올 때의 문제점 생각해본다. -> 시간상 못 구현, 앞으로 구현 예정이라고 답해도 ok
 
   useEffect(() => {
-    if (!initialDataLoaded) {
-      requestChatInitialData();
-    }
-  }, [repoId, initialDataLoaded]);
-
-  //useEffect를 두번 쓰는 이유?
-
-  useEffect(() => {
     // userName을 cookies에서 가져온 nickname으로 초기화
     setUserName(cookies.nickname);
-    console.log("이건 닉네임인가? ", userName);
+    console.log("222222222222번");
 
     if (!rightSpace) {
       connect();
       console.log("rightSpace");
+      console.log("3333333333333333번");
     }
-  }, [rightSpace, cookies.nickname]);
+  }, [rightSpace, userName]);
 
-  const connect = async () => {
+  useEffect(() => {
+    if (!initialDataLoaded) {
+      requestChatInitialData();
+      console.log("444444444444444444번");
+    }
+  }, [repoId, initialDataLoaded]);
+
+  useEffect(() => {
+    if (messagesEndRef.current) {
+      messagesEndRef.current.scrollTop = messagesEndRef.current.scrollHeight;
+      console.log("55555555555555555번");
+    }
+  }, [messages]);
+
+  //useEffect를 두번 쓰는 이유?
+
+  const connect = () => {
     if (clientRef.current === null) {
       // 웹 소켓 fallback (소켓 통신 멈췄을 때, http로도 메시지 전송 받을 수 있게 함)
       const socket = new WebSocket(import.meta.env.VITE_WEBSOCKET_URL);
       const client = Stomp.over(socket);
-      console.log("여기까지는 오게 됨");
       client.connect({}, onConnected, onError);
       clientRef.current = client;
-
-      try {
-        const response = await userAxiosWithAuth.get(`/api/repos/${repoId}`);
-        console.log("data id:", response.data.data.id);
-      } catch (error) {
-        console.error("Error creating new repository:", error);
-      }
     }
   };
 
   const onConnected = () => {
     console.log("웹소켓 연결 완료");
-    setConnected(true);
 
     if (!messages.some((m) => m.sender === nowExistUser)) {
       clientRef.current?.send(
@@ -96,7 +96,8 @@ function ChatSpace() {
         {},
         JSON.stringify({ sender: userName, type: "JOIN" })
       );
-      setNowExistUser(cookies.nickname);
+      setNowExistUser(userName);
+      console.log("지금 있는 유저:", nowExistUser);
     }
     clientRef.current?.subscribe(`/sub/repo/${repoId}`, onMessageReceived);
     console.log("구독 완료");
@@ -115,93 +116,75 @@ function ChatSpace() {
         content: currentMessage,
         type: "CHAT",
       };
-      clientRef.current?.send(
-        `/pub/chat/send/${repoId}`,
-        {},
-        JSON.stringify(chatMessage)
-      );
+      clientRef.current?.send(`/pub/chat/send/${repoId}`, {}, JSON.stringify(chatMessage));
       console.log("클라이언트 메시지 전송 메서드 내부 유저아이디:", userName);
       console.log("클라이언트 메시지 전송 메서드 내부 메시지 리스트", messages);
       setCurrentMessage("");
     }
   };
 
-  // todo: 지금 여기 부분에서 메시지를 받을 때 실행이 안됨.
   const onMessageReceived = (payload: StompMessagePayload) => {
     const message: ChatMessage = JSON.parse(payload.body);
     // console.log("방금 받아낸 메시지", message);
     setMessages((prevMessages) => [...prevMessages, message]);
   };
 
-  useEffect(() => {
-    console.log(
-      "메시지 타입 확인1",
-      messages.some((m) => m.sender === nowExistUser)
-    );
-  }, [messages]);
-
   return (
     <div className={styles.chattingWrapper}>
       <div className={styles.chattingSpace}>
         <div className={styles.chatHeader}></div>
-        {!connected && (
-          <div className={styles.messages} ref={messagesEndRef}>
-            Connecting...
-          </div>
-        )}
-        <ul className={styles.messageArea}>
+
+        <ul className={styles.messageArea} ref={messagesEndRef}>
           {messages.map((message, index) => (
             <li
               key={index}
-              className={`${
-                message.sender === userName
-                  ? styles.myMessage
-                  : styles.testMessage
-              }`}
+              className={
+                message.type === "CHAT"
+                  ? message.sender === userName
+                    ? styles.myMessage
+                    : styles.testMessage
+                  : styles.noticeMessage
+              }
             >
-              {message.type === "CHAT" && (
-                <div
-                  className={`${
-                    message.sender === userName
-                      ? styles.mysenderWrapper
-                      : styles.senderWrapper
-                  }`}
-                >
+              {message.type === "CHAT" ? (
+                <>
                   <div
-                    className={`${
-                      message.sender === userName
-                        ? styles.mysenderName
-                        : styles.senderName
-                    }`}
+                    className={
+                      message.sender === userName ? styles.mysenderWrapper : styles.senderWrapper
+                    }
                   >
-                    <strong>{message.sender}</strong>
+                    <div
+                      className={
+                        message.sender === userName ? styles.mysenderName : styles.senderName
+                      }
+                    >
+                      <strong>{message.sender}</strong>
+                    </div>
+                    <div className={styles.chat_bubble}>{message.content}</div>
                   </div>
-                  <div className={styles.chat_bubble}>{message.content}</div>
+                </>
+              ) : (
+                <div className={styles.noticeMessage}>
+                  <div className={styles.senderNoticeWrapper}>
+                    {message.type === "JOIN" && !messages.some((m) => m.sender === nowExistUser) ? (
+                      <div className={styles.senderEntranceNotice}>
+                        {message.sender} 님이 참가했습니다.
+                      </div>
+                    ) : (
+                      <></>
+                    )}
+                    {message.type === "LEAVE" && (
+                      <div className={styles.senderOutNotice}>
+                        {message.sender} 님이 퇴장했습니다.
+                      </div>
+                    )}
+                  </div>
                 </div>
               )}
-              <div className={styles.senderNoticeWrapper}>
-                {message.type === "JOIN" &&
-                messages.some((m) => m.sender === nowExistUser) ? (
-                  <div className={styles.senderEntranceNotice}>
-                    {message.sender} 님이 참가했습니다.
-                  </div>
-                ) : (
-                  <></>
-                )}
-                {message.type === "LEAVE" && (
-                  <div className={styles.senderOutNotice}>
-                    {message.sender} 님이 퇴장했습니다.
-                  </div>
-                )}
-              </div>
             </li>
           ))}
         </ul>
-        <form
-          className={styles.messageForm}
-          name="messageForm"
-          onSubmit={sendMessage}
-        >
+        <form className={styles.messageForm} name="messageForm" onSubmit={sendMessage}>
           <input
             type="text"
             id="message"
