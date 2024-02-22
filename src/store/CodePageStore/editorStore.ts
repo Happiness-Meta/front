@@ -7,6 +7,7 @@ interface aboutEditor {
   filePath: string;
   nodeContent: [id: string, content: string | undefined];
   language: string;
+  setContent: (content: string) => void;
   addTab: (newTab: nodeType) => void;
   deleteTab: (tabToDelete: nodeType) => void;
   deleteAllTabs: () => void;
@@ -27,6 +28,8 @@ const editorStore = create<aboutEditor>((set) => ({
   nodeContent: ["", ""],
   filePath: "",
   language: "",
+  setContent: (content: string) =>
+    set((state) => ({ nodeContent: [state.nodeContent[0], content] })),
   addTab: (newTab) =>
     set((state) => {
       const alreadyExists = state.tabs.some((tab) => tab.id === newTab.id);

@@ -3,7 +3,7 @@ export interface nodeType {
   name: string;
   type: string;
   content?: string;
-  parentId: string | undefined;
-  key?: string;
+  parentId: string;
+  key: string;
   children?: nodeType[];
 }

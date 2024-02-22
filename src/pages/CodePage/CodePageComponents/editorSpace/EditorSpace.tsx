@@ -7,16 +7,19 @@ import globalStore from "../../../../store/globalStore/globalStore";
 import editorStore from "../../../../store/CodePageStore/editorStore";
 import SetFileTreeIcon from "../../../../globalComponents/SetFileTreeIcon";
 import ChatSpace from "../chatSpace/ChatSpace";
+import FileTreeStore from "../../../../store/FileTreeStore/FileTreeStore";
 
 function EditorSpace() {
   const { sidebar, codeFontSize } = sidebarStore();
   const { mode } = globalStore();
+  const { setSelectedNode } = FileTreeStore();
   const {
     tabs,
     deleteTab,
+    showContent,
+    setContent,
     nodeContent,
     filePath,
-    showContent,
     language,
     rightSpace,
     terminal,
@@ -39,6 +42,13 @@ function EditorSpace() {
   if (extension === "ts" || extension === "tsx") setLanguage = "typescript";
   if (extension === "json") setLanguage = "json";
   if (extension === "md") setLanguage = "markdown";
+
+  const getValue = (value: string | undefined) => {
+    if (value === undefined) {
+      return;
+    }
+    setContent(value);
+  };
 
   return (
     <div
@@ -71,6 +81,7 @@ function EditorSpace() {
                   className={styles.tabEach}
                   onClick={() => {
                     showContent(tab);
+                    setSelectedNode(tab);
                   }}
                 >
                   {SetFileTreeIcon(tab.name)}
@@ -145,6 +156,7 @@ function EditorSpace() {
                 theme={mode ? "vs-light" : "vs-dark"}
                 language={`${setLanguage}`}
                 value={nodeContent[1]}
+                onChange={getValue}
                 options={{
                   selectOnLineNumbers: true,
                   fontSize: codeFontSize,

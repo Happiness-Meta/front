@@ -1,0 +1,115 @@
+.accountSpace {
+  position: relative;
+  display: flex;
+  justify-content: space-evenly;
+  align-items: center;
+  width: 65px;
+  height: 40px;
+  border-radius: 7px;
+}
+
+.accountSpace:hover {
+  background-color: rgba(128, 128, 128, 0.5);
+}
+
+.accountBtn {
+  display: flex;
+  justify-content: space-evenly;
+  align-items: center;
+  width: 65px;
+  height: 40px;
+  border: 1px solid transparent;
+  cursor: pointer;
+}
+
+.accountImg {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 30px;
+  height: 30px;
+  border: 1.5px solid;
+  border-radius: 50%;
+  background-color: rgb(0 140 255);
+  color: white;
+  font-size: 14px;
+  font-weight: bold;
+}
+
+.accountExpand {
+  width: 15px;
+  transform: rotate(180deg);
+  transition: transform 0.3s;
+}
+
+.accountSpace:hover .accountExpand {
+  transform: rotate(0);
+}
+
+.accountWindow {
+  user-select: none;
+  position: absolute;
+  top: 45px;
+  right: 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  width: 200px;
+  padding: 5px 0;
+  border: 1px solid #068fff;
+  border-radius: 7px 0 7px 7px;
+  background-color: rgba(128, 128, 128, 0.5);
+  backdrop-filter: blur(15px);
+  overflow: hidden;
+  z-index: 10;
+  animation: heightAni 0.3s forwards;
+}
+
+@keyframes heightAni {
+  from {
+    height: 0;
+  }
+  to {
+    height: 80.5px;
+  }
+}
+
+.buttonSpace {
+  display: flex;
+  flex-direction: column;
+  justify-content: start;
+  align-items: center;
+  width: 90%;
+  height: 50px;
+}
+
+.buttonEach {
+  display: flex;
+  width: 100%;
+  padding: 2px 6px;
+  border-radius: 7px;
+  cursor: pointer;
+}
+
+.buttonEach:hover {
+  background-color: rgba(128, 128, 128, 0.5);
+}
+
+.myPageBtnSymIcon {
+  font-size: 17px;
+}
+
+.myPageBtnText {
+  margin-left: 5px;
+  font-size: 14px;
+}
+
+.userInfo {
+  display: flex;
+  flex-direction: column;
+  width: 90%;
+  border-top: 0.5px solid gray;
+  margin-top: 2px;
+  font-size: 12px;
+}

@@ -18,7 +18,7 @@
 //       if (
 //         activeDropdownKey !== null &&
 //         dropdownRef.current &&
-//         !dropdownRef.current.contains(event.target as Node)
+//         !dropdownRef.current.contains(event.target as node)
 //       ) {
 //         setActiveDropdownKey(null);
 //       }

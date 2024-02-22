@@ -1,0 +1,23 @@
+version: "3"
+services:
+  web:
+    image: nginx
+    container_name: nginx
+    ports:
+      - "80:80"
+    #      - 443:443
+    volumes:
+      - ./nginx/conf.d:/etc/nginx/conf.d
+  front:
+    image: jaeseonyang/react-web-ide:web-ide
+    container_name: front
+    ports:
+      - "5173:5173"
+  application:
+    image: jaeseonyang/spring-web-ide:web-ide
+    container_name: spring-web-ide
+    build:
+      context: ./
+      dockerfile: Dockerfile
+    ports:
+      - "8080:8080"

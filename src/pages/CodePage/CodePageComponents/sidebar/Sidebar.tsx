@@ -5,31 +5,27 @@ import editorStore from "../../../../store/CodePageStore/editorStore";
 import { CreateHandler, DeleteHandler, Tree, TreeApi } from "react-arborist";
 import { useEffect, useRef, useState } from "react";
 import { v4 as uuidv4 } from "uuid";
-import { useMutation } from "@tanstack/react-query";
 import { nodeType } from "../../../../types/typesForFileTree";
-import userAxiosWithAuth from "../../../../utils/useAxiosWIthAuth";
 import FileTreeStore from "../../../../store/FileTreeStore/FileTreeStore";
-import { useParams } from "react-router-dom";
-import Node from "../../../../globalComponents/Node/Node";
+import Node from "../../../../globalComponents/node/Node";
+import useGetData from "../../../../utils/useGetData";
 
 function Sidebar() {
   const { sidebar, expandStatus, expandToggle } = sidebarStore();
   const { rightSpace, toggleRightSpace, terminal, toggleTerminal } =
     editorStore();
-  const { fileTree, getNodes, addNode, deleteNode } = FileTreeStore();
+  const { fileTree, addNode, deleteNode } = FileTreeStore();
 
   const [term, setTerm] = useState("");
 
-  const { repoId } = useParams();
   const treeRef = useRef<TreeApi<nodeType>>();
 
   const onCreate: CreateHandler<nodeType> = ({ type, parentId }) => {
-    // postCreate.mutate();
     const newNode: nodeType = {
       id: uuidv4(),
       name: "",
       type: type,
-      parentId: parentId === null ? undefined : parentId,
+      parentId: parentId === null ? "" : parentId,
       key: "", //filePath
       content: "",
     };
@@ -41,23 +37,10 @@ function Sidebar() {
     deleteNode(ids[0]);
   };
 
-  const getData = useMutation({
-    mutationFn: async () => {
-      try {
-        const response = await userAxiosWithAuth.get(
-          `/api/repos/${repoId}/files`
-        );
-        getNodes(response.data.data.treeData.children);
-        //id 의 값을 uuid로,
-        console.log(response.data.data.treeData.children);
-      } catch (error) {
-        // return console.log(error);
-      }
-    },
-  });
+  const getDataMutation = useGetData();
 
   useEffect(() => {
-    getData.mutate();
+    getDataMutation.mutate();
   }, []);
 
   return (
@@ -120,7 +103,7 @@ function Sidebar() {
               data={fileTree}
               onCreate={onCreate}
               onDelete={onDelete}
-              openByDefault={false}
+              // openByDefault={false}
               searchTerm={term}
               searchMatch={(node, term) =>
                 node.data.name.toLowerCase().includes(term.toLowerCase())

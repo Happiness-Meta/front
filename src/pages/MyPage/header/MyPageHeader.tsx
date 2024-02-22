@@ -8,10 +8,7 @@ function MyPageHeader() {
       <div className={styles.leftSide_header}>
         <ExploreBtn />
       </div>
-      <div className={styles.middleSide_header}>
-        {" "}
-        <div className={styles.IDE_name}>Earth-IDE-N</div>
-      </div>
+      <div className={styles.middleSide_header}> </div>
 
       <div className={styles.rightSide_header}>
         <ModeToggleBtn />
