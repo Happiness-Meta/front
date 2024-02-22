@@ -128,20 +128,17 @@
 
 .reponame_container {
   position: relative;
-  width: 211px;
-
+  width: 177px;
   display: flex;
-  align-items: center;
   justify-content: space-between;
-  margin-left: -6px;
   font-weight: 500;
   font-size: 16px;
+  align-items: center;
 }
 
 .reponame {
   width: 130px;
   position: relative;
-  left: 70px;
 
   justify-content: space-between;
   display: flex;
@@ -321,10 +318,15 @@
 
 .moreHorizContainer {
   position: absolute;
-  left: 37px;
+  left: 102px;
   top: 4px;
 }
 
 .changeInput {
   color: black;
+}
+
+.dateContainer {
+  font-size: 11px;
+  margin-left: 100px;
 }

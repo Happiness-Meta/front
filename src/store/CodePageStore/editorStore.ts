@@ -19,6 +19,7 @@ interface aboutEditor {
   toggleInviteSpace: () => void;
   inviteKey: boolean;
   toggleInviteKey: () => void;
+  setRightSpace: () => void;
 }
 
 const editorStore = create<aboutEditor>((set) => ({
@@ -52,10 +53,10 @@ const editorStore = create<aboutEditor>((set) => ({
   terminal: false,
   toggleTerminal: () => set((state) => ({ terminal: !state.terminal })),
   inviteSpace: false,
-  toggleInviteSpace: () =>
-    set((state) => ({ inviteSpace: !state.inviteSpace })),
+  toggleInviteSpace: () => set((state) => ({ inviteSpace: !state.inviteSpace })),
   inviteKey: false,
   toggleInviteKey: () => set((state) => ({ inviteKey: !state.inviteKey })),
+  setRightSpace: () => set({ rightSpace: true }),
 }));
 
 export default editorStore;

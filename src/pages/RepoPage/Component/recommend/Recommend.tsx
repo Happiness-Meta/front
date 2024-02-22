@@ -2,9 +2,7 @@ import React, { useState } from "react";
 import styles from "./Recommend.module.css";
 import RepoPageStore from "../../../../store/RepoPageStore/repoPageStore";
 import headerStore from "../../../../../src/store/globalStore/globalStore";
-import RecommendStore, {
-  Repository,
-} from "../../../../store/RecommendStore/recommendstore";
+import RecommendStore, { Repository } from "../../../../store/RecommendStore/recommendstore";
 import useModalStore from "../../../../store/ModalStore/ModalStore";
 import ReactModal from "react-modal";
 import userAxiosWithAuth from "../../../../utils/useAxiosWIthAuth";
@@ -35,10 +33,7 @@ const Recommend = () => {
     };
 
     try {
-      const response = await userAxiosWithAuth.post(
-        `/api/repos/template`,
-        data
-      );
+      const response = await userAxiosWithAuth.post(`/api/repos/template`, data);
       console.log("프로그래밍 랭귀지:", response.data);
 
       RepoPageStore.getState().setRepositories({
@@ -71,15 +66,9 @@ const Recommend = () => {
           Object.entries(repositories).map(([key, repo]) => (
             <div
               key={key}
-              className={`${
-                mode ? styles.repo_wrapperSun : styles.repo_wrapperNight
-              }`}
+              className={`${mode ? styles.repo_wrapperSun : styles.repo_wrapperNight}`}
             >
-              <div
-                key={key}
-                className={styles.repocontainer}
-                onClick={() => handleRepoClick(key)}
-              >
+              <div key={key} className={styles.repocontainer} onClick={() => handleRepoClick(key)}>
                 <div className={styles.reponame_container}>
                   <div className={styles.repoimageContaier}>
                     <img src={repo.image} className={styles.repoimage}></img>
@@ -91,8 +80,6 @@ const Recommend = () => {
                 <div className={styles.repodescription_container}>
                   <p>{repo.description}</p>
                 </div>
-
-                <div className={styles.daycontainer}>4 days ago</div>
               </div>
             </div>
           ))
@@ -108,11 +95,7 @@ const Recommend = () => {
         <form onSubmit={handleSubmit} className={styles.MenuWrapper}>
           <div className={styles.titleAndCloseContainer}>
             <h2>Create New Repository🚀</h2>
-            <button
-              type="button"
-              className={styles.closeButton}
-              onClick={toggleRecommendedModal}
-            >
+            <button type="button" className={styles.closeButton} onClick={toggleRecommendedModal}>
               <span className="material-symbols-outlined">close</span>
             </button>
           </div>
