@@ -21,7 +21,7 @@ function HomePage() {
       ></div>
     ));
   };
-
+  //
   const removeCookies = () => {
     removeCookie("email");
     removeCookie("nickname");

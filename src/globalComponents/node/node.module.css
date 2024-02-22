@@ -1,0 +1,65 @@
+.node_container {
+  display: flex;
+  align-items: center;
+  gap: 3px;
+  width: 100%;
+  cursor: pointer;
+}
+
+.node_container span {
+  font-size: 14px;
+}
+
+.iconContainer {
+  width: 18px;
+  height: 100%;
+}
+
+.fileIcon {
+  width: 14px;
+  height: 100%;
+  border-radius: 1px;
+}
+
+.directoryIcon {
+  width: 17px;
+  height: 100%;
+}
+
+.nodeNameContainer {
+  position: relative;
+  width: 100%;
+}
+
+.nodeActionBtns {
+  position: absolute;
+  top: 50%;
+  right: 0;
+  transform: translateY(-50%);
+  display: flex;
+  gap: 3px;
+  visibility: hidden;
+}
+
+.node_container:hover .nodeActionBtns {
+  visibility: visible;
+}
+
+.input {
+  background-color: transparent;
+  border: none;
+}
+
+.actionBtn {
+  font-size: 15px;
+  opacity: 0.5;
+}
+
+.actionBtn:hover {
+  opacity: 1;
+}
+
+.isEditInput {
+  border: 1px solid #068fff;
+  background-color: transparent;
+}
