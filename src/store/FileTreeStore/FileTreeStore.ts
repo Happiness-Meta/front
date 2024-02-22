@@ -1,21 +1,27 @@
 import { nodeType } from "../../types/typesForFileTree";
 import { create } from "zustand";
-import { findAndAddNode, removeNodeById } from "../../utils/fileTreeUtils";
+import {
+  findAndAddNode,
+  nameAndRenameChildren,
+  removeNodeById,
+  setFilePath,
+} from "../../utils/fileTreeUtils";
 
 interface aboutFileTree {
   fileTree: nodeType[];
-  parentId?: string;
-  setParentId: (parentId: string | undefined) => void;
+  selectedNode?: nodeType;
+  setSelectedNode: (selectedNode: nodeType) => void;
   getNodes: (T: nodeType[]) => void;
   addNode: (newNode: nodeType) => void;
+  updateNodeName: (id: string, value: string) => void;
   deleteNode: (tabToDeleteId: string) => void;
+  findNodePath: (nodeId: string) => string | null | number;
 }
 
 const FileTreeStore = create<aboutFileTree>((set) => ({
   fileTree: [],
-  parentId: undefined,
-  // isCreating: false,
-  setParentId: (parentId) => set({ parentId: parentId }),
+  selectedNode: undefined,
+  setSelectedNode: (selectedNode) => set({ selectedNode: selectedNode }),
   getNodes: (nodes) =>
     set(() => ({
       fileTree: nodes,
@@ -31,11 +37,18 @@ const FileTreeStore = create<aboutFileTree>((set) => ({
         : [...state.fileTree, newNode],
     }));
   },
-
+  updateNodeName: (id: string, value: string) =>
+    set((state) => ({
+      fileTree: nameAndRenameChildren(state.fileTree, id, value),
+    })),
   deleteNode: (tabToDeleteId) =>
     set((state) => ({
       fileTree: removeNodeById(state.fileTree, tabToDeleteId),
     })),
+  findNodePath: (nodeId) => {
+    const state: aboutFileTree = FileTreeStore.getState();
+    return setFilePath(state.fileTree, nodeId);
+  },
 }));
 
 export default FileTreeStore;

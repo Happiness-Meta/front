@@ -1,10 +1,12 @@
 import styles from "./homePage.module.css";
 import { useNavigate } from "react-router-dom";
 import { useCookies } from "react-cookie";
+import { useState } from "react";
 
 function HomePage() {
   const navigate = useNavigate();
   const [cookies, , removeCookie] = useCookies(["email", "nickname", "token"]);
+  const [isLaunched, setIsLaunched] = useState(false);
 
   const createStars = (count: number) => {
     return Array.from({ length: count }).map((_, index) => (
@@ -26,12 +28,24 @@ function HomePage() {
     removeCookie("token");
   };
 
+  // if (isLaunched) {
+  //   setTimeout(() => {
+  //     if (!cookies.token) {
+  //       navigate("/loginPage");
+  //     }
+  //     navigate("/dashboard");
+  //   }, 5000);
+  // }
+
   return (
     <div className={styles.backSky}>
       {createStars(200)}
       <div className={styles.homePageContainer}>
         {cookies.token ? (
-          <header className={styles.homepageHeader}>
+          <header
+            className={styles.homepageHeader}
+            style={{ display: isLaunched ? "none" : undefined }}
+          >
             <div
               className={styles.startBtn}
               onClick={() => navigate("/dashboard")}
@@ -43,7 +57,10 @@ function HomePage() {
             </div>
           </header>
         ) : (
-          <header className={styles.homepageHeader}>
+          <header
+            className={styles.homepageHeader}
+            style={{ display: isLaunched ? "none" : undefined }}
+          >
             {/* <div
               className={styles.guestBtn}
               onClick={() => navigate("/TemplatePage")}
@@ -59,7 +76,10 @@ function HomePage() {
           </header>
         )}
 
-        <div className={styles.textSpace}>
+        <div
+          className={styles.textSpace}
+          style={{ display: isLaunched ? "none" : undefined }}
+        >
           <span className={styles.title}>Earth-IDE-N</span>
           <div className={styles.subTitleSpace}>
             <span className={styles.subTitle}>지구상 어디든 접근하는</span>
@@ -69,10 +89,15 @@ function HomePage() {
 
         <img
           src="https://blog.kakaocdn.net/dn/2sdHV/btsEdHtN2Px/V0a6TqK2tXooCXhLKKDMk0/img.png"
-          className={styles.homePage_image}
+          className={`${isLaunched ? styles.diveIn : undefined} ${
+            styles.homePage_image
+          }`}
         />
 
-        <div className={styles.introducingBox}>
+        <div
+          className={styles.introducingBox}
+          style={{ display: isLaunched ? "none" : undefined }}
+        >
           <div className={styles.boxes}>
             <span className={styles.boxTitle}>START-PACK</span>
             <span className={styles.boxSubTitle}>
@@ -87,7 +112,13 @@ function HomePage() {
             <span className={styles.boxTitle}>CHANCE</span>
             <span className={styles.boxSubTitle}>성장할 수 있는 기회</span>
           </div>
-          <div className={styles.boxes}>
+          <div
+            className={styles.boxes}
+            onClick={() => {
+              console.log(isLaunched);
+              setIsLaunched(true);
+            }}
+          >
             <span className={styles.boxTitle}>LAUNCH</span>
             <span className={styles.boxSubTitle}>떠날 준비가 됐나요?</span>
           </div>

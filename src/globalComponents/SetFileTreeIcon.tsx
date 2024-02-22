@@ -3,7 +3,7 @@ import styles from "./node/node.module.css";
 const SetFileTreeIcon = (name: string) => {
   const draftCheck = name.includes(".");
   let iconSvg;
-  if (!draftCheck) {
+  if (!draftCheck || name.includes("txt")) {
     iconSvg = <img src={`/svg/draft.svg`} className={styles.directoryIcon} />;
     return iconSvg;
   }

@@ -4,9 +4,11 @@ import { CSSProperties } from "react";
 import editorStore from "../../store/CodePageStore/editorStore";
 import SetFileTreeIcon from "../SetFileTreeIcon";
 import FileTreeStore from "../../store/FileTreeStore/FileTreeStore";
-// import { useMutation } from "@tanstack/react-query";
-// import userAxiosWithAuth from "../../utils/useAxiosWIthAuth";
-// import { useParams } from "react-router-dom";
+import { useParams } from "react-router-dom";
+import userAxiosWithAuth from "../../utils/useAxiosWIthAuth";
+import { nodeType } from "../../types/typesForFileTree";
+import useGetData from "../../utils/useGetData";
+import { removeLeadingSlash } from "../../utils/fileTreeUtils";
 
 interface NodeRendererProps {
   node: NodeApi;
@@ -16,55 +18,126 @@ interface NodeRendererProps {
 
 const Node: React.FC<NodeRendererProps> = ({ node, tree, style }) => {
   const { addTab, deleteTab, showContent } = editorStore();
-  const { setParentId } = FileTreeStore();
-  // const { repoId } = useParams();
+  const { setSelectedNode, updateNodeName } = FileTreeStore();
+  const { repoId } = useParams();
 
-  // const postCreate = useMutation({
-  //   mutationFn: async () => {
-  //     const body = {};
-  //     try {
-  //       const response = await userAxiosWithAuth.post(
-  //         `/api/files/${repoId}`,
-  //         body
-  //       );
-  //       console.log(response);
-  //     } catch (error) {
-  //       // console.log(error);
-  //     }
-  //   },
-  // });
+  const getDataMutation = useGetData();
 
-  // const deleteDelete = useMutation({
-  //   mutationFn: async () => {
-  //     const body = {
-  //       repoId: repoId,
-  //       filePath: node.data.filePath
-  //     };
-  //     try {
-  //       const response = await userAxiosWithAuth.delete(
-  //         `/api/files/${repoId}`,
-  //         body
-  //       );
-  //       console.log(response);
-  //     } catch (error) {
-  //       // console.log(error);
-  //     }
-  //   },
-  // });
+  //필요한거 : 노드, 새로운 이름, 파일경로
+  const handleCreateFileRequest = async (
+    node: nodeType,
+    newNodeName: string
+  ) => {
+    if (!newNodeName.includes(".")) {
+      newNodeName = newNodeName + ".txt";
+    }
+    try {
+      let sendFilePath;
+
+      const parentPath = FileTreeStore.getState().findNodePath(node.parentId);
+
+      if (parentPath === null) {
+        sendFilePath = newNodeName;
+      } else {
+        sendFilePath = parentPath + "/" + newNodeName;
+      }
+
+      if (node.type === "leaf") {
+        const body = {
+          filepath: sendFilePath,
+        };
+        const response = await userAxiosWithAuth.post(
+          `/api/files/${repoId}`,
+          body
+        );
+        console.log(response);
+      }
+    } catch (error) {
+      console.log(error);
+    }
+    return handleCreateFileRequest;
+  };
+
+  const handleDeleteFileRequest = async (node: nodeType) => {
+    let sendFilePath;
+
+    const parentPath = FileTreeStore.getState().findNodePath(node.parentId);
+
+    if (parentPath === null) {
+      sendFilePath = node.name;
+    } else {
+      sendFilePath = parentPath + "/" + node.name;
+    }
+    try {
+      const response = await userAxiosWithAuth.delete(
+        `/api/files/${repoId}?filePath=${sendFilePath}`
+      );
+      console.log(response.data);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  // const handleSaveRequest = async (node: nodeType, newNodeName: string) => {
+  //   const originalFilePath = removeLeadingSlash(node.key);
+  //   let newFilePath;
+
+  //   const parentPath = FileTreeStore.getState().findNodePath(node.parentId);
+
+  //   if (parentPath === null) {
+  //     newFilePath = newNodeName;
+  //   } else {
+  //     newFilePath = parentPath + "/" + newNodeName;
+  //   }
+  //   const sendNewFilePath = removeLeadingSlash(newFilePath);
+
+  //   const body = {
+  //     originFilepath: originalFilePath,
+  //     newFilepath: sendNewFilePath,
+  //     content: node.content,
+  //   };
+  //   try {
+  //     const response = await userAxiosWithAuth.put(
+  //       `/api/files/${repoId}`,
+  //       body
+  //     );
+  //     console.log(response);
+  //   } catch (error) {
+  //     console.log(error);
+  //   }
+  // };
+
+  const handleCreateFile = async (newNodeName: string, type: string) => {
+    if (type === "internal") {
+      return;
+    }
+    const fileNode = {
+      ...node.data,
+      name: newNodeName,
+    };
+
+    await handleCreateFileRequest(fileNode as nodeType, newNodeName);
+
+    if (node.data.name === "") {
+      FileTreeStore.getState().deleteNode(node.data.id);
+    }
+    getDataMutation.mutate();
+  };
 
   const checkValue = (value: string) => {
     if (value === "") {
-      alert("한 글자 이상 입력해 주세요.");
       return false;
     } else if (value === "." || value === "..") {
-      alert("올바르지 않은 이름입니다.");
       return false;
     }
     return true;
   };
 
-  const nameAndRename = (id: string, value: string) => {
+  const nameAndRename = (id: string, type: string, value: string) => {
     if (checkValue(value)) {
+      updateNodeName(id, value);
+      handleCreateFile(value, type);
+      showContent(node.data);
       node.submit(value);
     } else {
       node.reset();
@@ -77,10 +150,9 @@ const Node: React.FC<NodeRendererProps> = ({ node, tree, style }) => {
       className={styles.node_container}
       style={style}
       onClick={() => {
-        console.log(node.data.parentId);
+        console.log(removeLeadingSlash(node.data.key));
         node.isInternal && node.toggle();
-        node.isInternal && setParentId(node.data.id);
-        !node.isInternal && setParentId(node.data.parentId);
+        !node.isInternal && setSelectedNode(node.data);
         !node.isInternal && addTab(node.data);
         !node.isInternal && showContent(node.data);
       }}
@@ -112,21 +184,37 @@ const Node: React.FC<NodeRendererProps> = ({ node, tree, style }) => {
       )}
       {node.isEditing ? (
         <input
+          required
           type="text"
           className={styles.isEditInput}
           defaultValue={node.data.name}
           onFocus={(e) => e.currentTarget.select()}
-          onBlur={() => node.reset()}
+          onBlur={() => {
+            checkValue(node.data.name);
+            tree.delete(node.data.id);
+            node.reset();
+          }}
           onKeyDown={(e) => {
             if (e.key === "Escape") node.reset();
             if (e.key === "Enter")
-              nameAndRename(node.data.id, e.currentTarget.value);
+              nameAndRename(
+                node.data.id,
+                node.data.type,
+                e.currentTarget.value
+              );
           }}
           autoFocus
         />
       ) : (
         <div className={styles.nodeNameContainer}>
-          <span>{node.data.name}</span>
+          <span
+            onDoubleClick={() => node.edit()}
+            // onKeyDown={(e) => {
+            //   if (e.key === "Enter") node.edit();
+            // }}
+          >
+            {node.data.name}
+          </span>
 
           <div className={styles.nodeActionBtns}>
             <i
@@ -144,6 +232,7 @@ const Node: React.FC<NodeRendererProps> = ({ node, tree, style }) => {
                 e.stopPropagation();
                 tree.delete(node.data.id);
                 deleteTab(node.data);
+                handleDeleteFileRequest(node.data);
               }}
             >
               delete
