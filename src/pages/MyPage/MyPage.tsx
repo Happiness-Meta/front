@@ -13,11 +13,11 @@ function MyPage() {
 
   const [isClicked, setIsClicked] = useState(false);
 
-  // useEffect(() => {
-  //   if (!cookies.token) {
-  //     navigate("/");
-  //   }
-  // }, [cookies.token, navigate]);
+  useEffect(() => {
+    if (!cookies.token) {
+      navigate("/");
+    }
+  }, [cookies.token, navigate]);
 
   return (
     <div className={styles.myPage}>

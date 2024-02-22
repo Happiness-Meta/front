@@ -7,9 +7,14 @@ export default defineConfig({
   define: {
     global: {},
   },
+  server: {
+    port: 5173,
+    host: "0.0.0.0"
+  },
   plugins: [react(), svgr()],
-
   build: {
-    chunkSizeWarningLimit: 1500,
+    manifest: true,
+    target: "esnext",
+    chunkSizeWarningLimit: 1500
   },
 });
