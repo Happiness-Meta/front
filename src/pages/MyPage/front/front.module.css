@@ -1,0 +1,68 @@
+.front {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  width: 300px;
+  height: 380px;
+  border: 40px solid #068fff;
+  border-right: 0;
+  border-left: 0;
+  border-radius: 30px;
+  background-color: transparent;
+  box-shadow: 0 0 10px gray;
+}
+
+.member {
+  width: 100%;
+  text-align: center;
+  font-size: 18px;
+  font-weight: bold;
+}
+
+.IDcard_inner {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  align-items: center;
+  width: 90%;
+  height: 300px;
+  margin-bottom: 10px;
+}
+
+.nickname {
+  width: 100%;
+  text-align: center;
+  font-size: 30px;
+  font-weight: bold;
+}
+
+.id {
+  width: 100%;
+  text-align: center;
+  font: 15px;
+}
+
+.picture {
+  display: flex;
+  justify-content: center;
+  align-items: end;
+  width: 180px;
+  height: 200px;
+  border-radius: 10px;
+  background-color: rgba(0, 0, 0, 0.05);
+}
+
+.person {
+  font-size: 180px;
+}
+
+.projectName {
+  width: 100%;
+  height: 20px;
+  text-align: center;
+  color: #068fff;
+  font-size: 20px;
+  font-weight: bold;
+}

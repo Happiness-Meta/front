@@ -1,0 +1,154 @@
+.back {
+  border-radius: 30px;
+  z-index: 5;
+  transform: rotateY(180deg);
+}
+
+.myInfoSpace {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  width: 300px;
+  height: 380px;
+  border: 40px solid #068fff;
+  border-right: 0;
+  border-left: 0;
+  background-color: transparent;
+  box-shadow: 0 0 10px gray;
+}
+
+.myInfoSpace_inner {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-around;
+  height: fit-content;
+  width: 90%;
+  height: 285px;
+}
+
+.form {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  width: 100%;
+  height: 200px;
+}
+
+.formEachSpace {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  height: 40px;
+}
+
+.inputIcon {
+  position: absolute;
+  left: 10px;
+  bottom: 20px;
+  transform: translateY(50%);
+  color: gray;
+  font-size: 25px;
+}
+
+.input {
+  box-sizing: border-box;
+  width: 100%;
+  height: 40px;
+  padding-left: 40px;
+  border: 1px solid gray;
+  border-radius: 5px;
+  background-color: transparent;
+}
+
+.IDinput {
+  box-sizing: border-box;
+  width: 100%;
+  height: 40px;
+  padding-left: 40px;
+  border: 1px solid gray;
+  border-radius: 5px;
+  background-color: rgb(0 0 0 / 20%);
+}
+
+.pwInput {
+  position: relative;
+}
+
+.errorMessage {
+  position: absolute;
+  bottom: -30px;
+  left: 0;
+  color: red;
+  font-size: 13px;
+  font-weight: bold;
+}
+
+.errorMessageAni {
+  animation: shaking 0.3s;
+}
+.errorMessageAni2 {
+  animation: shaking2 0.3s;
+}
+
+@keyframes shaking {
+  0% {
+    transform: translateX(0px);
+  }
+  20% {
+    transform: translateX(-2px);
+  }
+  40% {
+    transform: translateX(2px);
+  }
+  60% {
+    transform: translateX(-2px);
+  }
+  80% {
+    transform: translateX(2px);
+  }
+}
+
+@keyframes shaking2 {
+  0% {
+    transform: translateX(0px);
+  }
+  20% {
+    transform: translateX(-2px);
+  }
+  40% {
+    transform: translateX(2px);
+  }
+  60% {
+    transform: translateX(-2px);
+  }
+  80% {
+    transform: translateX(2px);
+  }
+}
+
+.button {
+  width: 100%;
+  height: 35px;
+  padding: 0 20px;
+  border: none;
+  border-radius: 5px;
+  background-color: #068fff;
+  color: white !important;
+  cursor: pointer;
+}
+
+.button:hover {
+  box-shadow: inset 0 0 7px black;
+}
+
+.projectName {
+  width: 100%;
+  height: 20px;
+  text-align: center;
+  color: #068fff;
+  font-size: 20px;
+  font-weight: bold;
+}

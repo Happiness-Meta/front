@@ -39,7 +39,7 @@ const LoadingPage: React.FC<LoadingPageProps> = (finishedGettingData) => {
           </button>
         </section>
       </div>
-      <p>{finishedGettingData ? `완료! ✅` : tipToShow}</p>
+      <p>{finishedGettingData ? `성공! ✅` : tipToShow}</p>
     </div>
   );
 };

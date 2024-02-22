@@ -8,4 +8,8 @@ export default defineConfig({
     global: {},
   },
   plugins: [react(), svgr()],
+
+  build: {
+    chunkSizeWarningLimit: 1500,
+  },
 });
