@@ -82,15 +82,6 @@ const RepoComponent = () => {
     setEditName("");
   };
 
-  // const handleSave = ({ key }: NameClickParams) => {
-  //   const newRepositories = {
-  //     ...repositories,
-  //     [key]: { ...repositories[key], name: editName },
-  //   };
-  //   setRepositories(newRepositories);
-  //   setEditMode(null);
-  // };
-
   const handleRepoDelete = async (repoId: string, event: React.MouseEvent) => {
     event.stopPropagation();
     try {
@@ -191,7 +182,7 @@ const RepoComponent = () => {
           overlayClassName={styles.createRepoOverlay}
         >
           <div className={styles.titleAndCloseContainer}>
-            <h2>Change your Repository name🚀</h2>
+            <h2>Change Repo name🚀</h2>
             <button type="button" className={styles.closeButton} onClick={toggleEditModal}>
               <span className="material-symbols-outlined">close</span>
             </button>
@@ -208,9 +199,9 @@ const RepoComponent = () => {
                   autoFocus
                   className={styles.changeInput}
                 ></input>
+                <button type="submit">Edit🚀</button>
               </form>
             </div>
-            <button type="submit">Create🚀</button>
           </div>
         </ReactModal>
       </div>

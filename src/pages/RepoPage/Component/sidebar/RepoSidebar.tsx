@@ -34,19 +34,6 @@ function Sidebar() {
           </div>
         </Link>
       </div>
-
-      <div className={styles.dashboardContainer}>
-        <div className={styles.dashboard}>
-          <Link to="/dashboard" className={styles.dashboard}>
-            <span className="material-symbols-outlined">schedule</span> &nbsp; Dashboard
-          </Link>
-        </div>
-        <div>
-          <Link to="/repositories" className={styles.repositories}>
-            <span className="material-symbols-outlined">library_books</span> &nbsp;Repositories
-          </Link>
-        </div>
-      </div>
     </div>
   );
 }

@@ -46,6 +46,7 @@ const Recommend = () => {
           modifiedAt: response.data.data.modifiedAt,
           url: `/codePage/${response.data.data.id}`,
           image: `/svg/${response.data.data.programmingLanguage.toLowerCase()}.svg`,
+          createId: response.data.data.createId,
         },
       });
 

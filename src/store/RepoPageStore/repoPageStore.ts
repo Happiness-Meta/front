@@ -7,6 +7,7 @@ export interface Repository {
   modifiedAt: string;
   url: string;
   image: string;
+  creatorDto: string;
 }
 // interface Repositories {
 //   [key: string]: Repository;
@@ -24,8 +25,7 @@ const RepoPageStore = create<repoStoreState>((set) => ({
   repositories: {},
   editMode: null,
   setEditMode: (key: string | null) => set(() => ({ editMode: key })),
-  setRepositories: (newRepositories) =>
-    set(() => ({ repositories: newRepositories })),
+  setRepositories: (newRepositories) => set(() => ({ repositories: newRepositories })),
   show: false,
   toggleModal: () => set((state) => ({ show: !state.show })),
 }));

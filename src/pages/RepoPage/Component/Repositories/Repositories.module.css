@@ -295,7 +295,6 @@
   z-index: 100;
 }
 
-/* 모달 오버레이(배경) 스타일 */
 .ReactModalOverlay {
   position: fixed;
   top: 0;
@@ -324,9 +323,114 @@
 
 .changeInput {
   color: black;
+  text-align: center;
+}
+
+.changeInput::placeholder {
+  text-align: center;
 }
 
 .dateContainer {
   font-size: 11px;
   margin-left: 100px;
+}
+
+.titleAndCloseContainer {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.createRepoModal {
+  background-color: #1e1e26;
+  width: 410px;
+  height: 248px;
+  margin: auto;
+  position: relative;
+  border-radius: 8px;
+  padding: 20px;
+  box-sizing: border-box;
+  outline: none;
+}
+
+.createRepoModal button {
+  color: #1e1e26;
+}
+
+.createRepoOverlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.75);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.titleAndCloseContainer {
+  display: flex;
+  align-items: center;
+}
+
+.closeButton {
+  background-color: transparent;
+  position: absolute;
+  right: 20px;
+  color: white !important;
+  border: none;
+  font-size: 24px;
+  cursor: pointer;
+}
+
+.submitAndButtonContainer {
+  height: 195px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+}
+
+.submitAndButtonContainer button {
+  width: 150px;
+  height: 15%;
+  border: none;
+  background-color: #068fff;
+  cursor: pointer;
+  border-radius: 20px;
+  padding: 10px;
+  text-align: center;
+  display: flex;
+  transition: background-color 0.3s;
+  margin-top: 30px;
+  align-items: center;
+  justify-content: center;
+  color: #eeeeee;
+}
+
+.submitContainer input {
+  background-color: #2e2e35;
+  border: none;
+  color: #eeeeee;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-radius: 10px;
+  width: 255px;
+  height: 30px;
+  margin-top: 20px;
+}
+
+.submitContainer button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.MenuWrapper {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-direction: column;
 }

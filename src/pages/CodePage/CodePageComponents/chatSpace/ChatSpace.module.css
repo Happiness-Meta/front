@@ -154,3 +154,7 @@
 .messageContaier {
   flex-grow: 1;
 }
+
+.chatHeaderInput {
+  color: #1e1e26;
+}

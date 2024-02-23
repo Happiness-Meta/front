@@ -27,6 +27,7 @@
 }
 
 .repositoriescontainer_empty {
+  margin-bottom: 20px;
   display: flex;
   flex-direction: column;
   margin-left: 5%;
@@ -136,6 +137,7 @@
   display: column;
   align-items: flex-end;
   margin-left: 30px;
+  padding-bottom: 24px;
 }
 
 .recommend {
@@ -143,7 +145,6 @@
   margin-right: 20px;
   justify-content: flex-end;
   width: 898px;
-  margin-bottom: 24px;
 }
 
 .createRepoModal {

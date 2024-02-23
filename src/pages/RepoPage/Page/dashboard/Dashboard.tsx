@@ -63,6 +63,7 @@ const Dashboard = () => {
           modifiedAt: response.data.data.modifiedAt,
           url: `/codePage/${response.data.data.id}`,
           image: `/svg/${response.data.data.programmingLanguage.toLowerCase()}.svg`,
+          createId: response.data.data.createId,
         },
       });
 
@@ -96,8 +97,8 @@ const Dashboard = () => {
     const fetchRepositories = async () => {
       try {
         const response = await userAxiosWithAuth.get(`/api/repos/all`);
-        console.log("Fetched repositories:", response.data); // 변경된 접근 방식 확인
-
+        console.log("Fetched repositories:", response.data.data); // 변경된 접근 방식 확인
+        console.log("this is createDto", response.data.data[0].creatorDto);
         // API 응답 구조가 { data: { data: [...] } } 형태라고 가정.
         const repositoryArray = response.data.data || []; // response.data.data가 배열이라고 가정
         const fetchedRepositories = repositoryArray.reduce(
@@ -126,26 +127,36 @@ const Dashboard = () => {
             <p>New on Happiness Meta</p>
             <div className={styles.imgContainer}>
               <div className={styles.imgcontext}>
-                <div className={styles.p_box}>
-                  <h3>Notion</h3>
-                  <p>Jan 05. 2024</p>
-                </div>
-                <img src="https://blog.kakaocdn.net/dn/b096ff/btsEnS31kpu/JWqbMNxuxz4rJL5h8nMsVk/img.jpg"></img>
-                <div className={styles.textContainer}>
-                  This is the notice page of Happiness meta. We usually record, organize, and plan
-                  our studies here.
-                </div>
+                <a
+                  href="https://www.notion.so/aaef50c8b3524ae9a29cf6449e744897?pvs=4"
+                  target="_blank"
+                >
+                  <div className={styles.p_box}>
+                    <h3>Notion</h3>
+                    <p>Jan 05. 2024</p>
+                  </div>
+                  <img src="https://blog.kakaocdn.net/dn/b096ff/btsEnS31kpu/JWqbMNxuxz4rJL5h8nMsVk/img.jpg"></img>
+                  <div className={styles.textContainer}>
+                    This is the notice page of Happiness meta. We usually record, organize, and plan
+                    our studies here.
+                  </div>
+                </a>
               </div>
               <div className={styles.imgcontext}>
-                <div className={styles.p_box}>
-                  <h3>Personalization</h3>
-                  <p>Jan 05. 2024</p>
-                </div>
-                <img src="https://blog.kakaocdn.net/dn/cd7E76/btsEttWjzlw/vgy6gbezenkYhcMqXPh1nK/img.jpg"></img>
+                <a
+                  href="https://jaeseon-yang-tree.notion.site/jaeseon-yang-tree/06e2f2d35dd741b1b136f1d0f43487a5"
+                  target="_blank"
+                >
+                  <div className={styles.p_box}>
+                    <h3>Personalization</h3>
+                    <p>Jan 05. 2024</p>
+                  </div>
+                  <img src="https://blog.kakaocdn.net/dn/cd7E76/btsEttWjzlw/vgy6gbezenkYhcMqXPh1nK/img.jpg"></img>
 
-                <div className={styles.textContainer}>
-                  Click to go to Yang Jae-sun's personal production page.
-                </div>
+                  <div className={styles.textContainer}>
+                    Click to go to Yang Jae-sun's personal production page.
+                  </div>
+                </a>
               </div>
               <div className={styles.imgcontext}>
                 <div className={styles.p_box}>
