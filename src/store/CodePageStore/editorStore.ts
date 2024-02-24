@@ -1,16 +1,19 @@
 import { create } from "zustand";
 import { nodeType } from "../../types/typesForFileTree";
-// import { nodeType } from "../../types/typesForFileTree";
-
 interface aboutEditor {
   tabs: nodeType[];
   filePath: string;
   nodeContent: [id: string, content: string | undefined];
   language: string;
+  terminalContent: string;
+  setTerminalContent: (content: string) => void;
+  clearTerminal: () => void;
   setContent: (content: string) => void;
   addTab: (newTab: nodeType) => void;
   deleteTab: (tabToDelete: nodeType) => void;
   deleteAllTabs: () => void;
+  updateTabName: (renamedNode: nodeType, newName: string) => void;
+  updateTabContent: (savedNode: nodeType, newContent: string) => void;
   showContent: (nodeData: nodeType) => void;
   rightSpace: boolean;
   toggleRightSpace: () => void;
@@ -27,6 +30,9 @@ const editorStore = create<aboutEditor>((set) => ({
   nodeContent: ["", ""],
   filePath: "",
   language: "",
+  terminalContent: "",
+  setTerminalContent: (content) => set({ terminalContent: content }),
+  clearTerminal: () => set({ terminalContent: "" }),
   setContent: (content: string) =>
     set((state) => ({ nodeContent: [state.nodeContent[0], content] })),
   addTab: (newTab) =>
@@ -39,11 +45,28 @@ const editorStore = create<aboutEditor>((set) => ({
     }),
   deleteTab: (tabToDelete) =>
     set((state) => {
-      console.log(state.tabs);
       const newTabSpace = state.tabs.filter((tab) => tab.id !== tabToDelete.id);
       return { tabs: newTabSpace };
     }),
   deleteAllTabs: () => set({ tabs: [] }),
+  updateTabName: (renamedNode, newName) =>
+    set((state) => ({
+      tabs: state.tabs.map((tab) =>
+        tab.id === renamedNode.id
+          ? { ...tab, name: newName, content: renamedNode.content }
+          : tab
+      ),
+    })),
+  updateTabContent: (savedNode, newContent) =>
+    set((state) => {
+      console.log(newContent);
+      return {
+        tabs: state.tabs.map((tab) =>
+          tab.id === savedNode.id ? { ...tab, content: newContent } : tab
+        ),
+      };
+    }),
+
   showContent: (nodeData) =>
     set({
       nodeContent: [nodeData.id, nodeData.content],

@@ -63,34 +63,36 @@
 /*  */
 .middleSide_header {
   display: flex;
-  justify-content: space-between;
+  justify-content: end;
   align-items: center;
-  width: 100px;
+  gap: 10px;
+  width: 160px;
 }
 
-.saveBtn {
+.saveBtn,
+.runBtn {
   display: flex;
   justify-content: space-evenly;
   align-items: center;
-  width: 70px;
   height: 35px;
   border-radius: 7px;
-  background-color: rgb(0 200 34 / 70%);
+  background-color: rgba(6, 143, 255, 0.5);
   font-weight: bold;
   transition: 0.2s;
   cursor: pointer;
 }
 
-.saveBtn:hover {
-  background-color: rgb(0 200 34 / 90%);
+.saveBtn:hover,
+.runBtn:hover {
+  background-color: rgba(6, 143, 255, 0.9);
   color: white;
 }
 
-.saveIcon {
+.middleBtnIcon {
   font-size: 18px;
 }
 
-.saveText {
+.middleBtnText {
   height: 26px;
 }
 /*  */

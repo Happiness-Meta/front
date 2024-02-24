@@ -1,5 +1,6 @@
 import { useNavigate } from "react-router-dom";
 import styles from "./loadingPage.module.css";
+import { useEffect, useState } from "react";
 
 interface LoadingPageProps {
   finishedGettingData: boolean;
@@ -7,6 +8,7 @@ interface LoadingPageProps {
 
 const LoadingPage: React.FC<LoadingPageProps> = (finishedGettingData) => {
   const navigate = useNavigate();
+  const [showSuccess, setShowSuccess] = useState(false);
 
   const tips = [
     `HTML문서에 시멘틱 태그를 상황에 맞게 사용해 코드의 가독성을 높이세요!`,
@@ -20,7 +22,16 @@ const LoadingPage: React.FC<LoadingPageProps> = (finishedGettingData) => {
     `코드에 설명적인 주석을 추가해서 다른 사람들이 빠르게 이해할 수 있게 하면 좋습니다.`,
     `코드 블록에 일관된 들여쓰기 스타일을 적용해서 가독성을 향상시키세요.`,
   ];
+
   const tipToShow = tips[Math.floor(Math.random() * 10)];
+
+  useEffect(() => {
+    if (finishedGettingData) {
+      setTimeout(() => {
+        setShowSuccess(true);
+      }, 500);
+    }
+  }, []);
 
   return (
     <div
@@ -39,7 +50,7 @@ const LoadingPage: React.FC<LoadingPageProps> = (finishedGettingData) => {
           </button>
         </section>
       </div>
-      <p>{finishedGettingData ? `성공! ✅` : tipToShow}</p>
+      <p>{showSuccess ? `✅` : tipToShow}</p>
     </div>
   );
 };

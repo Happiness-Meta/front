@@ -1,5 +1,5 @@
 import { useMutation } from "@tanstack/react-query";
-import { RefObject, useRef, useState } from "react";
+import { Dispatch, RefObject, SetStateAction, useRef, useState } from "react";
 import { useCookies } from "react-cookie";
 import SignInStore from "../../../store/SignInUpPageStore/SignInStore";
 import UserUpdateDto from "../../../dto/UserUpdateDto";
@@ -7,24 +7,33 @@ import userAxiosWithAuth from "../../../utils/useAxiosWIthAuth";
 import axios, { AxiosError } from "axios";
 import styles from "./back.module.css";
 
-const Back = () => {
+interface MyPageProps {
+  setIsClicked: Dispatch<SetStateAction<boolean>>;
+}
+
+const Back: React.FC<MyPageProps> = ({ setIsClicked }) => {
   const [cookies, setCookie] = useCookies(["email", "nickname", "token"]);
 
   const nicknameRef: RefObject<HTMLInputElement> = useRef(null);
   const pwRef: RefObject<HTMLInputElement> = useRef(null);
 
   const [errorMessage, setErrorMessage] = useState("");
-  const [isClicked, setIsClicked] = useState(false);
   const { signInErrorMessageAni, signInErrorMessageAniToggle } = SignInStore();
 
   const changeUserInfo = useMutation({
     mutationFn: async () => {
       if (nicknameRef.current!.value == "") {
+        signInErrorMessageAniToggle();
         return setErrorMessage("변경할 닉네임을 입력해 주세요.");
       }
       if (pwRef.current!.value == "") {
+        signInErrorMessageAniToggle();
         return setErrorMessage("변경할 비밀번호를 입력해 주세요.");
       }
+
+      // if(cookies.nickname === nicknameRef.current!.value){
+
+      // }
 
       const body: UserUpdateDto = {
         nickname: nicknameRef.current!.value,
@@ -37,11 +46,15 @@ const Back = () => {
           // "http://localhost:8080/api/sign/login",
           body
         );
+        console.log(response.data);
         setCookie("nickname", nicknameRef.current!.value);
-
-        console.log(response.data.data);
-        setErrorMessage("");
-        setIsClicked(!isClicked);
+        setErrorMessage("개인정보가 변경되었습니다!");
+        setTimeout(() => {
+          setIsClicked(false);
+        }, 500);
+        setTimeout(() => {
+          setErrorMessage("");
+        }, 1000);
       } catch (error) {
         if (axios.isAxiosError(error)) {
           const axiosError = error as AxiosError;
@@ -49,6 +62,7 @@ const Back = () => {
           if (axiosError.response) {
             console.log(error.response?.data);
             if (error.response?.data.code !== 200) {
+              signInErrorMessageAniToggle();
               return setErrorMessage(error.response?.data.msg);
             }
           }
@@ -103,6 +117,12 @@ const Back = () => {
                 ? styles.errorMessageAni
                 : styles.errorMessageAni2
             } ${styles.errorMessage}`}
+            style={{
+              color:
+                errorMessage === "개인정보가 변경되었습니다!"
+                  ? "rgb(0, 170, 0)"
+                  : "red",
+            }}
           >
             {errorMessage}
           </span>
@@ -111,7 +131,6 @@ const Back = () => {
         <button
           className={styles.button}
           onClick={() => {
-            signInErrorMessageAniToggle();
             changeUserInfo.mutate();
           }}
         >

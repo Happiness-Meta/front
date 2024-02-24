@@ -7,7 +7,6 @@ import { useNavigate } from "react-router-dom";
 import SignInStore from "../../../store/SignInUpPageStore/SignInStore";
 import { useMutation } from "@tanstack/react-query";
 import { useCookies } from "react-cookie";
-
 interface SignInProps {
   setWidthZero: Dispatch<SetStateAction<boolean>>;
 }
@@ -19,7 +18,7 @@ const SignIn: React.FC<SignInProps> = ({ setWidthZero }) => {
   const idInput: RefObject<HTMLInputElement> = useRef(null);
   const pwInput: RefObject<HTMLInputElement> = useRef(null);
 
-  const { isVisible, visibleToggle, inUp, inUpToggle } = LoginPageStore();
+  const { isVisible, visibleToggle, inUpToggle } = LoginPageStore();
   const {
     signInErrorMessage,
     signInErrorMessageStatus,
@@ -31,10 +30,14 @@ const SignIn: React.FC<SignInProps> = ({ setWidthZero }) => {
 
   const loginUser = useMutation({
     mutationFn: async () => {
-      if (idInput.current!.value === "")
+      if (idInput.current!.value === "") {
+        signInErrorMessageAniToggle();
         return signInErrorMessageStatus("아이디를 입력해주세요.");
-      if (pwInput.current!.value === "")
+      }
+      if (pwInput.current!.value === "") {
+        signInErrorMessageAniToggle();
         return signInErrorMessageStatus("비밀번호를 입력해주세요.");
+      }
 
       const body: LoginFormDto = {
         email: signInId,
@@ -42,7 +45,7 @@ const SignIn: React.FC<SignInProps> = ({ setWidthZero }) => {
       };
 
       try {
-        signInErrorMessageAniToggle();
+        signInErrorMessageStatus("");
         const response = await axios.post(
           import.meta.env.VITE_BASE_URL + "/api/sign/login",
           // "http://localhost:8080/api/sign/login",
@@ -62,10 +65,10 @@ const SignIn: React.FC<SignInProps> = ({ setWidthZero }) => {
           path: "/",
           expires: expiration,
         });
-        signInErrorMessageStatus("");
+
         setTimeout(() => {
           navigate("/dashboard");
-        }, 1000);
+        }, 2000);
       } catch (error) {
         if (axios.isAxiosError(error)) {
           const axiosError = error as AxiosError;
@@ -73,6 +76,7 @@ const SignIn: React.FC<SignInProps> = ({ setWidthZero }) => {
           if (axiosError.response) {
             console.log(error.response?.data);
             if (error.response?.data.code === 400) {
+              signInErrorMessageAniToggle();
               return signInErrorMessageStatus(
                 "이메일 또는 비밀번호를 잘못 입력하였습니다."
               );
@@ -83,8 +87,6 @@ const SignIn: React.FC<SignInProps> = ({ setWidthZero }) => {
     },
   });
 
-  inUp ? undefined : idInput.current?.setAttribute("autoFocus", "true");
-
   return (
     <div className={styles.signInSection}>
       <h2 className={styles.signInText}>Sign In</h2>
@@ -94,7 +96,7 @@ const SignIn: React.FC<SignInProps> = ({ setWidthZero }) => {
             person
           </i>
           <input
-            {...(!inUp ? { autoFocus: true } : {})}
+            autoFocus
             ref={idInput}
             name="id"
             type="text"

@@ -10,9 +10,9 @@
 }
 
 .settingsSpaceOn {
-  width: 100px;
+  width: 81px;
   padding-right: 10px;
-  background-color: rgba(128, 128, 128, 0.5);
+  background-color: rgb(0 140 255 / 50%);
 }
 
 .settingsLeft {
@@ -28,7 +28,7 @@
 }
 
 .settings:hover {
-  background-color: rgba(128, 128, 128, 0.5);
+  background-color: rgb(0 140 255 / 50%);
   transform: rotate(180deg);
 }
 
@@ -47,5 +47,5 @@
 }
 
 .addRemove:hover {
-  background-color: rgba(128, 128, 128, 0.5);
+  background-color: rgb(0 140 255 / 50%);
 }

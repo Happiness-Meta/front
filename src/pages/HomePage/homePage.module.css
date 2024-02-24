@@ -149,6 +149,11 @@
     width: 100% !important;
     align-items: center !important;
   }
+  .earthImg {
+    left: 50% !important;
+    bottom: 10% !important;
+    transform: translate(-50%, 50%) !important;
+  }
 }
 
 .title {
@@ -304,6 +309,10 @@
 .boxes:hover {
   box-shadow: 0 0 2px gray;
   background-color: black !important;
+}
+
+.boxes:nth-child(4):hover {
+  background-color: #005396 !important;
 }
 
 .boxTitle {

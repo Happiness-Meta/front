@@ -17,9 +17,10 @@ interface NodeRendererProps {
 }
 
 const Node: React.FC<NodeRendererProps> = ({ node, tree, style }) => {
-  const { addTab, deleteTab, showContent } = editorStore();
-  const { setSelectedNode, updateNodeName } = FileTreeStore();
+  const { addTab, deleteTab, showContent, updateTabName } = editorStore();
+  const { setSelectedNode, updateNodeName, findNodePath } = FileTreeStore();
   const { repoId } = useParams();
+  const { nameOrRename, setNameOrRename } = FileTreeStore();
 
   const getDataMutation = useGetData();
 
@@ -33,9 +34,7 @@ const Node: React.FC<NodeRendererProps> = ({ node, tree, style }) => {
     try {
       let sendFilePath;
 
-      const parentPath = FileTreeStore.getState().findNodePath(
-        newNode.parentId
-      );
+      const parentPath = findNodePath(newNode.parentId);
 
       if (parentPath === null) {
         sendFilePath = newNodeName;
@@ -79,6 +78,46 @@ const Node: React.FC<NodeRendererProps> = ({ node, tree, style }) => {
     }
   };
 
+  const handleRenameFile = async (nodeData: nodeType, newName: string) => {
+    let originalFilePath;
+    let sendNewFilePath;
+
+    if (!newName.includes(".")) {
+      newName = newName + ".txt";
+    }
+
+    const parentPath = FileTreeStore.getState().findNodePath(
+      nodeData!.parentId
+    );
+    let newFilePath;
+    if (parentPath === null) {
+      newFilePath = newName;
+      originalFilePath = removeLeadingSlash(nodeData!.key);
+      sendNewFilePath = removeLeadingSlash(newFilePath);
+    } else {
+      newFilePath = parentPath + "/" + newName;
+      originalFilePath = "/" + removeLeadingSlash(nodeData!.key);
+      sendNewFilePath = "/" + removeLeadingSlash(newFilePath);
+    }
+
+    const body = {
+      content: nodeData!.content,
+      newFilepath: sendNewFilePath,
+      originFilepath: originalFilePath,
+    };
+
+    try {
+      console.log(body);
+      const response = await userAxiosWithAuth.put(
+        `/api/files/${repoId}`,
+        body
+      );
+      console.log(response.data);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   const handleCreateFile = async (newNodeName: string, type: string) => {
     if (type === "internal") {
       return;
@@ -97,19 +136,13 @@ const Node: React.FC<NodeRendererProps> = ({ node, tree, style }) => {
   };
 
   const checkValue = (value: string) => {
-    if (value === "") {
-      return false;
-    } else if (value === "." || value === "..") {
-      return false;
-    } else if (value === node.data.name) {
-      alert("파일/디렉토리 이름이 이미 존재합니다.");
+    if (value === "" || value === "." || value === "..") {
       return false;
     }
-
     return true;
   };
 
-  const nameAndRename = (id: string, type: string, name: string) => {
+  const name = (id: string, type: string, name: string) => {
     if (checkValue(name)) {
       updateNodeName(id, name);
       handleCreateFile(name, type);
@@ -117,7 +150,19 @@ const Node: React.FC<NodeRendererProps> = ({ node, tree, style }) => {
       node.submit(name);
     } else {
       node.reset();
-      tree.delete(id);
+    }
+  };
+
+  const rename = (nodeData: nodeType, newName: string) => {
+    if (checkValue(nodeData.name)) {
+      console.log(nodeData.name, newName);
+      updateNodeName(node.id, newName);
+      handleRenameFile(nodeData, newName);
+      updateTabName(nodeData, newName);
+      showContent(nodeData);
+      node.submit(nodeData.name);
+    } else {
+      node.reset();
     }
   };
 
@@ -126,7 +171,6 @@ const Node: React.FC<NodeRendererProps> = ({ node, tree, style }) => {
       className={styles.node_container}
       style={style}
       onClick={() => {
-        console.log(removeLeadingSlash(node.data.key));
         node.isInternal && node.toggle();
         !node.isInternal && setSelectedNode(node.data);
         !node.isInternal && addTab(node.data);
@@ -165,28 +209,33 @@ const Node: React.FC<NodeRendererProps> = ({ node, tree, style }) => {
           className={styles.isEditInput}
           defaultValue={node.data.name}
           onFocus={(e) => e.currentTarget.select()}
-          onBlur={() => {
+          onBlur={(e) => {
             checkValue(node.data.name);
-            tree.delete(node.data.id);
             node.reset();
+            if (e.currentTarget.value === "") {
+              tree.delete(node.id);
+            }
           }}
           onKeyDown={(e) => {
             if (e.key === "Escape") node.reset();
-            if (e.key === "Enter")
-              nameAndRename(
-                node.data.id,
-                node.data.type,
-                e.currentTarget.value
-              );
+            if (e.key === "Enter") {
+              if (nameOrRename) {
+                name(node.data.id, node.data.type, e.currentTarget.value);
+                return;
+              } else {
+                rename(node.data, e.currentTarget.value);
+              }
+            }
           }}
           autoFocus
         />
       ) : (
         <div className={styles.nodeNameContainer}>
           <span
-            onDoubleClick={() => node.edit()}
-            onKeyDown={(e) => {
-              if (e.key === "Enter") node.edit();
+            className={styles.nodeName}
+            onDoubleClick={() => {
+              node.edit();
+              setNameOrRename(false);
             }}
           >
             {node.data.name}
@@ -198,6 +247,7 @@ const Node: React.FC<NodeRendererProps> = ({ node, tree, style }) => {
               onClick={(e) => {
                 e.stopPropagation();
                 node.edit();
+                setNameOrRename(false);
               }}
             >
               edit

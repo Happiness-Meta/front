@@ -11,7 +11,7 @@ function SignUp() {
   const nicknameInput: RefObject<HTMLInputElement> = useRef(null);
   const pwInput: RefObject<HTMLInputElement> = useRef(null);
 
-  const { inUp, inUpToggle, isVisible, visibleToggle, toggleWelcomeMessage } =
+  const { inUpToggle, isVisible, visibleToggle, toggleWelcomeMessage } =
     LoginPageStore();
   const {
     signUpErrorMessage,
@@ -26,17 +26,22 @@ function SignUp() {
 
   const registerUser = useMutation({
     mutationFn: async () => {
-      if (signUpErrorMessage) {
+      if (idInput.current!.value === "") {
         signUpErrorMessageAniToggle();
-      }
-      if (idInput.current!.value === "")
         return signUpErrorMessageStatus("아이디를 입력해주세요.");
-      if (!signUpID.includes("@") || !signUpID.includes("."))
+      }
+      if (!signUpID.includes("@") || !signUpID.includes(".")) {
+        signUpErrorMessageAniToggle();
         return signUpErrorMessageStatus("이메일 형식으로 적어주세요.");
-      if (nicknameInput.current!.value === "")
+      }
+      if (nicknameInput.current!.value === "") {
+        signUpErrorMessageAniToggle();
         return signUpErrorMessageStatus("닉네임을 입력해주세요.");
-      if (pwInput.current!.value === "")
+      }
+      if (pwInput.current!.value === "") {
+        signUpErrorMessageAniToggle();
         return signUpErrorMessageStatus("비밀번호를 입력해주세요.");
+      }
 
       const body: UserRegisterDto = {
         email: signUpID,
@@ -68,7 +73,7 @@ function SignUp() {
         if (axios.isAxiosError(error)) {
           const axiosError = error as AxiosError;
           if (axiosError.response) {
-            console.log(error.response?.data);
+            signUpErrorMessageAniToggle();
             if (error.response?.data.code === 409) {
               return signUpErrorMessageStatus(
                 "입력하신 이메일이 이미 존재합니다."
@@ -111,7 +116,6 @@ function SignUp() {
             person
           </i>
           <input
-            {...(!inUp ? { autoFocus: true } : {})}
             ref={idInput}
             name="id"
             type="text"

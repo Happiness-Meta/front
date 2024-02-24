@@ -14,8 +14,6 @@ const useGetData = () => {
           `/api/repos/${repoId}/files`
         );
         getNodes(response.data.data.treeData.children);
-        //id 의 값을 uuid로,
-        console.log(response.data.data.treeData.children);
       } catch (error) {
         // return console.log(error);
       }
