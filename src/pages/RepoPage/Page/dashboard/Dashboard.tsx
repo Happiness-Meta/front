@@ -63,6 +63,7 @@ const Dashboard = () => {
           modifiedAt: response.data.data.modifiedAt,
           url: `/codePage/${response.data.data.id}`,
           image: `/svg/${response.data.data.programmingLanguage.toLowerCase()}.svg`,
+          programmingLanguage: response.data.data.programmingLanguage,
         },
       });
 

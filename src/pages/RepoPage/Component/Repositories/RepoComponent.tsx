@@ -125,6 +125,13 @@ const RepoComponent = () => {
     };
   }, [dropdownRef]);
 
+  const getImageSrc = (language: string) => {
+    if (!language) {
+      return "/svg/java.svg";
+    }
+    return `/svg/${language.toLowerCase()}.svg`;
+  };
+
   const { mode } = headerStore();
 
   return (
@@ -142,8 +149,11 @@ const RepoComponent = () => {
               <div className={styles.repocontainer} onClick={deleteAllTabs}>
                 <div className={styles.reponame_container}>
                   <div className={styles.repoimageContainer}>
-                    <span className="material-symbols-outlined">public</span>
-                    {/* <img src={repo.image} alt="repo" className={styles.repoimage}></img> */}
+                    <img
+                      src={getImageSrc(repo.programmingLanguage)}
+                      alt="repo"
+                      className={styles.repoimage}
+                    ></img>
                   </div>
 
                   <div className={styles.reponame}>
@@ -191,7 +201,7 @@ const RepoComponent = () => {
           overlayClassName={styles.createRepoOverlay}
         >
           <div className={styles.titleAndCloseContainer}>
-            <h2>Change your Repository name🚀</h2>
+            <h2>Change Repo name🚀</h2>
             <button type="button" className={styles.closeButton} onClick={toggleEditModal}>
               <span className="material-symbols-outlined">close</span>
             </button>
@@ -208,9 +218,9 @@ const RepoComponent = () => {
                   autoFocus
                   className={styles.changeInput}
                 ></input>
+                <button type="submit">Edit🚀</button>
               </form>
             </div>
-            <button type="submit">Create🚀</button>
           </div>
         </ReactModal>
       </div>

@@ -12,6 +12,13 @@ interface ChatMessage {
   type: "JOIN" | "LEAVE" | "CHAT";
 }
 
+interface SearchResult {
+  index: number;
+  sender: string;
+  content: string;
+  type: "JOIN" | "LEAVE" | "CHAT";
+}
+
 interface StompMessagePayload {
   body: string;
 }
@@ -27,60 +34,92 @@ function ChatSpace() {
   const clientRef = useRef<Client | null>(null);
   const [initialDataLoaded, setInitialDataLoaded] = useState(false);
   const [nowExistUser, setNowExistUser] = useState("");
+  const [searchTerm, setSearchTerm] = useState("");
+  const API_URL = import.meta.env.VITE_WEBSOCKET_URL;
+  const messageRefs = useRef<(HTMLLIElement | null)[]>([]);
+  const [searchResults, setSearchResults] = useState<SearchResult[]>([]);
 
   const requestChatInitialData = async () => {
     try {
-      const response = await userAxiosWithAuth.get(`/chat/${repoId}/messages`);
+      const response = await userAxiosWithAuth.get(`/api/chat/${repoId}/messages`);
       setMessages((prevMessages) => [...prevMessages, ...response.data.results]);
 
       setInitialDataLoaded(true);
     } catch (error) {
-      console.error("이거 나오면 엑시오스 에러", error);
+      console.error("requestChatInitialData:", error);
     }
+  };
+
+  //search
+  const handleSearchSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+    setSearchTerm("");
+  };
+  const handleSearchChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setSearchTerm(event.target.value);
   };
 
   //rightspace 언제나 닫힌 상태로 불러오기
   useEffect(() => {
     setRightSpace();
-    console.log("111111111111번");
   }, []);
-
-  //전체 불러왔을 때 채팅량이 많아지면 어떻게 할 것인가? (더 불러오기 같은것들)
-  //전체 다 구현할 것 / 스크롤로 미리 불러오되 버튼 누르면 보여지게 한다든지
-  //한번에 다 불러올 때의 문제점 생각해본다. -> 시간상 못 구현, 앞으로 구현 예정이라고 답해도 ok
 
   useEffect(() => {
     // userName을 cookies에서 가져온 nickname으로 초기화
     setUserName(cookies.nickname);
-    console.log("222222222222번");
 
+    onConnected();
     if (!rightSpace) {
       connect();
-      console.log("rightSpace");
-      console.log("3333333333333333번");
     }
   }, [rightSpace, userName]);
 
   useEffect(() => {
     if (!initialDataLoaded) {
       requestChatInitialData();
-      console.log("444444444444444444번");
     }
   }, [repoId, initialDataLoaded]);
 
   useEffect(() => {
     if (messagesEndRef.current) {
       messagesEndRef.current.scrollTop = messagesEndRef.current.scrollHeight;
-      console.log("55555555555555555번");
     }
   }, [messages]);
 
-  //useEffect를 두번 쓰는 이유?
+  //검색
+
+  useEffect(() => {
+    if (searchTerm) {
+      const results = messages
+        .map((message, index) => ({ ...message, index }))
+        .filter((message) =>
+          (message.content || "") // message.content가 null이나 undefined인 경우 빈 문자열로 대체
+            .toLowerCase()
+            .includes(searchTerm.toLowerCase())
+        );
+      setSearchResults(results);
+    } else {
+      setSearchResults([]);
+    }
+  }, [searchTerm, messages]);
+
+  //검색 결과로 이동
+
+  const scrollToMessage = (index: number) => {
+    messageRefs.current[index]?.scrollIntoView({ behavior: "smooth", block: "start" });
+  };
+
+  //만약 서치
+  useEffect(() => {
+    if (searchResults.length > 0) {
+      scrollToMessage(searchResults[0].index);
+    }
+  }, [searchResults]);
 
   const connect = () => {
     if (clientRef.current === null) {
       // 웹 소켓 fallback (소켓 통신 멈췄을 때, http로도 메시지 전송 받을 수 있게 함)
-      const socket = new WebSocket(import.meta.env.VITE_WEBSOCKET_URL);
+      const socket = new WebSocket(API_URL);
       const client = Stomp.over(socket);
       client.connect({}, onConnected, onError);
       clientRef.current = client;
@@ -132,7 +171,17 @@ function ChatSpace() {
   return (
     <div className={styles.chattingWrapper}>
       <div className={styles.chattingSpace}>
-        <div className={styles.chatHeader}></div>
+        <div className={styles.chatHeader}>
+          <form onSubmit={handleSearchSubmit}>
+            <input
+              type="text"
+              className={styles.chatHeaderInput}
+              placeholder="Search..."
+              value={searchTerm}
+              onChange={handleSearchChange}
+            ></input>
+          </form>
+        </div>
 
         <ul className={styles.messageArea} ref={messagesEndRef}>
           {messages.map((message, index) => (
@@ -145,6 +194,7 @@ function ChatSpace() {
                     : styles.testMessage
                   : styles.noticeMessage
               }
+              ref={(el) => (messageRefs.current[index] = el)}
             >
               {message.type === "CHAT" ? (
                 <>
@@ -166,7 +216,7 @@ function ChatSpace() {
               ) : (
                 <div className={styles.noticeMessage}>
                   <div className={styles.senderNoticeWrapper}>
-                    {message.type === "JOIN" && !messages.some((m) => m.sender === nowExistUser) ? (
+                    {message.type === "JOIN" && messages.some((m) => m.sender === nowExistUser) ? (
                       <div className={styles.senderEntranceNotice}>
                         {message.sender} 님이 참가했습니다.
                       </div>

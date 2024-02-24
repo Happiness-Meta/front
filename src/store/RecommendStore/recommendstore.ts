@@ -29,18 +29,6 @@ const RecommendStore = create<repoStoreState>((set) => ({
       url: "repo2 url",
       image: "/svg/javascript.svg",
     },
-    repo3: {
-      name: "Next.js",
-      description: "Let's make simple todo app",
-      url: "repo3 url",
-      image: "/svg/nextjs.svg",
-    },
-    repo4: {
-      name: "Next.js",
-      description: "Let's make simple todo app",
-      url: "repo4 url",
-      image: "/svg/nextjs.svg",
-    },
   },
   setRepositories: (newRepositories) => set(() => ({ repositories: newRepositories })),
   editMode: null,
