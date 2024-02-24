@@ -55,7 +55,6 @@ function SignInUpPage() {
           {widthZero ? `환영합니다 ${cookies.nickname}님` : undefined}
           {welcomeMessage ? (
             <div className={styles.signUpMessage}>
-              <span>{`${cookies.nickname}`}</span>
               <span>Welcome to Join</span>
             </div>
           ) : undefined}

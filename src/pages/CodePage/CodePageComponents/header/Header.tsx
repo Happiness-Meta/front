@@ -4,7 +4,7 @@ import ModeToggleBtn from "../../../../globalComponents/modeToggleBtn/ModeToggle
 import ExploreBtn from "../../../../globalComponents/exploreBtn/ExploreBtn";
 import globalStore from "../../../../store/globalStore/globalStore";
 import editorStore from "../../../../store/CodePageStore/editorStore";
-import AccountBtn from "../../../../globalComponents/accountBtn/AccountBtn";
+import AccountBtn from "../../../../globalComponents/AccountBtn/AccountBtn";
 import FileTreeStore from "../../../../store/FileTreeStore/FileTreeStore";
 import userAxiosWithAuth from "../../../../utils/useAxiosWIthAuth";
 import { useParams } from "react-router-dom";
@@ -35,7 +35,7 @@ function Header() {
     let sendFilePath;
 
     const parentPath = FileTreeStore.getState().findNodePath(
-      selectedNode.parentId
+      selectedNode.parentId!
     );
 
     if (parentPath === null) {
