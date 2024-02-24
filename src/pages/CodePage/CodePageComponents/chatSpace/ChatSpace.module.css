@@ -30,6 +30,9 @@
   height: 30px;
   background-color: rgba(128 128 128 / 10%);
   margin-bottom: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .messages {
@@ -153,4 +156,12 @@
 
 .messageContaier {
   flex-grow: 1;
+}
+
+.chatHeaderInput {
+  color: #eeeeee;
+  border: none;
+  background-color: #1e1e26;
+  border-radius: 20px;
+  text-align: center;
 }
