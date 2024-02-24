@@ -8,7 +8,7 @@ import CodePage from "./pages/CodePage/CodePage";
 import Dashboard from "./pages/RepoPage/Page/dashboard/Dashboard";
 // import Settings from "./pages/RepoPage/Page/settings/Settings";
 // import Projects from "./pages/RepoPage/Page/projects/Projects";
-import RepositoriesPage from "./pages/RepoPage/Page/repositories/RepositoriesPage";
+// import RepositoriesPage from "./pages/RepoPage/Page/repositories/RepositoriesPage";
 import MyPage from "./pages/MyPage/MyPage";
 import SignInUpPage from "./pages/SignInUpPage/SignInUpPage";
 import Modal from "react-modal";
@@ -35,7 +35,7 @@ ReactDOM.createRoot(document.getElementById("root")!).render(
             <Route path="/signInUpPage" element={<SignInUpPage />} />
             {/* <Route path="/RepoPage" element={<RepoPage />} /> */}
             <Route path="/dashboard" element={<Dashboard />} />
-            <Route path="/repositories" element={<RepositoriesPage />} />
+            {/* <Route path="/repositories" element={<RepositoriesPage />} /> */}
             {/* <Route path="/projects" element={<Projects />} />
             <Route path="/settings" element={<Settings />} /> */}
             <Route path="/myPage" element={<MyPage />} />

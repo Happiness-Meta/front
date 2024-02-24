@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import styles from "./Dashboard.module.css";
 import RepoPage from "../../RepoPage";
 import Recommend from "../../Component/recommend/Recommend";
-import Repositories from "../../Component/Repositories/RepoComponent";
+import RepoComponent from "../../Component/Repositories/RepoComponent";
 import RepoPageStore, { Repository } from "../../../../store/RepoPageStore/repoPageStore";
 import ReactModal from "react-modal";
 import useModalStore from "../../../../store/ModalStore/ModalStore";
@@ -13,29 +13,64 @@ import { useNavigate } from "react-router-dom";
 import { useCookies } from "react-cookie";
 
 const Dashboard = () => {
-  const [isAnimated, setIsAnimated] = useState(false);
   const { isModalOpen, toggleCreateModal } = useModalStore();
-  const { repositories } = RepoPageStore();
-  const isEmpty = Object.keys(repositories).length === 0;
+  const { repositories, setRepositories } = RepoPageStore();
+  const [repositoryArray, setRepositoryArray] = useState<Repository[]>([]);
   const [isDropdownView, setDropdownView] = useState(false);
   const [inputValue, setInputValue] = useState("");
   const [selectedTemplateKey, setSelectedTemplateKey] = useState<string | null>(null);
   const [selectedLanguage, setSelectedLanguage] = useState("language");
-  const [cookies] = useCookies(["token"]);
+  const [cookies] = useCookies(["token", "nickname"]);
+  const [myRepositories, setMyRepositories] = useState<Repository[]>([]);
+  const [sharedRepositories, setSharedRepositories] = useState<Repository[]>([]);
   const navigate = useNavigate();
 
+  // 처음 렌더링 될 때 레포지토리만 불러오기
+  useEffect(() => {
+    const fetchRepositories = async () => {
+      try {
+        const response = await userAxiosWithAuth.get(`/api/repos/all`);
+        const fetchedRepositories = response.data.data;
+        setRepositoryArray(fetchedRepositories);
+      } catch (error) {
+        console.error("Error fetching repositories:", error);
+      }
+    };
+
+    fetchRepositories();
+  }, []);
+
+  // 내 레포지토리 요소들 상태 넣어주기
+  useEffect(() => {
+    const myRepos = repositoryArray.filter(
+      (repo) => repo.creatorNickname.creator === cookies.nickname
+    );
+    setMyRepositories(myRepos);
+  }, [repositoryArray, cookies.nickname]);
+
+  // 공유된 레포지토리 요소들 상태 넣어주기
+  useEffect(() => {
+    const sharedRepos = repositoryArray.filter(
+      (repo) => repo.creatorNickname.creator !== cookies.nickname
+    );
+    setSharedRepositories(sharedRepos);
+  }, [repositoryArray, cookies.nickname]);
+
+  console.log("myrepo:", myRepositories);
+  console.log("sharedrepo:", sharedRepositories);
+  console.log("repositoryArray:", repositoryArray);
+
+  // 쿠키가 없으면 튕겨져 나감
   useEffect(() => {
     if (!cookies.token) {
       navigate("/");
     }
-  }, [cookies, navigate]);
-
-  //
+  }, [cookies.token, cookies]);
 
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setInputValue(event.target.value);
   };
-
+  // 레포지토리 정보 설정 후 생성 버튼 클릭 시 실행 되는 이벤트 리스터 함수
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     if (!selectedTemplateKey) {
@@ -50,28 +85,34 @@ const Dashboard = () => {
 
     try {
       const response = await userAxiosWithAuth.post(`/api/repos`, data);
-      // console.log("프로그래밍 랭귀지:", response.data.data.programmingLanguage);
+      console.log("response.data.data:", response.data.data);
       // 저장소 생성 후 필요한 상태 업데이트나 UI 반응
+      const newRepo = response.data.data;
+      // const newRepo = {
+      //   name: response.data.data.name,
+      //   id: response.data.data.id,
+      //   createdAt: response.data.data.createdAt,
+      //   modifiedAt: response.data.data.modifiedAt,
+      //   url: `/codePage/${response.data.data.id}`,
+      //   image: `/svg/${response.data.data.programmingLanguage.toLowerCase()}.svg`,
+      //   createId: response.data.data.createId,
+      // };
 
-      RepoPageStore.getState().setRepositories({
-        ...RepoPageStore.getState().repositories, // 기존 저장소 유지
-        [response.data.data.id]: {
-          // 새로운 저장소 추가
-          name: response.data.data.name,
-          id: response.data.data.id,
-          createdAt: response.data.data.createdAt,
-          modifiedAt: response.data.data.modifiedAt,
-          url: `/codePage/${response.data.data.id}`,
-          image: `/svg/${response.data.data.programmingLanguage.toLowerCase()}.svg`,
-          createId: response.data.data.createId,
-        },
-      });
+      // 새로운 레포지토리를 myRepositories나 sharedRepositories에 추가
+      if (newRepo.creatorNickname.creator === cookies.nickname) {
+        // 내 레포지토리에 추가
+        setMyRepositories((prevMyRepos) => [...prevMyRepos, newRepo]);
+      } else {
+        // 공유된 레포지토리에 추가
+        setSharedRepositories((prevSharedRepos) => [...prevSharedRepos, newRepo]);
+      }
 
       toggleCreateModal(); // 모달 닫기
       setInputValue(""); // 입력 필드 초기화
     } catch (error) {
       console.error("Error creating new repository:", error);
     }
+
     setInputValue("");
   };
 
@@ -84,44 +125,18 @@ const Dashboard = () => {
       setDropdownView(false);
     }, 200);
   };
-  useEffect(() => {
-    setIsAnimated(true);
-  }, []);
 
   const handleSelectTemplate = (key: string) => {
     setSelectedLanguage(key);
     setSelectedTemplateKey(key); // 선택된 템플릿의 key 상태 업데이트
   };
 
-  useEffect(() => {
-    const fetchRepositories = async () => {
-      try {
-        const response = await userAxiosWithAuth.get(`/api/repos/all`);
-        console.log("Fetched repositories:", response.data.data); // 변경된 접근 방식 확인
-        console.log("this is createDto", response.data.data[0].creatorDto);
-        // API 응답 구조가 { data: { data: [...] } } 형태라고 가정.
-        const repositoryArray = response.data.data || []; // response.data.data가 배열이라고 가정
-        const fetchedRepositories = repositoryArray.reduce(
-          (acc: { [key: string]: Repository }, currentRepo: Repository) => {
-            acc[currentRepo.id] = currentRepo;
-            return acc;
-          },
-          {}
-        );
-
-        RepoPageStore.getState().setRepositories(fetchedRepositories);
-      } catch (error) {
-        console.error("Error fetching repositories:", error);
-      }
-    };
-
-    fetchRepositories();
-  }, []);
-
+  console.log("repositories", repositories);
+  console.log("repositoryArray length", repositoryArray);
   return (
     <RepoPage>
-      {isEmpty ? (
-        <div className={`${isAnimated ? styles.fadeIn : styles.dashboardContainer}`}>
+      {repositoryArray.length === 0 ? (
+        <div className={styles.dashboardContainer}>
           <div className={styles.repositoriescontainer_empty}>
             <h1>Home</h1>
             <p>New on Happiness Meta</p>
@@ -191,28 +206,26 @@ const Dashboard = () => {
           </div>
         </div>
       ) : (
-        <div className={`${isAnimated ? styles.fadeIn : styles.dashboardContainer}`}>
+        <div className={styles.dashboardContainer}>
           <div>
             <button onClick={toggleCreateModal} className={styles.newrepobutton2}>
               CREATE REPOSITORY
             </button>
           </div>
-          {/* <div className={`${styles.recentContaier}`}>
-            <div className={styles.recommendcontainer_fill}>
-              <h2>Recent</h2>
-              <Recent />
-            </div>
-          </div> */}
           <div className={styles.repositoriescontainer}>
             <div className={styles.recommendcontainer_fill}>
-              <h2>Recommend</h2>
+              <h2>Recommendation</h2>
             </div>
             <div className={styles.recommend_fill}>
               <Recommend />
             </div>
             <div className={styles.repositories_fill}>
-              <h2>All</h2>
-              <Repositories />
+              <h2>My Repositories</h2>
+              <RepoComponent AllandSharedrepositories={myRepositories} />
+            </div>
+            <div className={styles.sharingRepo_fill}>
+              <h2>Shared Repositories</h2>
+              <RepoComponent AllandSharedrepositories={sharedRepositories} />
             </div>
           </div>
         </div>

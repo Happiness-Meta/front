@@ -25,15 +25,27 @@ interface RepoComponentProps {
   AllandSharedrepositories: Repository[];
 }
 
+// interface Repositories {
+//   [key: string]: RepoComponent;
+// }
+
+// interface NameClickParams {
+//   key: string;
+//   name?: string;
+// }
+
 const RepoComponent = ({ AllandSharedrepositories }: RepoComponentProps) => {
-  const { repositories, setEditMode, deleteRepository, updateRepositoryName } = RepoPageStore();
+  const { repositories, setEditMode, setRepositories } = RepoPageStore();
   const { isEditModalOpen, toggleEditModal } = useModalStore();
   const [editName, setEditName] = useState("");
+  const isEmpty = Object.keys(repositories).length === 0;
   const [activeDropdownKey, setActiveDropdownKey] = useState<string | null>(null);
   const { deleteAllTabs } = editorStore();
   const [currentEditingRepoKey, setCurrentEditingRepoKey] = useState<string | null>(null);
   const dropdownRef = useRef<HTMLDivElement>(null);
+  // const [, setRepoImg] = useState(undefined);
   const navigate = useNavigate();
+  const [, setSelectedRepo] = useState<Repository | null>(null);
   const [cookies] = useCookies(["nickname"]);
 
   const toggleDropdown = (key: string, event: React.MouseEvent<HTMLSpanElement>) => {
@@ -43,7 +55,8 @@ const RepoComponent = ({ AllandSharedrepositories }: RepoComponentProps) => {
 
   const handleEditClick = (repoId: string, event: React.MouseEvent) => {
     event.stopPropagation();
-
+    const repoInfo = repositories[repoId];
+    setSelectedRepo(repoInfo);
     setCurrentEditingRepoKey(repoId);
     toggleEditModal();
     setEditMode;
@@ -56,29 +69,44 @@ const RepoComponent = ({ AllandSharedrepositories }: RepoComponentProps) => {
       console.error("Repository ID or new name is missing");
       return;
     }
-
     try {
       const response = await userAxiosWithAuth.patch(`/api/repos/${currentEditingRepoKey}`, {
         updatedName: editName,
       });
       console.log("Repository name updated successfully:", response.data);
+      // setRepoImg(response.data.data.programmingLanguage.toLowerCase());
+      // Zustand 스토어 업데이트
+      const updatedRepositories = { ...repositories };
+      updatedRepositories[currentEditingRepoKey].name = editName;
+      setRepositories(updatedRepositories);
 
-      // Zustand 스토어를 사용하여 리포지토리 이름 업데이트
-      updateRepositoryName(currentEditingRepoKey, editName);
-
-      // 편집 모드 해제 및 모달 닫기
+      // 편집 모드 해제
       setEditMode(null);
       toggleEditModal();
     } catch (error) {
       console.error("Error updating repository name:", error);
     }
-
     setEditName("");
   };
 
-  const handleRepoDelete = (repoId: string, event: React.MouseEvent) => {
+  const handleRepoDelete = async (repoId: string, event: React.MouseEvent) => {
     event.stopPropagation();
-    deleteRepository(repoId); // 리포지토리 ID를 인자로 onDelete 함수 호출
+    try {
+      const response = await userAxiosWithAuth.delete(`/api/repos/${repoId}`);
+      console.log("Deleted repository:", response.data);
+
+      // 저장소 삭제 후 스토어의 상태 업데이트
+      const updatedRepositories = Object.entries(RepoPageStore.getState().repositories)
+        .filter(([key, _]) => key !== repoId) // 삭제하려는 repoId가 아닌 항목만 필터링
+        .reduce((acc, [key, repo]) => {
+          acc[key] = repo; // 필터링된 항목을 새 객체에 추가
+          return acc;
+        }, {} as { [key: string]: Repository });
+
+      RepoPageStore.getState().setRepositories(updatedRepositories);
+    } catch (error) {
+      console.error("Error deleting repository:", error);
+    }
   };
 
   // 외부 클릭 시 드롭다운 메뉴 닫기
@@ -100,28 +128,19 @@ const RepoComponent = ({ AllandSharedrepositories }: RepoComponentProps) => {
   return (
     <div>
       <div className={styles.recommendcontainer}>
-        {AllandSharedrepositories.length !== 0 ? (
-          AllandSharedrepositories.map((repo, index) => (
+        {isEmpty ? (
+          <></>
+        ) : (
+          Object.values(repositories).map((repo, index) => (
             <div
               key={index}
               className={`${mode ? styles.repo_wrapperSun : styles.repo_wrapperNight}`}
               onClick={() => navigate(`/codePage/${repo.id}`)}
             >
-              <div
-                className={styles.repocontainer}
-                onClick={() => {
-                  setActiveDropdownKey(repo.id);
-                  deleteAllTabs();
-                  console.log("repoid:", repo.id);
-                }}
-              >
+              <div className={styles.repocontainer} onClick={deleteAllTabs}>
                 <div className={styles.reponame_container}>
                   <div className={styles.repoimageContainer}>
-                    <img
-                      src={`/svg/${repo.programmingLanguage.toLowerCase()}.svg`}
-                      alt="repo"
-                      className={styles.repoimage}
-                    ></img>
+                    <span className="material-symbols-outlined">public</span>
                   </div>
 
                   <div className={styles.reponame}>
@@ -169,8 +188,6 @@ const RepoComponent = ({ AllandSharedrepositories }: RepoComponentProps) => {
               </div>
             </div>
           ))
-        ) : (
-          <div>no repositories found</div>
         )}
         <ReactModal
           isOpen={isEditModalOpen}
