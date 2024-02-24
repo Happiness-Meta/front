@@ -3,7 +3,9 @@ import styles from "./Dashboard.module.css";
 import RepoPage from "../../RepoPage";
 import Recommend from "../../Component/recommend/Recommend";
 import Repositories from "../../Component/Repositories/RepoComponent";
-import RepoPageStore, { Repository } from "../../../../store/RepoPageStore/repoPageStore";
+import RepoPageStore, {
+  Repository,
+} from "../../../../store/RepoPageStore/repoPageStore";
 import ReactModal from "react-modal";
 import useModalStore from "../../../../store/ModalStore/ModalStore";
 import DropdownBtn from "../../Component/Dropdown/DropdownBtn";
@@ -19,7 +21,9 @@ const Dashboard = () => {
   const isEmpty = Object.keys(repositories).length === 0;
   const [isDropdownView, setDropdownView] = useState(false);
   const [inputValue, setInputValue] = useState("");
-  const [selectedTemplateKey, setSelectedTemplateKey] = useState<string | null>(null);
+  const [selectedTemplateKey, setSelectedTemplateKey] = useState<string | null>(
+    null
+  );
   const [selectedLanguage, setSelectedLanguage] = useState("language");
   const [cookies] = useCookies(["token"]);
   const navigate = useNavigate();
@@ -121,7 +125,11 @@ const Dashboard = () => {
   return (
     <RepoPage>
       {isEmpty ? (
-        <div className={`${isAnimated ? styles.fadeIn : styles.dashboardContainer}`}>
+        <div
+          className={`${
+            isAnimated ? styles.fadeIn : styles.dashboardContainer
+          }`}
+        >
           <div className={styles.repositoriescontainer_empty}>
             <h1>Home</h1>
             <p>New on Happiness Meta</p>
@@ -133,8 +141,8 @@ const Dashboard = () => {
                 </div>
                 <img src="https://blog.kakaocdn.net/dn/b096ff/btsEnS31kpu/JWqbMNxuxz4rJL5h8nMsVk/img.jpg"></img>
                 <div className={styles.textContainer}>
-                  This is the notice page of Happiness meta. We usually record, organize, and plan
-                  our studies here.
+                  This is the notice page of Happiness meta. We usually record,
+                  organize, and plan our studies here.
                 </div>
               </div>
               <div className={styles.imgcontext}>
@@ -155,16 +163,19 @@ const Dashboard = () => {
                 </div>
                 <img src="https://blog.kakaocdn.net/dn/6fWwh/btsEqwFL7Vv/IAqXIGwlpKnabANPzI7Ww1/img.jpg"></img>
                 <div className={styles.textContainer}>
-                  Last month, we released many new features and improvements designed to boost your
-                  productivity, collaboration, and coding experience on Replit. Some of the key
-                  highlights include:
+                  Last month, we released many new features and improvements
+                  designed to boost your productivity, collaboration, and coding
+                  experience on Replit. Some of the key highlights include:
                 </div>
               </div>
             </div>
 
             <div className={styles.startbuttoncontainer}>
               <h2>It's empty now. Let's make a new repository!🚀</h2>
-              <button onClick={toggleCreateModal} className={styles.newrepobutton}>
+              <button
+                onClick={toggleCreateModal}
+                className={styles.newrepobutton}
+              >
                 CREATE REPOSITORY
               </button>
             </div>
@@ -181,9 +192,16 @@ const Dashboard = () => {
           </div>
         </div>
       ) : (
-        <div className={`${isAnimated ? styles.fadeIn : styles.dashboardContainer}`}>
+        <div
+          className={`${
+            isAnimated ? styles.fadeIn : styles.dashboardContainer
+          }`}
+        >
           <div>
-            <button onClick={toggleCreateModal} className={styles.newrepobutton2}>
+            <button
+              onClick={toggleCreateModal}
+              className={styles.newrepobutton2}
+            >
               CREATE REPOSITORY
             </button>
           </div>
@@ -195,13 +213,13 @@ const Dashboard = () => {
           </div> */}
           <div className={styles.repositoriescontainer}>
             <div className={styles.recommendcontainer_fill}>
-              <h2>Recommend</h2>
+              <h2>Recommendation Templates</h2>
             </div>
             <div className={styles.recommend_fill}>
               <Recommend />
             </div>
             <div className={styles.repositories_fill}>
-              <h2>All</h2>
+              <h2>All Repositories</h2>
               <Repositories />
             </div>
           </div>
@@ -217,12 +235,19 @@ const Dashboard = () => {
         <form onSubmit={handleSubmit} className={styles.MenuWrapper}>
           <div className={styles.titleAndCloseContainer}>
             <h2>Create New Repository🚀</h2>
-            <button type="button" className={styles.closeButton} onClick={toggleCreateModal}>
+            <button
+              type="button"
+              className={styles.closeButton}
+              onClick={toggleCreateModal}
+            >
               <span className="material-symbols-outlined">close</span>
             </button>
           </div>
           <div className={styles.DropdownAndsubmitWrapper}>
-            <div className={styles.DropdownMenucontainer} onBlur={handleBlurContainer}>
+            <div
+              className={styles.DropdownMenucontainer}
+              onBlur={handleBlurContainer}
+            >
               <button type="button" onClick={handleClickContainer}>
                 <p>{selectedLanguage}</p>
                 {isDropdownView ? (
