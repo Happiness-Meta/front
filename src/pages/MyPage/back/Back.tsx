@@ -49,6 +49,7 @@ const Back: React.FC<MyPageProps> = ({ setIsClicked }) => {
         console.log(response.data);
         setCookie("nickname", nicknameRef.current!.value);
         setErrorMessage("개인정보가 변경되었습니다!");
+        pwRef.current!.value = "";
         setTimeout(() => {
           setIsClicked(false);
         }, 500);
