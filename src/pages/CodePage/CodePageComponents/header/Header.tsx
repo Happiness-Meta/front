@@ -68,21 +68,22 @@ function Header() {
   };
 
   const handleRun = async () => {
-    if (!selectedNode) {
+    if (!nodeContent[1]) {
       alert("실행할 파일을 선택해주세요.");
       return;
     }
 
     const body = {
-      code: selectedNode.content,
+      code: nodeContent[1],
     };
 
     try {
       const response = await userAxiosWithAuth.post(`/api/run`, body);
       setTerminalContent(response.data.data);
+      handleSaveRequest();
     } catch (error) {
       console.log(error);
-      console.log(selectedNode.content);
+      console.log(nodeContent[1]);
     }
   };
 
