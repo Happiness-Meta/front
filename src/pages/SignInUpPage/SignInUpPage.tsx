@@ -1,6 +1,5 @@
 import styles from "./signInUpPage.module.css";
 import LoginPageStore from "../../store/SignInUpPageStore/SignInUpPageStore.ts";
-// import OauthSpace from "./OauthSpace/OauthSpace.tsx";
 import LoginPageHeader from "./header/LoginPageHeader.tsx";
 import SignIn from "./SignInUpComponents/SignIn.tsx";
 import SignUp from "./SignInUpComponents/SignUp.tsx";
