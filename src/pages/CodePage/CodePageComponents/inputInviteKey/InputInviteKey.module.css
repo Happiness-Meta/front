@@ -25,6 +25,16 @@
   background-color: #068fff;
 }
 
+
+.spaceEach {
+  display: flex;
+  flex-direction: column;
+  row-gap: 11px;
+  align-items: center;
+  justify-content: center;
+}
+
+
 .texts {
   font-size: 18px;
   font-weight: bold;

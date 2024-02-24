@@ -67,12 +67,39 @@
 }
 
 .startbuttoncontainer {
-  margin-top: 120px;
-  width: 569px;
+  display: flex;
+  margin-top: 29px;
+  width: 479px;
+  margin-left: -4px;
+  align-items: flex-start;
+  flex-direction: column;
   border-right: 1px solid #eeeeee;
 }
 
-.newrepobutton,
+.makeYourFirstRepoText {
+  margin-left: 40px;
+}
+
+.newrepobutton {
+  position: relative;
+  left: 157px;
+  top: 36px;
+  width: 150px;
+  height: 15%;
+  border: none;
+  background-color: #068fff;
+  cursor: pointer;
+  border-radius: 20px;
+  padding: 18px;
+  text-align: center;
+  animation: float 2s ease-in-out infinite;
+  transition: background-color 0.3s;
+  margin-top: 30px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
 .newrepobutton2 {
   width: 150px;
   height: 15%;
@@ -131,26 +158,26 @@
 }
 
 .repositoriescontainer_empty_text {
+  margin-bottom: 67px;
   display: flex;
-  flex-direction: column;
-  align-items: flex-end;
-  margin-top: 50px;
-  margin-left: 117px;
-  border-left: 1px solid #eeeeee;
+  margin-top: -119px;
+  margin-left: 499px;
+  /* align-content: flex-start; */
+  justify-content: flex-end;
 }
 
 .recommendcontainer {
-  display: column;
-  align-items: flex-end;
-  margin-left: 30px;
+  display: grid;
+  margin-left: 25px;
+  flex-direction: column;
 }
 
 .recommend {
   display: flex;
   margin-right: 20px;
-  justify-content: flex-end;
-  width: 898px;
-  margin-bottom: 24px;
+  justify-content: flex-start;
+  width: 437px;
+  margin-bottom: 8px;
 }
 
 .createRepoModal {

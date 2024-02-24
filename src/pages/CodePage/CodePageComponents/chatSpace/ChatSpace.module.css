@@ -60,10 +60,10 @@
 .testMessage {
   display: flex;
   align-items: flex-end;
-  margin: 5px 10px; /* 좌우 마진 추가 */
-  min-width: 100px; /* 최소 너비 설정 */
-  width: auto; /* 자동 너비 설정 */
-  max-width: 80%; /* 최대 너비 설정 */
+  margin: 5px 10px;
+  min-width: 100px;
+  width: auto;
+  max-width: 80%;
 }
 
 .myMessage .chat_bubble,
@@ -164,4 +164,28 @@
   background-color: #1e1e26;
   border-radius: 20px;
   text-align: center;
+}
+
+.searchResultMessage {
+  background-color: #fe9514;
+  padding: 8px;
+  margin: 0 5px;
+  word-wrap: break-word;
+  overflow-wrap: break-word;
+  white-space: normal;
+  text-align: left;
+  color: #eeeeee;
+  border-radius: 20px 20px 0 20px;
+}
+
+.searchResultOtherMessage {
+  background-color: #f2c997;
+  padding: 8px;
+  margin: 0 5px;
+  word-wrap: break-word;
+  overflow-wrap: break-word;
+  white-space: normal;
+  text-align: left;
+  color: #1d1d1d;
+  border-radius: 20px 20px 20px 0;
 }
