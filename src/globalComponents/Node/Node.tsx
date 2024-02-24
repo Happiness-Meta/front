@@ -34,7 +34,7 @@ const Node: React.FC<NodeRendererProps> = ({ node, tree, style }) => {
     try {
       let sendFilePath;
 
-      const parentPath = findNodePath(newNode.parentId);
+      const parentPath = findNodePath(newNode.parentId!);
 
       if (parentPath === null) {
         sendFilePath = newNodeName;
@@ -61,7 +61,7 @@ const Node: React.FC<NodeRendererProps> = ({ node, tree, style }) => {
   const handleDeleteFileRequest = async (node: nodeType) => {
     let sendFilePath;
 
-    const parentPath = FileTreeStore.getState().findNodePath(node.parentId);
+    const parentPath = FileTreeStore.getState().findNodePath(node.parentId!);
 
     if (parentPath === null) {
       sendFilePath = node.name;
@@ -87,7 +87,7 @@ const Node: React.FC<NodeRendererProps> = ({ node, tree, style }) => {
     }
 
     const parentPath = FileTreeStore.getState().findNodePath(
-      nodeData!.parentId
+      nodeData!.parentId!
     );
     let newFilePath;
     if (parentPath === null) {

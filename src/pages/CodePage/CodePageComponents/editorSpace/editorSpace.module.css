@@ -35,6 +35,7 @@
   height: 30px;
   background-color: rgb(128 128 128 / 10%);
   overflow-x: scroll;
+  overflow-y: hidden;
 }
 
 .tab {
@@ -174,5 +175,6 @@
   width: 100%;
   height: calc(100% - 30px);
   padding: 10px;
+  white-space: break-spaces;
   overflow-y: scroll;
 }
