@@ -37,7 +37,9 @@
 .spaceEach {
   display: flex;
   flex-direction: column;
-  row-gap: 5px;
+  row-gap: 11px;
+  align-items: center;
+  justify-content: center;
 }
 
 .texts {
@@ -51,6 +53,7 @@
   border: 1px solid gray;
   border-radius: 10px;
   background-color: rgb(255 255 255 / 20%);
+  text-align: center;
 }
 
 .closeBtn {

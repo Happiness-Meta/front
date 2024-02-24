@@ -109,7 +109,6 @@ function ChatSpace() {
     messageRefs.current[index]?.scrollIntoView({ behavior: "smooth", block: "start" });
   };
 
-  //만약 서치
   useEffect(() => {
     if (searchResults.length > 0) {
       scrollToMessage(searchResults[0].index);
@@ -210,7 +209,17 @@ function ChatSpace() {
                     >
                       <strong>{message.sender}</strong>
                     </div>
-                    <div className={styles.chat_bubble}>{message.content}</div>
+                    <div
+                      className={`${
+                        searchResults.find((result) => result.index === index)
+                          ? message.sender === userName
+                            ? styles.searchResultMessage // 현재 사용자가 보낸 검색 결과 메시지 스타일
+                            : styles.searchResultOtherMessage // 다른 사용자가 보낸 검색 결과 메시지 스타일
+                          : styles.chat_bubble
+                      }`}
+                    >
+                      {message.content}
+                    </div>
                   </div>
                 </>
               ) : (
