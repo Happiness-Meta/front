@@ -6,16 +6,25 @@ import globalStore from "../../../../store/globalStore/globalStore";
 import editorStore from "../../../../store/CodePageStore/editorStore";
 import AccountBtn from "../../../../globalComponents/accountBtn/AccountBtn";
 import FileTreeStore from "../../../../store/FileTreeStore/FileTreeStore";
-// import { removeLeadingSlash } from "../../../../utils/fileTreeUtils";
 import userAxiosWithAuth from "../../../../utils/useAxiosWIthAuth";
 import { useParams } from "react-router-dom";
+import { useState } from "react";
+import useGetData from "../../../../utils/useGetData";
 
 function Header() {
   const { sidebar, sidebarToggle } = sidebarStore();
   const { mode } = globalStore();
-  const { nodeContent, toggleInviteSpace } = editorStore();
+  const {
+    nodeContent,
+    updateTabContent,
+    toggleInviteSpace,
+    setTerminalContent,
+  } = editorStore();
   const { selectedNode } = FileTreeStore();
   const { repoId } = useParams();
+  const [isSaved, setIsSaved] = useState(false);
+
+  const getDataMutation = useGetData();
 
   const handleSaveRequest = async () => {
     if (!selectedNode) {
@@ -47,9 +56,33 @@ function Header() {
         body
       );
       console.log(response.data);
-      console.log(nodeContent[1]);
+      setIsSaved(true);
+      setTimeout(() => {
+        setIsSaved(false);
+      }, 1000);
+      getDataMutation.mutate();
+      updateTabContent(selectedNode, nodeContent[1]!);
     } catch (error) {
       console.log(error);
+    }
+  };
+
+  const handleRun = async () => {
+    if (!selectedNode) {
+      alert("실행할 파일을 선택해주세요.");
+      return;
+    }
+
+    const body = {
+      code: selectedNode.content,
+    };
+
+    try {
+      const response = await userAxiosWithAuth.post(`/api/run`, body);
+      setTerminalContent(response.data.data);
+    } catch (error) {
+      console.log(error);
+      console.log(selectedNode.content);
     }
   };
 
@@ -76,9 +109,26 @@ function Header() {
         <div className={styles.IDE_name}>Earth-IDE-N</div>
       </div>
       <div className={styles.middleSide_header}>
-        <div className={styles.saveBtn} onClick={() => handleSaveRequest()}>
-          <i className={`${styles.saveIcon} material-symbols-outlined`}>save</i>{" "}
-          <div className={styles.saveText}>Save</div>
+        <div
+          className={styles.saveBtn}
+          onClick={() => handleSaveRequest()}
+          style={{ width: isSaved ? "80px" : "70px" }}
+        >
+          <i className={`${styles.middleBtnIcon} material-symbols-outlined`}>
+            {isSaved ? "done" : "save"}
+          </i>{" "}
+          <div className={styles.middleBtnText}>
+            {isSaved ? "Saved!" : "Save"}
+          </div>
+        </div>
+
+        <div
+          className={styles.runBtn}
+          onClick={() => handleRun()}
+          style={{ width: "65px" }}
+        >
+          <i className={`${styles.middleBtnIcon} material-icons`}>play_arrow</i>{" "}
+          <div className={styles.middleBtnText}>Run</div>
         </div>
       </div>
       <div className={styles.rightSide_header}>

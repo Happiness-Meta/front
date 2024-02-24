@@ -8,13 +8,12 @@ const Front = () => {
     <div className={styles.front}>
       <span className={styles.member}>Astronaut</span>
       <div className={styles.IDcard_inner}>
-        <div className={styles.formEachSpace}>
-          <span className={styles.nickname}>{cookies.nickname}</span>
-        </div>
-
-        <div className={styles.formEachSpace}>
-          <span className={styles.id}>{cookies.email}</span>
-        </div>
+        <span className={styles.nickname} style={{ overflow: "hidden" }}>
+          {cookies.nickname}
+        </span>
+        <span className={styles.id} style={{ overflow: "hidden" }}>
+          {cookies.email}
+        </span>
 
         <figure className={styles.picture}>
           <i className={`${styles.person} material-icons`}>person</i>

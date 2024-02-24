@@ -49,9 +49,7 @@ function CodePage() {
 
   return (
     <div className={styles.codePage}>
-      {/* {finishedGettingData ? null : ( */}
       <LoadingPage finishedGettingData={finishedGettingData} />
-      {/* )} */}
       {inviteSpace && <SpaceForInvite />}
       {showInputInvite && <InputInviteKey />}
       <Header />

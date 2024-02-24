@@ -95,8 +95,10 @@ function AccountBtn() {
           </Link>
         </div>
         <div className={styles.userInfo}>
-          <span>ID : {cookies.email}</span>
-          <span>nickname : {cookies.nickname}</span>
+          <span style={{ overflow: "hidden" }}>ID : {cookies.email}</span>
+          <span style={{ overflow: "hidden" }}>
+            nickname : {cookies.nickname}
+          </span>
         </div>
       </div>
     </div>

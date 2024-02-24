@@ -29,7 +29,7 @@ function MyPage() {
             style={isClicked ? { transform: "rotateY(180deg)" } : undefined}
           >
             <Front />
-            <Back />
+            <Back setIsClicked={setIsClicked} />
           </main>
         </div>
         <button

@@ -10,6 +10,8 @@ import {
 interface aboutFileTree {
   fileTree: nodeType[];
   selectedNode?: nodeType;
+  nameOrRename: boolean;
+  setNameOrRename: (T: boolean) => void;
   setSelectedNode: (selectedNode: nodeType) => void;
   getNodes: (T: nodeType[]) => void;
   addNode: (newNode: nodeType) => void;
@@ -21,13 +23,15 @@ interface aboutFileTree {
 const FileTreeStore = create<aboutFileTree>((set) => ({
   fileTree: [],
   selectedNode: undefined,
+  nameOrRename: true,
+
+  setNameOrRename: (value) => set({ nameOrRename: value }),
   setSelectedNode: (selectedNode) => set({ selectedNode: selectedNode }),
   getNodes: (nodes) =>
     set(() => ({
       fileTree: nodes,
     })),
   addNode: (newNode: nodeType) => {
-    console.log("노드 추가 중:", newNode);
     if (newNode.type === "internal") {
       newNode.children = [];
     }

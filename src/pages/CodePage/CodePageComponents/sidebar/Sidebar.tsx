@@ -14,7 +14,7 @@ function Sidebar() {
   const { sidebar, expandStatus, expandToggle } = sidebarStore();
   const { rightSpace, toggleRightSpace, terminal, toggleTerminal } =
     editorStore();
-  const { fileTree, addNode, deleteNode } = FileTreeStore();
+  const { fileTree, addNode, deleteNode, setNameOrRename } = FileTreeStore();
 
   const [term, setTerm] = useState("");
 
@@ -76,6 +76,7 @@ function Sidebar() {
                 className={`material-symbols-outlined ${styles.addFile}`}
                 onClick={() => {
                   treeRef.current?.createLeaf();
+                  setNameOrRename(true);
                 }}
               >
                 note_add
@@ -103,7 +104,6 @@ function Sidebar() {
               data={fileTree}
               onCreate={onCreate}
               onDelete={onDelete}
-              // openByDefault={false}
               searchTerm={term}
               searchMatch={(node, term) =>
                 node.data.name.toLowerCase().includes(term.toLowerCase())

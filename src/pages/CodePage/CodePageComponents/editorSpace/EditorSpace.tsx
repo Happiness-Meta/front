@@ -11,6 +11,7 @@ import FileTreeStore from "../../../../store/FileTreeStore/FileTreeStore";
 
 function EditorSpace() {
   const { sidebar, codeFontSize } = sidebarStore();
+  const { terminalContent, clearTerminal } = editorStore();
   const { mode } = globalStore();
   const { setSelectedNode } = FileTreeStore();
   const {
@@ -107,7 +108,7 @@ function EditorSpace() {
           <span
             style={{ marginLeft: "10px", color: "#a9a9a9", fontSize: "13px" }}
           >
-            {tabs.length === 0 ? null : filePath}
+            {tabs.length === 0 ? null : filePath.slice(1)}
           </span>
         </div>
         <div className={styles.editorAndTerminal}>
@@ -154,7 +155,7 @@ function EditorSpace() {
                 height="100%"
                 className={styles.editor}
                 theme={mode ? "vs-light" : "vs-dark"}
-                language={`${setLanguage}`}
+                language={setLanguage}
                 value={nodeContent[1]}
                 onChange={getValue}
                 options={{
@@ -169,7 +170,19 @@ function EditorSpace() {
               styles.terminalSpace
             }`}
           >
-            <div className={styles.terminal_header}>터미널</div>
+            <div className={styles.console_header}>
+              <div className={styles.console_header_left}>
+                <i className={`material-symbols-outlined`}>terminal</i>
+                <p>Console</p>
+              </div>
+              <div
+                className={`${styles.console_clear} material-symbols-outlined`}
+                onClick={() => clearTerminal()}
+              >
+                delete
+              </div>
+            </div>
+            <div className={styles.consoleContent}>{terminalContent}</div>
           </div>
         </div>
       </Resizable>

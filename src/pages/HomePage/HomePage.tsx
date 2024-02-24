@@ -36,7 +36,7 @@ function HomePage() {
         return;
       }
       navigate("/dashboard");
-    }, 4000);
+    }, 2500);
   }
 
   return (
@@ -50,7 +50,9 @@ function HomePage() {
           >
             <div
               className={styles.startBtn}
-              onClick={() => navigate("/dashboard")}
+              onClick={() => {
+                navigate("/dashboard");
+              }}
             >
               Get started
             </div>
@@ -71,7 +73,9 @@ function HomePage() {
             </div> */}
             <div
               className={styles.signBtn}
-              onClick={() => navigate("/SignInUpPage")}
+              onClick={() => {
+                setIsLaunched(true);
+              }}
             >
               SIGN IN
             </div>
@@ -115,7 +119,6 @@ function HomePage() {
           <div
             className={styles.boxes}
             onClick={() => {
-              console.log(isLaunched);
               setIsLaunched(true);
             }}
             style={{ cursor: "pointer" }}

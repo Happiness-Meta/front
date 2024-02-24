@@ -31,16 +31,20 @@
 @keyframes showUp {
   0% {
     transform: translateY(-900px);
+    opacity: 0;
   }
   30% {
     transform: translateY(40px);
+    opacity: 1;
   }
-
   60% {
-    transform: translateY(-30px);
+    transform: translateY(-10px);
   }
   80% {
-    transform: translateY(10px);
+    transform: translateY(5px);
+  }
+  100% {
+    transform: translateY(0);
   }
 }
 
@@ -54,9 +58,22 @@
   text-align: center;
   overflow: hidden;
   transition: 0.5s;
+  animation: fadeIn 2s;
 }
 
 .flipBtn:hover {
   border-color: #068fff;
   color: #068fff;
+}
+
+@keyframes fadeIn {
+  0% {
+    opacity: 0;
+  }
+  80% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
 }
