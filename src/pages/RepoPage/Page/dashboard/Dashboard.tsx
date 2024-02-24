@@ -14,7 +14,7 @@ import { useCookies } from "react-cookie";
 
 const Dashboard = () => {
   const { isModalOpen, toggleCreateModal } = useModalStore();
-  const { repositories, setRepositories } = RepoPageStore();
+  const { deleteRepository } = RepoPageStore();
   const [repositoryArray, setRepositoryArray] = useState<Repository[]>([]);
   const [isDropdownView, setDropdownView] = useState(false);
   const [inputValue, setInputValue] = useState("");
@@ -43,7 +43,7 @@ const Dashboard = () => {
   // 내 레포지토리 요소들 상태 넣어주기
   useEffect(() => {
     const myRepos = repositoryArray.filter(
-      (repo) => repo.creatorNickname.creator === cookies.nickname
+      (repo) => repo.creatorNickname?.creator === cookies.nickname
     );
     setMyRepositories(myRepos);
   }, [repositoryArray, cookies.nickname]);
@@ -54,7 +54,7 @@ const Dashboard = () => {
       (repo) => repo.creatorNickname.creator !== cookies.nickname
     );
     setSharedRepositories(sharedRepos);
-  }, [repositoryArray, cookies.nickname]);
+  }, [repositoryArray]);
 
   console.log("myrepo:", myRepositories);
   console.log("sharedrepo:", sharedRepositories);
@@ -66,6 +66,14 @@ const Dashboard = () => {
       navigate("/");
     }
   }, [cookies.token, cookies]);
+
+  //레포지토리 지우는 props를 내려주는 함수.
+  const onDeleteRepository = (repoId: string) => {
+    console.log("onDeleteRepository called with ID:", repoId);
+    const updatedRepositories = repositoryArray.filter((repo) => repo.id !== repoId);
+    console.log("Updated repositories:", updatedRepositories); // 업데이트된 배열 로깅
+    setRepositoryArray(updatedRepositories);
+  };
 
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setInputValue(event.target.value);
@@ -86,26 +94,12 @@ const Dashboard = () => {
     try {
       const response = await userAxiosWithAuth.post(`/api/repos`, data);
       console.log("response.data.data:", response.data.data);
-      // 저장소 생성 후 필요한 상태 업데이트나 UI 반응
-      const newRepo = response.data.data;
-      // const newRepo = {
-      //   name: response.data.data.name,
-      //   id: response.data.data.id,
-      //   createdAt: response.data.data.createdAt,
-      //   modifiedAt: response.data.data.modifiedAt,
-      //   url: `/codePage/${response.data.data.id}`,
-      //   image: `/svg/${response.data.data.programmingLanguage.toLowerCase()}.svg`,
-      //   createId: response.data.data.createId,
-      // };
+      // 저장소 생성
 
-      // 새로운 레포지토리를 myRepositories나 sharedRepositories에 추가
-      if (newRepo.creatorNickname.creator === cookies.nickname) {
-        // 내 레포지토리에 추가
-        setMyRepositories((prevMyRepos) => [...prevMyRepos, newRepo]);
-      } else {
-        // 공유된 레포지토리에 추가
-        setSharedRepositories((prevSharedRepos) => [...prevSharedRepos, newRepo]);
-      }
+      const newRepo = response.data.data;
+
+      // 새로운 레포지토리를 myRepositories에 추가
+      setMyRepositories((prevMyRepos) => [...prevMyRepos, newRepo]);
 
       toggleCreateModal(); // 모달 닫기
       setInputValue(""); // 입력 필드 초기화
@@ -131,8 +125,6 @@ const Dashboard = () => {
     setSelectedTemplateKey(key); // 선택된 템플릿의 key 상태 업데이트
   };
 
-  console.log("repositories", repositories);
-  console.log("repositoryArray length", repositoryArray);
   return (
     <RepoPage>
       {repositoryArray.length === 0 ? (
@@ -221,11 +213,17 @@ const Dashboard = () => {
             </div>
             <div className={styles.repositories_fill}>
               <h2>My Repositories</h2>
-              <RepoComponent AllandSharedrepositories={myRepositories} />
+              <RepoComponent
+                AllandSharedrepositories={myRepositories}
+                onDeleteRepository={onDeleteRepository}
+              />
             </div>
             <div className={styles.sharingRepo_fill}>
               <h2>Shared Repositories</h2>
-              <RepoComponent AllandSharedrepositories={sharedRepositories} />
+              <RepoComponent
+                AllandSharedrepositories={sharedRepositories}
+                onDeleteRepository={onDeleteRepository}
+              />
             </div>
           </div>
         </div>

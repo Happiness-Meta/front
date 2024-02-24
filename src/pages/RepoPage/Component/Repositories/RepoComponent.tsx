@@ -10,7 +10,6 @@ import dayjs from "dayjs";
 import relativeTime from "dayjs/plugin/relativeTime";
 import useModalStore from "../../../../store/ModalStore/ModalStore";
 import editorStore from "../../../../store/CodePageStore/editorStore";
-import { useCookies } from "react-cookie";
 
 dayjs.extend(relativeTime);
 interface RepoComponent {
@@ -23,10 +22,11 @@ interface RepoComponent {
 
 interface RepoComponentProps {
   AllandSharedrepositories: Repository[];
+  onDeleteRepository: (repoId: string) => void;
 }
 
-const RepoComponent = ({ AllandSharedrepositories }: RepoComponentProps) => {
-  const { repositories, setEditMode, deleteRepository, updateRepositoryName } = RepoPageStore();
+const RepoComponent = ({ AllandSharedrepositories, onDeleteRepository }: RepoComponentProps) => {
+  const { myRepositories, setEditMode, deleteRepository, updateRepositoryName } = RepoPageStore();
   const { isEditModalOpen, toggleEditModal } = useModalStore();
   const [editName, setEditName] = useState("");
   const [activeDropdownKey, setActiveDropdownKey] = useState<string | null>(null);
@@ -34,7 +34,8 @@ const RepoComponent = ({ AllandSharedrepositories }: RepoComponentProps) => {
   const [currentEditingRepoKey, setCurrentEditingRepoKey] = useState<string | null>(null);
   const dropdownRef = useRef<HTMLDivElement>(null);
   const navigate = useNavigate();
-  const [cookies] = useCookies(["nickname"]);
+
+  const { mode } = headerStore();
 
   const toggleDropdown = (key: string, event: React.MouseEvent<HTMLSpanElement>) => {
     event.stopPropagation();
@@ -76,9 +77,17 @@ const RepoComponent = ({ AllandSharedrepositories }: RepoComponentProps) => {
     setEditName("");
   };
 
-  const handleRepoDelete = (repoId: string, event: React.MouseEvent) => {
+  //레포지토리 삭제하는 함수
+  const handleRepoDelete = async (repoId: string, event: React.MouseEvent) => {
     event.stopPropagation();
-    deleteRepository(repoId); // 리포지토리 ID를 인자로 onDelete 함수 호출
+    try {
+      const response = await userAxiosWithAuth.delete(`/api/repos/${repoId}`);
+      console.log("Repository deleted successfully:", response.data);
+      deleteRepository(repoId);
+      onDeleteRepository(repoId);
+    } catch (error) {
+      console.error("Error deleting repository:", error);
+    }
   };
 
   // 외부 클릭 시 드롭다운 메뉴 닫기
@@ -94,8 +103,6 @@ const RepoComponent = ({ AllandSharedrepositories }: RepoComponentProps) => {
       document.removeEventListener("mousedown", handleClickOutside);
     };
   }, [dropdownRef]);
-
-  const { mode } = headerStore();
 
   return (
     <div>
@@ -127,36 +134,31 @@ const RepoComponent = ({ AllandSharedrepositories }: RepoComponentProps) => {
                   <div className={styles.reponame}>
                     {repo.name}
 
-                    {repo.creatorNickname && repo.creatorNickname.creator === cookies.nickname && (
-                      <div>
-                        {activeDropdownKey === repo.id && (
-                          <div
-                            className={mode ? styles.dropdownMenuSun : styles.dropdownMenuNight}
-                            ref={dropdownRef}
-                          >
-                            <button onClick={(event) => handleEditClick(repo.id, event)}>
-                              Edit
-                            </button>
-                            <button onClick={(e) => handleRepoDelete(repo.id, e)}>Delete</button>
-                          </div>
-                        )}
-
-                        <span
-                          className="material-symbols-outlined"
-                          onClick={(e) => toggleDropdown(repo.id, e)}
+                    <div>
+                      {activeDropdownKey === repo.id && (
+                        <div
+                          className={mode ? styles.dropdownMenuSun : styles.dropdownMenuNight}
+                          ref={dropdownRef}
                         >
-                          more_horiz
-                        </span>
-                      </div>
-                    )}
+                          <button onClick={(event) => handleEditClick(repo.id, event)}>Edit</button>
+                          <button onClick={(e) => handleRepoDelete(repo.id, e)}>Delete</button>
+                        </div>
+                      )}
+
+                      <span
+                        className="material-symbols-outlined"
+                        onClick={(e) => toggleDropdown(repo.id, e)}
+                      >
+                        more_horiz
+                      </span>
+                    </div>
                   </div>
                 </div>
                 <div className={styles.repodescription_container}></div>
-                <div className={styles.repoLinkContainer}>
-                  <p>{repo.creatorNickname && repo.creatorNickname.creator} </p>
-                </div>
+                <div className={styles.repoLinkContainer}></div>
 
                 <div className={styles.dateContainer}>
+                  <p>{repo.creatorNickname?.creator} </p>
                   <p>
                     {new Date(repo.createdAt).toLocaleDateString("ko-KR", {
                       year: "numeric",
