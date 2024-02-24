@@ -90,8 +90,8 @@
 .signInUpSpace {
   position: relative;
   display: flex;
+  justify-content: center;
   align-items: center;
-  width: 50vw;
   height: 300px;
   padding: 50px 30px;
   border-radius: 60px;
@@ -103,12 +103,11 @@
 }
 
 @keyframes widthExpand {
-  from {
+  0% {
     width: 10vw;
   }
-  to {
-    width: 50vw;
-    min-width: 500px;
+  100% {
+    width: 800px;
   }
 }
 
