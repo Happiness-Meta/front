@@ -1,13 +1,13 @@
 import styles from "./editorSpace.module.css";
-import sidebarStore from "../../../../store/CodePageStore/sidebarStore";
 import Editor from "@monaco-editor/react";
 import TypeIt from "typeit-react";
 import { Resizable } from "re-resizable";
-import globalStore from "../../../../store/globalStore/globalStore";
-import editorStore from "../../../../store/CodePageStore/editorStore";
-import SetFileTreeIcon from "../../../../globalComponents/SetFileTreeIcon";
+import sidebarStore from "@/store/CodePageStore/sidebarStore";
+import editorStore from "@/store/CodePageStore/editorStore";
+import globalStore from "@/store/globalStore/globalStore";
+import FileTreeStore from "@/store/FileTreeStore/FileTreeStore";
+import SetFileTreeIcon from "@/globalComponents/SetFileTreeIcon";
 import ChatSpace from "../chatSpace/ChatSpace";
-import FileTreeStore from "../../../../store/FileTreeStore/FileTreeStore";
 
 function EditorSpace() {
   const { sidebar, codeFontSize } = sidebarStore();

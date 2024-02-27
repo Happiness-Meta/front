@@ -1,15 +1,15 @@
 import styles from "./header.module.css";
-import sidebarStore from "../../../../store/CodePageStore/sidebarStore";
-import ModeToggleBtn from "../../../../globalComponents/modeToggleBtn/ModeToggleBtn";
-import ExploreBtn from "../../../../globalComponents/exploreBtn/ExploreBtn";
-import globalStore from "../../../../store/globalStore/globalStore";
-import editorStore from "../../../../store/CodePageStore/editorStore";
-import AccountBtn from "../../../../globalComponents/AccountBtn/AccountBtn";
-import FileTreeStore from "../../../../store/FileTreeStore/FileTreeStore";
-import userAxiosWithAuth from "../../../../utils/useAxiosWIthAuth";
 import { useParams } from "react-router-dom";
 import { useState } from "react";
-import useGetData from "../../../../utils/useGetData";
+import sidebarStore from "@/store/CodePageStore/sidebarStore";
+import globalStore from "@/store/globalStore/globalStore";
+import editorStore from "@/store/CodePageStore/editorStore";
+import FileTreeStore from "@/store/FileTreeStore/FileTreeStore";
+import useGetData from "@/utils/useGetData";
+import userAxiosWithAuth from "@/utils/useAxiosWIthAuth";
+import ExploreBtn from "@/globalComponents/exploreBtn/ExploreBtn";
+import ModeToggleBtn from "@/globalComponents/modeToggleBtn/ModeToggleBtn";
+import AccountBtn from "@/globalComponents/AccountBtn/AccountBtn";
 
 function Header() {
   const { sidebar, sidebarToggle } = sidebarStore();
