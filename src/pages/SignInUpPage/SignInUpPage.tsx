@@ -1,11 +1,11 @@
 import styles from "./signInUpPage.module.css";
-import LoginPageStore from "../../store/SignInUpPageStore/SignInUpPageStore.ts";
 import LoginPageHeader from "./header/LoginPageHeader.tsx";
 import SignIn from "./SignInUpComponents/SignIn.tsx";
 import SignUp from "./SignInUpComponents/SignUp.tsx";
 import { useCookies } from "react-cookie";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import LoginPageStore from "@/store/SignInUpPageStore/SignInUpPageStore.ts";
 
 function SignInUpPage() {
   const navigate = useNavigate();
@@ -27,10 +27,9 @@ function SignInUpPage() {
       <div className={styles.guideSpace}>
         {widthZero ? undefined : (
           <h1
-            // className={`${inUp ? styles.signUpAni : styles.signInAni} ${
-            //   styles.guideText
-            // }`}
-            className={styles.guideText}
+            className={`${inUp ? styles.signUpAni : styles.signInAni} ${
+              styles.guideText
+            }`}
           >
             {inUp ? "Sign up to Earth-IDE-N" : "Sign in to Earth-IDE-N"}
           </h1>

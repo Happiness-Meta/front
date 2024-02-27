@@ -1,16 +1,16 @@
 import styles from "./sidebar.module.css";
-import sidebarStore from "../../../../store/CodePageStore/sidebarStore";
-import EditorSettingBtn from "./editorSettingBtn/EditorSettingBtn";
-import editorStore from "../../../../store/CodePageStore/editorStore";
 import { CreateHandler, DeleteHandler, Tree, TreeApi } from "react-arborist";
 import { useEffect, useRef, useState } from "react";
 import { v4 as uuidv4 } from "uuid";
 import { useMutation } from "@tanstack/react-query";
-import { nodeType } from "../../../../types/typesForFileTree";
-import userAxiosWithAuth from "../../../../utils/useAxiosWIthAuth";
-import FileTreeStore from "../../../../store/FileTreeStore/FileTreeStore";
 import { useParams } from "react-router-dom";
-import Node from "../../../../globalComponents/Node/Node";
+import sidebarStore from "@/store/CodePageStore/sidebarStore";
+import editorStore from "@/store/CodePageStore/editorStore";
+import FileTreeStore from "@/store/FileTreeStore/FileTreeStore";
+import { nodeType } from "@/types/typesForFileTree";
+import userAxiosWithAuth from "@/utils/useAxiosWIthAuth";
+import EditorSettingBtn from "./editorSettingBtn/EditorSettingBtn";
+import Node from "@/globalComponents/Node/Node";
 
 function Sidebar() {
   const { sidebar, expandStatus, expandToggle } = sidebarStore();

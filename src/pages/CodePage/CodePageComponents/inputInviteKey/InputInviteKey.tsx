@@ -1,8 +1,8 @@
 import { RefObject, useRef, useState } from "react";
-import editorStore from "../../../../store/CodePageStore/editorStore";
 import styles from "./InputInviteKey.module.css";
-import userAxiosWithAuth from "../../../../utils/useAxiosWIthAuth";
 import { useParams } from "react-router-dom";
+import editorStore from "@/store/CodePageStore/editorStore";
+import userAxiosWithAuth from "@/utils/useAxiosWIthAuth";
 
 const InputInviteKey = () => {
   const infoSpaceRef: RefObject<HTMLDivElement> = useRef(null);

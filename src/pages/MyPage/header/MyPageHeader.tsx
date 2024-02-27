@@ -1,6 +1,6 @@
+import ExploreBtn from "@/globalComponents/exploreBtn/ExploreBtn";
+import ModeToggleBtn from "@/globalComponents/modeToggleBtn/ModeToggleBtn";
 import styles from "./myPageHeader.module.css";
-import ModeToggleBtn from "../../../globalComponents/modeToggleBtn/ModeToggleBtn";
-import ExploreBtn from "../../../globalComponents/exploreBtn/ExploreBtn";
 
 function MyPageHeader() {
   return (
