@@ -19,6 +19,7 @@ const useGetData = () => {
       }
     },
   });
+
   return getData;
 };
 

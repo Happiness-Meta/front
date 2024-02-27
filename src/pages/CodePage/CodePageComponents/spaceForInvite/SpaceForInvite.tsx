@@ -16,7 +16,9 @@ const SpaceForInvite = () => {
   const goInvite = useMutation({
     mutationFn: async () => {
       try {
-        const response = await userAxiosWithAuth.get(`/api/repos/${repoId}/invite`);
+        const response = await userAxiosWithAuth.get(
+          `/api/repos/${repoId}/invite`
+        );
         setUrl(response.data.data.repoUrl);
         setPassword(response.data.data.repoPassword);
       } catch (error) {
@@ -29,7 +31,7 @@ const SpaceForInvite = () => {
     goInvite.mutate();
   }, []);
 
-  const splitedPw = password.split("");
+  const splitPw = password.split("");
 
   return (
     <div className={styles.body}>
@@ -41,10 +43,10 @@ const SpaceForInvite = () => {
         <div className={styles.spaceEach}>
           <label className={styles.texts}>Key</label>
           <div className={styles.pwSpace}>
-            <span className={styles.pwEachSpace}>{splitedPw[0]}</span>
-            <span className={styles.pwEachSpace}>{splitedPw[1]}</span>
-            <span className={styles.pwEachSpace}>{splitedPw[2]}</span>
-            <span className={styles.pwEachSpace}>{splitedPw[3]}</span>
+            <span className={styles.pwEachSpace}>{splitPw[0]}</span>
+            <span className={styles.pwEachSpace}>{splitPw[1]}</span>
+            <span className={styles.pwEachSpace}>{splitPw[2]}</span>
+            <span className={styles.pwEachSpace}>{splitPw[3]}</span>
           </div>
         </div>
         <button className={styles.closeBtn} onClick={toggleInviteSpace}>

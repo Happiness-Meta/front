@@ -1,4 +1,4 @@
-import styles from "./homePage.module.css";
+import styles from "@/pages/homePage/homePage.module.css";
 import { useNavigate } from "react-router-dom";
 import { useCookies } from "react-cookie";
 import { useState } from "react";
