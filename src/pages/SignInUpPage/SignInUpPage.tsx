@@ -27,9 +27,10 @@ function SignInUpPage() {
       <div className={styles.guideSpace}>
         {widthZero ? undefined : (
           <h1
-            className={`${inUp ? styles.signUpAni : styles.signInAni} ${
-              styles.guideText
-            }`}
+            // className={`${inUp ? styles.signUpAni : styles.signInAni} ${
+            //   styles.guideText
+            // }`}
+            className={styles.guideText}
           >
             {inUp ? "Sign up to Earth-IDE-N" : "Sign in to Earth-IDE-N"}
           </h1>
