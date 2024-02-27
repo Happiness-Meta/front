@@ -1,5 +1,5 @@
+import headerStore from "@/store/CodePageStore/headerStore";
 import styles from "./Profile.module.css";
-import headerStore from "../../../../store/CodePageStore/headerStore";
 import { useCookies } from "react-cookie";
 export default function Profile() {
   const { mode } = headerStore();

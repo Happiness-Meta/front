@@ -1,11 +1,11 @@
 import React, { useState } from "react";
 import styles from "./Recommend.module.css";
-import RepoPageStore from "../../../../store/RepoPageStore/repoPageStore";
-import headerStore from "../../../../../src/store/globalStore/globalStore";
-import RecommendStore, { Repository } from "../../../../store/RecommendStore/recommendstore";
-import useModalStore from "../../../../store/ModalStore/ModalStore";
+import RepoPageStore from "@/store/RepoPageStore/repoPageStore";
+import RecommendStore, { Repository } from "@/store/RecommendStore/recommendstore";
+import useModalStore from "@/store/ModalStore/ModalStore";
 import ReactModal from "react-modal";
-import userAxiosWithAuth from "../../../../utils/useAxiosWIthAuth";
+import userAxiosWithAuth from "@/utils/useAxiosWIthAuth";
+import headerStore from "@/store/CodePageStore/headerStore";
 
 const Recommend = () => {
   const { mode } = headerStore();

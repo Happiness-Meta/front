@@ -1,8 +1,8 @@
 import styles from "./sidebar.module.css";
-import sidebarStore from "../../../../store/CodePageStore/sidebarStore";
-import Profile from "../../Component/profile/Profile";
+import sidebarStore from "@/store/CodePageStore/sidebarStore";
 import { Link } from "react-router-dom";
 import { useCookies } from "react-cookie";
+import Profile from "@/pages/RepoPage/Component/profile/Profile";
 
 function Sidebar() {
   const { expandStatus } = sidebarStore();
@@ -10,17 +10,9 @@ function Sidebar() {
   const [cookies] = useCookies();
 
   return (
-    <div
-      className={`${sidebar ? styles.sidebarToggle : undefined} ${
-        styles.sidebarSpace
-      }`}
-    >
+    <div className={`${sidebar ? styles.sidebarToggle : undefined} ${styles.sidebarSpace}`}>
       <form>
-        <input
-          type="text"
-          className={styles.search_input}
-          placeholder="Search"
-        ></input>
+        <input type="text" className={styles.search_input} placeholder="Search"></input>
       </form>
 
       <div className={styles.filesSpace}>
@@ -28,9 +20,7 @@ function Sidebar() {
           <div className={styles.TitleSpace}></div>
         </div>
         <div
-          className={`${expandStatus ? styles.FCExpandStatus : undefined} ${
-            styles.fileContainer
-          }`}
+          className={`${expandStatus ? styles.FCExpandStatus : undefined} ${styles.fileContainer}`}
         ></div>
       </div>
       <div className={styles.profileContainer}>
@@ -39,12 +29,8 @@ function Sidebar() {
             <Profile />
           </div>
           <div className={styles.profilename}>
-            <h3 style={{ width: "100%", overflow: "hidden" }}>
-              {cookies.nickname}
-            </h3>
-            <h5 style={{ width: "100%", overflow: "hidden" }}>
-              {cookies.email}
-            </h5>
+            <h3 style={{ width: "100%", overflow: "hidden" }}>{cookies.nickname}</h3>
+            <h5 style={{ width: "100%", overflow: "hidden" }}>{cookies.email}</h5>
           </div>
         </Link>
       </div>
