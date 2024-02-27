@@ -7,7 +7,7 @@ import editorStore from "@/store/CodePageStore/editorStore";
 import globalStore from "@/store/globalStore/globalStore";
 import FileTreeStore from "@/store/FileTreeStore/FileTreeStore";
 import SetFileTreeIcon from "@/globalComponents/SetFileTreeIcon";
-import ChatSpace from "../chatSpace/ChatSpace";
+import ChatSpace from "@/pages/CodePage/CodePageComponents/chatSpace/ChatSpace";
 
 function EditorSpace() {
   const { sidebar, codeFontSize } = sidebarStore();

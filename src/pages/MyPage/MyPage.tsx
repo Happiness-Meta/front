@@ -1,8 +1,8 @@
 import styles from "./myPage.module.css";
-import MyPageHeader from "./header/MyPageHeader";
 import { useCookies } from "react-cookie";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import MyPageHeader from "./header/MyPageHeader";
 import Front from "./front/Front";
 import Back from "./back/Back";
 

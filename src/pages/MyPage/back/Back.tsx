@@ -1,11 +1,11 @@
 import { useMutation } from "@tanstack/react-query";
 import { Dispatch, RefObject, SetStateAction, useRef, useState } from "react";
 import { useCookies } from "react-cookie";
-import SignInStore from "../../../store/SignInUpPageStore/SignInStore";
-import UserUpdateDto from "../../../dto/UserUpdateDto";
-import userAxiosWithAuth from "../../../utils/useAxiosWIthAuth";
 import axios, { AxiosError } from "axios";
 import styles from "./back.module.css";
+import SignInStore from "@/store/SignInUpPageStore/SignInStore";
+import UserUpdateDto from "@/dto/UserUpdateDto";
+import userAxiosWithAuth from "@/utils/useAxiosWIthAuth";
 
 interface MyPageProps {
   setIsClicked: Dispatch<SetStateAction<boolean>>;
@@ -30,10 +30,6 @@ const Back: React.FC<MyPageProps> = ({ setIsClicked }) => {
         signInErrorMessageAniToggle();
         return setErrorMessage("변경할 비밀번호를 입력해 주세요.");
       }
-
-      // if(cookies.nickname === nicknameRef.current!.value){
-
-      // }
 
       const body: UserUpdateDto = {
         nickname: nicknameRef.current!.value,

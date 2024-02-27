@@ -1,10 +1,10 @@
 import { RefObject, useRef, useState } from "react";
-import LoginPageStore from "../../../store/SignInUpPageStore/SignInUpPageStore";
-import styles from "../signInUpPage.module.css";
-import SignUpStore from "../../../store/SignInUpPageStore/SignUpStore";
-import UserRegisterDto from "../../../dto/UserRegisterDto";
 import axios, { AxiosError } from "axios";
 import { useMutation } from "@tanstack/react-query";
+import LoginPageStore from "@/store/SignInUpPageStore/SignInUpPageStore";
+import SignUpStore from "@/store/SignInUpPageStore/SignUpStore";
+import UserRegisterDto from "@/dto/UserRegisterDto";
+import styles from "../signInUpPage.module.css";
 
 function SignUp() {
   const idInput: RefObject<HTMLInputElement> = useRef(null);

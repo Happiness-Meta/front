@@ -1,6 +1,6 @@
+import ModeToggleBtn from "@/globalComponents/modeToggleBtn/ModeToggleBtn";
 import styles from "./loginPageHeader.module.css";
 import { Link } from "react-router-dom";
-import ModeToggleBtn from "../../../globalComponents/modeToggleBtn/ModeToggleBtn";
 
 function LoginPageHeader() {
   return (
