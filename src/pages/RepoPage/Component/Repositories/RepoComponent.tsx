@@ -1,15 +1,15 @@
 import React, { useEffect, useRef, useState } from "react";
 import styles from "./Repositories.module.css";
 import { useNavigate } from "react-router-dom";
-import RepoPageStore from "../../../../store/RepoPageStore/repoPageStore";
-import headerStore from "../../../../../src/store/globalStore/globalStore";
+import RepoPageStore from "@/store/RepoPageStore/repoPageStore";
 import ReactModal from "react-modal";
-import userAxiosWithAuth from "../../../../utils/useAxiosWIthAuth";
-import { Repository } from "../../../../store/RepoPageStore/repoPageStore";
+import userAxiosWithAuth from "@/utils/useAxiosWIthAuth";
+import { Repository } from "@/store/RepoPageStore/repoPageStore";
 import dayjs from "dayjs";
 import relativeTime from "dayjs/plugin/relativeTime";
-import useModalStore from "../../../../store/ModalStore/ModalStore";
-import editorStore from "../../../../store/CodePageStore/editorStore";
+import useModalStore from "@/store/ModalStore/ModalStore";
+import editorStore from "@/store/CodePageStore/editorStore";
+import headerStore from "@/store/CodePageStore/headerStore";
 
 dayjs.extend(relativeTime);
 interface RepoComponent {

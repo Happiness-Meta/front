@@ -1,10 +1,10 @@
-import editorStore from "../../../../store/CodePageStore/editorStore";
 import styles from "./ChatSpace.module.css";
 import Stomp, { Client } from "stompjs";
 import { useEffect, useRef, useState } from "react";
-import userAxiosWithAuth from "../../../../utils/useAxiosWIthAuth";
 import { useCookies } from "react-cookie";
 import { useParams } from "react-router-dom";
+import userAxiosWithAuth from "@/utils/useAxiosWIthAuth";
+import editorStore from "@/store/CodePageStore/editorStore";
 
 interface ChatMessage {
   sender: string;

@@ -1,14 +1,14 @@
 import React, { useEffect, useState } from "react";
 import styles from "./Dashboard.module.css";
-import RepoPage from "../../RepoPage";
-import Recommend from "../../Component/recommend/Recommend";
-import Repositories from "../../Component/Repositories/RepoComponent";
-import RepoPageStore, { Repository } from "../../../../store/RepoPageStore/repoPageStore";
 import ReactModal from "react-modal";
-import useModalStore from "../../../../store/ModalStore/ModalStore";
-import DropdownBtn from "../../Component/Dropdown/DropdownBtn";
+import RepoPage from "../../RepoPage";
+import Recommend from "@/pages/RepoPage/Component/recommend/Recommend";
+import Repositories from "@/pages/RepoPage/Component/Repositories/RepoComponent";
+import DropdownBtn from "@/pages/RepoPage/Component/Dropdown/DropdownBtn";
+import RepoPageStore, { Repository } from "@/store/RepoPageStore/repoPageStore";
+import useModalStore from "@/store/ModalStore/ModalStore";
 import renderLanguageDescription from "../../Component/Dropdown/SelectedLanguageDescription";
-import userAxiosWithAuth from "../../../../utils/useAxiosWIthAuth";
+import userAxiosWithAuth from "@/utils/useAxiosWIthAuth";
 import { useNavigate } from "react-router-dom";
 import { useCookies } from "react-cookie";
 
