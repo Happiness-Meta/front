@@ -1,24 +1,25 @@
 import { useMutation } from "@tanstack/react-query";
-import { Dispatch, RefObject, SetStateAction, useRef, useState } from "react";
+import { RefObject, useRef, useState } from "react";
 import { useCookies } from "react-cookie";
 import axios, { AxiosError } from "axios";
 import styles from "./back.module.css";
 import SignInStore from "@/store/SignInUpPageStore/SignInStore";
 import userAxiosWithAuth from "@/utils/useAxiosWIthAuth";
 import { UserUpdateDto } from "@/types/AboutUsersDto";
-
-interface MyPageProps {
-  setIsClicked: Dispatch<SetStateAction<boolean>>;
-}
+import { MyPageProps } from "@/types/ComponentsProps";
+import PwInputAndErrorMsgSpace from "./backComponents/PwInputAndErrorMsgSpace";
+import NicknameInputSpace from "./backComponents/NicknameInputSpace";
+import EmailInputSpace from "./backComponents/EmailInputSpace";
 
 const Back: React.FC<MyPageProps> = ({ setIsClicked }) => {
-  const [cookies, setCookie] = useCookies(["email", "nickname", "token"]);
+  const [, setCookie] = useCookies(["email", "nickname", "token"]);
 
   const nicknameRef: RefObject<HTMLInputElement> = useRef(null);
   const pwRef: RefObject<HTMLInputElement> = useRef(null);
 
   const [errorMessage, setErrorMessage] = useState("");
-  const { signInErrorMessageAni, signInErrorMessageAniToggle } = SignInStore();
+
+  const { signInErrorMessageAniToggle } = SignInStore();
 
   const changeUserInfo = useMutation({
     mutationFn: async () => {
@@ -69,59 +70,9 @@ const Back: React.FC<MyPageProps> = ({ setIsClicked }) => {
     <div className={`${styles.back} ${styles.myInfoSpace}`}>
       <span className={styles.member}>회원정보 변경</span>
       <div className={styles.myInfoSpace_inner}>
-        <div className={styles.formEachSpace}>
-          <i className={`${styles.inputIcon} material-symbols-outlined`}>
-            account_circle
-          </i>
-          <input
-            ref={nicknameRef}
-            type="text"
-            name="nickname"
-            className={styles.input}
-            defaultValue={cookies.nickname}
-          />
-        </div>
-
-        <div className={styles.formEachSpace}>
-          <i className={`${styles.inputIcon} material-symbols-outlined`}>
-            person
-          </i>
-          <input
-            disabled
-            type="text"
-            name="ID"
-            className={styles.IDinput}
-            defaultValue={cookies.email}
-          />
-        </div>
-
-        <div className={styles.formEachSpace}>
-          <i className={`${styles.inputIcon} material-symbols-outlined`}>
-            lock
-          </i>
-          <input
-            ref={pwRef}
-            type="text"
-            name="password"
-            className={`${styles.pwInput} ${styles.input}`}
-          />
-          <span
-            className={`${
-              signInErrorMessageAni
-                ? styles.errorMessageAni
-                : styles.errorMessageAni2
-            } ${styles.errorMessage}`}
-            style={{
-              color:
-                errorMessage === "개인정보가 변경되었습니다!"
-                  ? "rgb(0, 170, 0)"
-                  : "red",
-            }}
-          >
-            {errorMessage}
-          </span>
-        </div>
-
+        <NicknameInputSpace nicknameRef={nicknameRef} />
+        <EmailInputSpace />
+        <PwInputAndErrorMsgSpace pwRef={pwRef} errorMessage={errorMessage} />
         <button
           className={styles.button}
           onClick={() => {

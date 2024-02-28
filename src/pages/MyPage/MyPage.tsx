@@ -2,9 +2,10 @@ import styles from "./myPage.module.css";
 import { useCookies } from "react-cookie";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import MyPageHeader from "./header/MyPageHeader";
-import Front from "./front/Front";
-import Back from "./back/Back";
+import MyPageHeader from "./myPageComponents/header/MyPageHeader";
+import Front from "./myPageComponents/front/Front";
+import Back from "./myPageComponents/back/Back";
+import FlipBtn from "./myPageComponents/FlipBtn";
 
 function MyPage() {
   const navigate = useNavigate();
@@ -31,13 +32,7 @@ function MyPage() {
             <Back setIsClicked={setIsClicked} />
           </main>
         </div>
-        <button
-          className={styles.flipBtn}
-          onClick={() => setIsClicked(!isClicked)}
-          style={isClicked ? { width: "50px" } : { width: "100px" }}
-        >
-          {isClicked ? `FLIP` : `회원정보 변경`}
-        </button>
+        <FlipBtn isClicked={isClicked} setIsClicked={setIsClicked} />
       </div>
     </div>
   );

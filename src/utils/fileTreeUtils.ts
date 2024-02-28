@@ -1,5 +1,6 @@
 import { nodeType } from "@/types/TypesForFileTree";
 
+//재귀함수와 부모아이디를 이용해서 디렉토리의 깊이를 찾아내 파일 및 디렉토리를 생성하는 함수
 export const findAndAddNode = (
   nodes: nodeType[],
   newNode: nodeType
@@ -21,6 +22,7 @@ export const findAndAddNode = (
   });
 };
 
+//재귀함수와 reduce함수를 이용해서 tabToDeleteId의 값을 제외하고 나머지는 acc에 푸쉬해서 파일트리 재생성하는 함수
 export const removeNodeById = (nodes: nodeType[], tabToDeleteId: string) => {
   return nodes.reduce((acc: nodeType[], node: nodeType) => {
     if (tabToDeleteId !== node.id) {
@@ -44,7 +46,6 @@ export const nameAndRenameChildren = (
       // 해당 노드일 경우 이름 업데이트
       return { ...node, name: value };
     }
-
     if (node.children) {
       // 자식 노드가 있다면 재귀적으로 nameAndRenameChildren 호출
       return {
@@ -52,12 +53,12 @@ export const nameAndRenameChildren = (
         children: nameAndRenameChildren(node.children, id, value),
       };
     }
-
     // 자식 노드가 없는 경우 현재 노드 그대로 반환
     return node;
   });
 };
 
+//파일경로를 생성하는 함수
 export const setFilePath = (
   nodes: nodeType[],
   nodeId: string,
@@ -82,6 +83,7 @@ export const setFilePath = (
   return null;
 };
 
+//파일경로 앞의 슬래시를 없애는 함수
 export function removeLeadingSlash(input: string): string {
   let result = "";
   let foundNonSlash = false;
