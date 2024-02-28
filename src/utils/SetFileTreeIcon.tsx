@@ -1,4 +1,4 @@
-import styles from "./node/node.module.css";
+import styles from "@/globalComponents/node/node.module.css";
 
 const SetFileTreeIcon = (name: string) => {
   const draftCheck = name.includes(".");

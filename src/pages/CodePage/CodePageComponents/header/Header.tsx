@@ -50,12 +50,7 @@ function Header() {
       content: nodeContent[1],
     };
     try {
-      console.log(body);
-      const response = await userAxiosWithAuth.put(
-        `/api/files/${repoId}`,
-        body
-      );
-      console.log(response.data);
+      await userAxiosWithAuth.put(`/api/files/${repoId}`, body);
       setIsSaved(true);
       setTimeout(() => {
         setIsSaved(false);
@@ -83,7 +78,6 @@ function Header() {
       handleSaveRequest();
     } catch (error) {
       console.log(error);
-      console.log(nodeContent[1]);
     }
   };
 

@@ -1,10 +1,10 @@
-import { RefObject, useRef, useState } from "react";
+import { RefObject, useRef } from "react";
 import axios, { AxiosError } from "axios";
 import { useMutation } from "@tanstack/react-query";
 import LoginPageStore from "@/store/SignInUpPageStore/SignInUpPageStore";
 import SignUpStore from "@/store/SignInUpPageStore/SignUpStore";
-import UserRegisterDto from "@/dto/UserRegisterDto";
 import styles from "../signInUpPage.module.css";
+import { UserRegisterDto } from "@/types/AboutUsersDto";
 
 function SignUp() {
   const idInput: RefObject<HTMLInputElement> = useRef(null);
@@ -20,17 +20,16 @@ function SignUp() {
     signUpErrorMessageAniToggle,
   } = SignUpStore();
 
-  const [signUpID, setSignUpId] = useState("");
-  const [nickname, setNickname] = useState("");
-  const [signUpPW, setSignUpPw] = useState("");
-
   const registerUser = useMutation({
     mutationFn: async () => {
       if (idInput.current!.value === "") {
         signUpErrorMessageAniToggle();
         return signUpErrorMessageStatus("아이디를 입력해주세요.");
       }
-      if (!signUpID.includes("@") || !signUpID.includes(".")) {
+      if (
+        idInput.current?.value.includes("@") ||
+        idInput.current?.value.includes(".")
+      ) {
         signUpErrorMessageAniToggle();
         return signUpErrorMessageStatus("이메일 형식으로 적어주세요.");
       }
@@ -44,22 +43,22 @@ function SignUp() {
       }
 
       const body: UserRegisterDto = {
-        email: signUpID,
-        nickname: nickname,
-        password: signUpPW,
+        email: idInput.current!.value,
+        nickname: nicknameInput.current!.value,
+        password: pwInput.current!.value,
       };
 
       try {
         signUpErrorMessageStatus("");
-        const response = await axios.post(
+        await axios.post(
           import.meta.env.VITE_BASE_URL + "/api/sign/register",
           // "http://localhost:8080/api/sign/register",
           body
         );
         signUpErrorMessageStatus("");
-        setSignUpId("");
-        setNickname("");
-        setSignUpPw("");
+        idInput.current!.value = "";
+        nicknameInput.current!.value = "";
+        pwInput.current!.value = "";
         toggleWelcomeMessage();
         setTimeout(() => {
           inUpToggle();
@@ -67,8 +66,6 @@ function SignUp() {
         setTimeout(() => {
           toggleWelcomeMessage();
         }, 5000);
-
-        console.log(response.data);
       } catch (error) {
         if (axios.isAxiosError(error)) {
           const axiosError = error as AxiosError;
@@ -121,8 +118,6 @@ function SignUp() {
             type="text"
             className={styles.input}
             placeholder="ID"
-            value={signUpID}
-            onChange={(e) => setSignUpId(e.target.value)}
           />
         </div>
         <div className={styles.inputEachSpace}>
@@ -136,8 +131,6 @@ function SignUp() {
             type="text"
             className={styles.input}
             placeholder="nickname"
-            value={nickname}
-            onChange={(e) => setNickname(e.target.value)}
           />
         </div>
         <div className={styles.inputEachSpace}>
@@ -150,8 +143,6 @@ function SignUp() {
             type={isVisible ? "text" : "password"}
             className={styles.input}
             placeholder="password"
-            value={signUpPW}
-            onChange={(e) => setSignUpPw(e.target.value)}
             onKeyDown={(e) => {
               if (e.key === "Enter") registerUser.mutate();
             }}
@@ -180,9 +171,9 @@ function SignUp() {
           onClick={() => {
             inUpToggle();
             signUpErrorMessageStatus("");
-            setSignUpId("");
-            setNickname("");
-            setSignUpPw("");
+            idInput.current!.value = "";
+            nicknameInput.current!.value = "";
+            pwInput.current!.value = "";
           }}
         >
           Sign In

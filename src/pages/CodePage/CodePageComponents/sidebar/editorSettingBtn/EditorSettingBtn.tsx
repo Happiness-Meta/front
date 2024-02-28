@@ -1,8 +1,7 @@
 import { useRef } from "react";
-
 import styles from "./editorSettingBtn.module.css";
 import sidebarStore from "@/store/CodePageStore/sidebarStore";
-import ClickOutsideFalse from "@/globalComponents/ClickOutsideFalse";
+import ClickOutsideFalse from "@/utils/ClickOutsideFalse";
 
 function EditorSettingBtn() {
   const editorSettingBtnRef = useRef(null);

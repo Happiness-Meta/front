@@ -1,5 +1,5 @@
+import { nodeType } from "@/types/TypesForFileTree";
 import { create } from "zustand";
-import { nodeType } from "../../types/typesForFileTree";
 interface aboutEditor {
   tabs: nodeType[];
   filePath: string;
@@ -60,7 +60,6 @@ const editorStore = create<aboutEditor>((set) => ({
     })),
   updateTabContent: (savedNode, newContent) =>
     set((state) => {
-      console.log(newContent);
       return {
         tabs: state.tabs.map((tab) =>
           tab.id === savedNode.id ? { ...tab, content: newContent } : tab
@@ -79,7 +78,8 @@ const editorStore = create<aboutEditor>((set) => ({
   terminal: false,
   toggleTerminal: () => set((state) => ({ terminal: !state.terminal })),
   inviteSpace: false,
-  toggleInviteSpace: () => set((state) => ({ inviteSpace: !state.inviteSpace })),
+  toggleInviteSpace: () =>
+    set((state) => ({ inviteSpace: !state.inviteSpace })),
   inviteKey: false,
   toggleInviteKey: () => set((state) => ({ inviteKey: !state.inviteKey })),
   setRightSpace: () => set({ rightSpace: true }),

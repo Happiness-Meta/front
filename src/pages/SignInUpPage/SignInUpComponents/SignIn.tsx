@@ -1,12 +1,12 @@
-import { Dispatch, RefObject, SetStateAction, useRef, useState } from "react";
-import LoginPageStore from "../../../store/SignInUpPageStore/SignInUpPageStore";
+import { Dispatch, RefObject, SetStateAction, useRef } from "react";
 import styles from "../signInUpPage.module.css";
-import LoginFormDto from "../../../dto/LoginFormDto";
 import axios, { AxiosError } from "axios";
 import { useNavigate } from "react-router-dom";
-import SignInStore from "../../../store/SignInUpPageStore/SignInStore";
 import { useMutation } from "@tanstack/react-query";
 import { useCookies } from "react-cookie";
+import LoginPageStore from "@/store/SignInUpPageStore/SignInUpPageStore";
+import SignInStore from "@/store/SignInUpPageStore/SignInStore";
+import { LoginFormDto } from "@/types/AboutUsersDto";
 interface SignInProps {
   setWidthZero: Dispatch<SetStateAction<boolean>>;
 }
@@ -25,8 +25,6 @@ const SignIn: React.FC<SignInProps> = ({ setWidthZero }) => {
     signInErrorMessageAni,
     signInErrorMessageAniToggle,
   } = SignInStore();
-  const [signInId, setSignInId] = useState("");
-  const [signInPw, setSignInPw] = useState("");
 
   const loginUser = useMutation({
     mutationFn: async () => {
@@ -40,8 +38,8 @@ const SignIn: React.FC<SignInProps> = ({ setWidthZero }) => {
       }
 
       const body: LoginFormDto = {
-        email: signInId,
-        password: signInPw,
+        email: idInput.current!.value,
+        password: pwInput.current!.value,
       };
 
       try {
@@ -102,8 +100,6 @@ const SignIn: React.FC<SignInProps> = ({ setWidthZero }) => {
             type="text"
             className={styles.input}
             placeholder="ID"
-            value={signInId}
-            onChange={(e) => setSignInId(e.target.value)}
           />
         </div>
         <div className={styles.inputEachSpace}>
@@ -116,8 +112,6 @@ const SignIn: React.FC<SignInProps> = ({ setWidthZero }) => {
             type={isVisible ? "text" : "password"}
             className={styles.input}
             placeholder="password"
-            value={signInPw}
-            onChange={(e) => setSignInPw(e.target.value)}
             onKeyDown={(e) => {
               if (e.key === "Enter") loginUser.mutate();
             }}
@@ -156,8 +150,8 @@ const SignIn: React.FC<SignInProps> = ({ setWidthZero }) => {
           onClick={() => {
             inUpToggle();
             signInErrorMessageStatus("");
-            setSignInId("");
-            setSignInPw("");
+            idInput.current!.value;
+            pwInput.current!.value;
           }}
         >
           Sign Up

@@ -1,7 +1,7 @@
 import { useParams } from "react-router-dom";
-import FileTreeStore from "../store/FileTreeStore/FileTreeStore";
+import FileTreeStore from "@/store/FileTreeStore/FileTreeStore";
 import { removeLeadingSlash } from "./fileTreeUtils";
-import editorStore from "../store/CodePageStore/editorStore";
+import editorStore from "@/store/CodePageStore/editorStore";
 import userAxiosWithAuth from "./useAxiosWIthAuth";
 import useGetData from "./useGetData";
 
@@ -25,10 +25,7 @@ const useHandleSaveRequest = async () => {
   };
 
   try {
-    console.log(body);
-    const response = await userAxiosWithAuth.put(`/api/files/${repoId}`, body);
-    console.log(response.data);
-
+    await userAxiosWithAuth.put(`/api/files/${repoId}`, body);
     getDataMutation.mutate();
   } catch (error) {
     console.log(error);

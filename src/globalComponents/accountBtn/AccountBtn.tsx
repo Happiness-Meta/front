@@ -1,9 +1,9 @@
 import { Link } from "react-router-dom";
-import globalStore from "../../store/globalStore/globalStore";
+import globalStore from "@/store/globalStore/globalStore";
 import styles from "./accountBtn.module.css";
 import { useRef } from "react";
-import ClickOutsideFalse from "../ClickOutsideFalse";
 import { useCookies } from "react-cookie";
+import ClickOutsideFalse from "@/utils/ClickOutsideFalse";
 
 function AccountBtn() {
   const accountBtnRef = useRef<HTMLDivElement>(null);

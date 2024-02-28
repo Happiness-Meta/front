@@ -4,8 +4,8 @@ import { useCookies } from "react-cookie";
 import axios, { AxiosError } from "axios";
 import styles from "./back.module.css";
 import SignInStore from "@/store/SignInUpPageStore/SignInStore";
-import UserUpdateDto from "@/dto/UserUpdateDto";
 import userAxiosWithAuth from "@/utils/useAxiosWIthAuth";
+import { UserUpdateDto } from "@/types/AboutUsersDto";
 
 interface MyPageProps {
   setIsClicked: Dispatch<SetStateAction<boolean>>;
@@ -37,12 +37,11 @@ const Back: React.FC<MyPageProps> = ({ setIsClicked }) => {
       };
 
       try {
-        const response = await userAxiosWithAuth.put(
+        await userAxiosWithAuth.put(
           import.meta.env.VITE_BASE_URL + "/api/user",
           // "http://localhost:8080/api/sign/login",
           body
         );
-        console.log(response.data);
         setCookie("nickname", nicknameRef.current!.value);
         setErrorMessage("개인정보가 변경되었습니다!");
         setTimeout(() => {
@@ -56,7 +55,6 @@ const Back: React.FC<MyPageProps> = ({ setIsClicked }) => {
           const axiosError = error as AxiosError;
 
           if (axiosError.response) {
-            console.log(error.response?.data);
             if (error.response?.data.code !== 200) {
               signInErrorMessageAniToggle();
               return setErrorMessage(error.response?.data.msg);

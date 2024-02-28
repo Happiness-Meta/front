@@ -9,7 +9,6 @@ import Back from "./back/Back";
 function MyPage() {
   const navigate = useNavigate();
   const [cookies] = useCookies(["email", "nickname", "token"]);
-  console.log(cookies);
 
   const [isClicked, setIsClicked] = useState(false);
 

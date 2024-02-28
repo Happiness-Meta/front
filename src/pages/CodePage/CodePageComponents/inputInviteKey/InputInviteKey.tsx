@@ -24,8 +24,6 @@ const InputInviteKey = () => {
         `/api/repos/invite/${repoId}`,
         data
       );
-      console.log(response.data);
-
       if (response.data.code === 200) {
         toggleInviteKey();
         //navigate로 약한 새로고침은 안 되어서 강한 새로고침

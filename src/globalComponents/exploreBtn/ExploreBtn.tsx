@@ -1,8 +1,8 @@
 import { useRef } from "react";
-import globalStore from "../../store/globalStore/globalStore";
+import globalStore from "@/store/globalStore/globalStore";
 import styles from "./exploreBtn.module.css";
 import { Link } from "react-router-dom";
-import ClickOutsideFalse from "../ClickOutsideFalse";
+import ClickOutsideFalse from "@/utils/ClickOutsideFalse";
 
 function ExploreBtn() {
   const { exploreBtn, exploreBtnToggle } = globalStore();
@@ -48,13 +48,6 @@ function ExploreBtn() {
         >
           <i className={`material-symbols-outlined`}>grid_view</i>
         </Link>
-        {/* <Link
-          to={`/CodePage`}
-          className={styles.exploreCode}
-          onClick={exploreBtnToggle}
-        >
-          <i className={`material-symbols-outlined`}>code</i>
-        </Link> */}
       </div>
     </div>
   );

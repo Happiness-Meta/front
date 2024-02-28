@@ -29,7 +29,6 @@ function HomePage() {
   };
 
   if (isLaunched) {
-    console.log(cookies.token);
     setTimeout(() => {
       if (!cookies.token) {
         navigate("/signInUpPage");
