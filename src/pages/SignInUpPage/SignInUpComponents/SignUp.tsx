@@ -27,8 +27,8 @@ function SignUp() {
         return signUpErrorMessageStatus("아이디를 입력해주세요.");
       }
       if (
-        idInput.current?.value.includes("@") ||
-        idInput.current?.value.includes(".")
+        !idInput.current?.value.includes("@") ||
+        !idInput.current?.value.includes(".")
       ) {
         signUpErrorMessageAniToggle();
         return signUpErrorMessageStatus("이메일 형식으로 적어주세요.");
