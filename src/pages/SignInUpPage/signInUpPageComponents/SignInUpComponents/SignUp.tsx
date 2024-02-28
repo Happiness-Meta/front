@@ -3,7 +3,7 @@ import axios, { AxiosError } from "axios";
 import { useMutation } from "@tanstack/react-query";
 import LoginPageStore from "@/store/SignInUpPageStore/SignInUpPageStore";
 import SignUpStore from "@/store/SignInUpPageStore/SignUpStore";
-import styles from "../signInUpPage.module.css";
+import styles from "@/pages/SignInUpPage/signInUpPage.module.css";
 import { UserRegisterDto } from "@/types/AboutUsersDto";
 
 function SignUp() {

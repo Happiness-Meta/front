@@ -1,20 +1,12 @@
-import { NodeApi, TreeApi } from "react-arborist";
 import styles from "./node.module.css";
-import { CSSProperties } from "react";
 import editorStore from "@/store/CodePageStore/editorStore";
-import SetFileTreeIcon from "@/utils/SetFileTreeIcon";
 import FileTreeStore from "@/store/FileTreeStore/FileTreeStore";
 import { useParams } from "react-router-dom";
 import userAxiosWithAuth from "@/utils/useAxiosWIthAuth";
 import { nodeType } from "@/types/TypesForFileTree";
-import useGetData from "@/utils/useGetData";
 import { removeLeadingSlash } from "@/utils/fileTreeUtils";
-
-interface NodeRendererProps {
-  node: NodeApi;
-  tree: TreeApi<() => void>;
-  style: CSSProperties;
-}
+import useFuncAboutFiles from "@/utils/useFuncAboutFiles";
+import { NodeRendererProps } from "@/types/ComponentsProps";
 
 const Node: React.FC<NodeRendererProps> = ({ node, tree, style }) => {
   const { addTab, deleteTab, showContent, updateTabName } = editorStore();
@@ -22,7 +14,8 @@ const Node: React.FC<NodeRendererProps> = ({ node, tree, style }) => {
   const { repoId } = useParams();
   const { nameOrRename, setNameOrRename } = FileTreeStore();
 
-  const getDataMutation = useGetData();
+  const getDataMutation = useFuncAboutFiles().getData;
+  const SetFileTreeIcon = useFuncAboutFiles().SetFileTreeIcon;
 
   const handleCreateFileRequest = async (
     newNode: nodeType,

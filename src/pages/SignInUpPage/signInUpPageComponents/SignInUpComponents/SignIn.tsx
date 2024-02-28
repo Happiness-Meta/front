@@ -1,5 +1,5 @@
-import { Dispatch, RefObject, SetStateAction, useRef } from "react";
-import styles from "../signInUpPage.module.css";
+import { RefObject, useRef } from "react";
+import styles from "@/pages/SignInUpPage/signInUpPage.module.css";
 import axios, { AxiosError } from "axios";
 import { useNavigate } from "react-router-dom";
 import { useMutation } from "@tanstack/react-query";
@@ -7,10 +7,7 @@ import { useCookies } from "react-cookie";
 import LoginPageStore from "@/store/SignInUpPageStore/SignInUpPageStore";
 import SignInStore from "@/store/SignInUpPageStore/SignInStore";
 import { LoginFormDto } from "@/types/AboutUsersDto";
-
-interface SignInProps {
-  setWidthZero: Dispatch<SetStateAction<boolean>>;
-}
+import { SignInProps } from "@/types/ComponentsProps";
 
 const SignIn: React.FC<SignInProps> = ({ setWidthZero }) => {
   const navigate = useNavigate();
@@ -76,7 +73,9 @@ const SignIn: React.FC<SignInProps> = ({ setWidthZero }) => {
             console.log(error.response?.data);
             if (error.response?.data.code === 400) {
               signInErrorMessageAniToggle();
-              return signInErrorMessageStatus("이메일 또는 비밀번호를 잘못 입력하였습니다.");
+              return signInErrorMessageStatus(
+                "이메일 또는 비밀번호를 잘못 입력하였습니다."
+              );
             }
           }
         }
@@ -89,7 +88,9 @@ const SignIn: React.FC<SignInProps> = ({ setWidthZero }) => {
       <h2 className={styles.signInText}>Sign In</h2>
       <div className={styles.inputSpace}>
         <div className={styles.inputEachSpace}>
-          <i className={`${styles.inputIcon} material-symbols-outlined`}>person</i>
+          <i className={`${styles.inputIcon} material-symbols-outlined`}>
+            person
+          </i>
           <input
             autoFocus
             ref={idInput}
@@ -100,7 +101,9 @@ const SignIn: React.FC<SignInProps> = ({ setWidthZero }) => {
           />
         </div>
         <div className={styles.inputEachSpace}>
-          <i className={`${styles.inputIcon} material-symbols-outlined`}>lock</i>
+          <i className={`${styles.inputIcon} material-symbols-outlined`}>
+            lock
+          </i>
           <input
             ref={pwInput}
             name="password"
@@ -111,12 +114,17 @@ const SignIn: React.FC<SignInProps> = ({ setWidthZero }) => {
               if (e.key === "Enter") loginUser.mutate();
             }}
           />
-          <i className={`${styles.visibility} material-symbols-outlined`} onClick={visibleToggle}>
+          <i
+            className={`${styles.visibility} material-symbols-outlined`}
+            onClick={visibleToggle}
+          >
             {isVisible ? "visibility" : "visibility_off"}
           </i>
           <span
             className={`${
-              signInErrorMessageAni ? styles.errorMessageAni2 : styles.errorMessageAni
+              signInErrorMessageAni
+                ? styles.errorMessageAni2
+                : styles.errorMessageAni
             } ${styles.signInErrorMessage}`}
           >
             {signInErrorMessage}

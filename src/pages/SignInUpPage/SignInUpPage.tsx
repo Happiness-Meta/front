@@ -1,63 +1,26 @@
 import styles from "./signInUpPage.module.css";
-import LoginPageHeader from "./header/LoginPageHeader.tsx";
-import SignIn from "./SignInUpComponents/SignIn.tsx";
-import SignUp from "./SignInUpComponents/SignUp.tsx";
-import { useCookies } from "react-cookie";
+import LoginPageHeader from "./signInUpPageComponents/header/LoginPageHeader.tsx";
+import SignIn from "./signInUpPageComponents/SignInUpComponents/SignIn.tsx";
+import SignUp from "./signInUpPageComponents/SignInUpComponents/SignUp.tsx";
 import { useState } from "react";
-import { useNavigate } from "react-router-dom";
-import LoginPageStore from "@/store/SignInUpPageStore/SignInUpPageStore.ts";
+import BlockingPage from "./signInUpPageComponents/BlockingPage.tsx";
+import PageGuideTitle from "./signInUpPageComponents/PageGuideTitle.tsx";
+import SliderComponents from "./signInUpPageComponents/SliderComponents.tsx";
 
 function SignInUpPage() {
-  const navigate = useNavigate();
-  const { inUp, welcomeMessage } = LoginPageStore();
-  const [cookies] = useCookies(["token", "nickname"]);
   const [widthZero, setWidthZero] = useState(false);
 
   return (
     <div className={styles.LoginPage_body}>
-      {cookies.token ? (
-        <div className={styles.goBackPage}>
-          <span>이미 로그인이 되었습니다.</span>
-          <button className={styles.goBackBtn} onClick={() => navigate("/")}>
-            HOME
-          </button>
-        </div>
-      ) : undefined}
+      <BlockingPage />
       <LoginPageHeader />
-      <div className={styles.guideSpace}>
-        {widthZero ? undefined : (
-          <h1
-            className={`${inUp ? styles.signUpAni : styles.signInAni} ${
-              styles.guideText
-            }`}
-          >
-            {inUp ? "Sign up to Earth-IDE-N" : "Sign in to Earth-IDE-N"}
-          </h1>
-        )}
-      </div>
+      <PageGuideTitle widthZero={widthZero} />
       <main
         className={`${widthZero ? styles.widthZero : undefined} ${
           styles.signInUpSpace
         }`}
       >
-        <div
-          className={`${inUp ? styles.inUpToggle : undefined}  ${
-            styles.sliderFrame
-          }`}
-          style={{
-            width: widthZero ? "100%" : undefined,
-            left: widthZero ? "0" : undefined,
-            backdropFilter: widthZero ? "none" : undefined,
-            backgroundColor: widthZero ? "black" : undefined,
-          }}
-        >
-          {widthZero ? `환영합니다 ${cookies.nickname}님` : undefined}
-          {welcomeMessage ? (
-            <div className={styles.signUpMessage}>
-              <span>Welcome to Join</span>
-            </div>
-          ) : undefined}
-        </div>
+        <SliderComponents widthZero={widthZero} />
         <SignIn setWidthZero={setWidthZero} />
         <SignUp />
       </main>

@@ -1,10 +1,7 @@
 import { useNavigate } from "react-router-dom";
 import styles from "./loadingPage.module.css";
 import { useEffect, useState } from "react";
-
-interface LoadingPageProps {
-  finishedGettingData: boolean;
-}
+import { LoadingPageProps } from "@/types/ComponentsProps";
 
 const LoadingPage: React.FC<LoadingPageProps> = (finishedGettingData) => {
   const navigate = useNavigate();

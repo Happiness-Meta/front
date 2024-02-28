@@ -24,7 +24,6 @@ const FileTreeStore = create<aboutFileTree>((set) => ({
   fileTree: [],
   selectedNode: undefined,
   nameOrRename: true,
-
   setNameOrRename: (value) => set({ nameOrRename: value }),
   setSelectedNode: (selectedNode) => set({ selectedNode: selectedNode }),
   getNodes: (nodes) =>
