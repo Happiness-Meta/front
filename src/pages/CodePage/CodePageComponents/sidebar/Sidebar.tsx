@@ -7,7 +7,7 @@ import { useParams } from "react-router-dom";
 import sidebarStore from "@/store/CodePageStore/sidebarStore";
 import editorStore from "@/store/CodePageStore/editorStore";
 import FileTreeStore from "@/store/FileTreeStore/FileTreeStore";
-import { nodeType } from "@/types/typesForFileTree";
+import { nodeType } from "@/types/TypesForFileTree";
 import userAxiosWithAuth from "@/utils/useAxiosWIthAuth";
 import EditorSettingBtn from "./editorSettingBtn/EditorSettingBtn";
 import Node from "@/globalComponents/Node/Node";
@@ -49,9 +49,8 @@ function Sidebar() {
         );
         getNodes(response.data.data.treeData.children);
         //id 의 값을 uuid로,
-        console.log(response.data.data.treeData.children);
       } catch (error) {
-        // return console.log(error);
+        console.log(error);
       }
     },
   });

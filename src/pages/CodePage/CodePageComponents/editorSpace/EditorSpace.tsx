@@ -6,7 +6,7 @@ import sidebarStore from "@/store/CodePageStore/sidebarStore";
 import editorStore from "@/store/CodePageStore/editorStore";
 import globalStore from "@/store/globalStore/globalStore";
 import FileTreeStore from "@/store/FileTreeStore/FileTreeStore";
-import SetFileTreeIcon from "@/globalComponents/SetFileTreeIcon";
+import SetFileTreeIcon from "@/utils/SetFileTreeIcon";
 import ChatSpace from "@/pages/CodePage/CodePageComponents/chatSpace/ChatSpace";
 
 function EditorSpace() {

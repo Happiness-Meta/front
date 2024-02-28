@@ -1,18 +1,17 @@
 import { Resizable } from "re-resizable";
 import styles from "./codePage.module.css";
-
-import { useNavigate, useParams } from "react-router-dom";
-import { useEffect, useState } from "react";
-import { useCookies } from "react-cookie";
-import sidebarStore from "@/store/CodePageStore/sidebarStore";
-import editorStore from "@/store/CodePageStore/editorStore";
-import userAxiosWithAuth from "@/utils/useAxiosWIthAuth";
-import LoadingPage from "@/globalComponents/loadingPage/LoadingPage";
-import SpaceForInvite from "./CodePageComponents/spaceForInvite/SpaceForInvite";
-import InputInviteKey from "./CodePageComponents/inputInviteKey/InputInviteKey";
 import Header from "./CodePageComponents/header/Header";
 import Sidebar from "./CodePageComponents/sidebar/Sidebar";
 import EditorSpace from "./CodePageComponents/editorSpace/EditorSpace";
+import sidebarStore from "@/store/CodePageStore/sidebarStore";
+import { useNavigate, useParams } from "react-router-dom";
+import { useEffect, useState } from "react";
+import { useCookies } from "react-cookie";
+import userAxiosWithAuth from "@/utils/useAxiosWIthAuth";
+import SpaceForInvite from "./CodePageComponents/spaceForInvite/SpaceForInvite";
+import editorStore from "@/store/CodePageStore/editorStore";
+import InputInviteKey from "./CodePageComponents/inputInviteKey/InputInviteKey";
+import LoadingPage from "@/globalComponents/loadingPage/LoadingPage";
 
 function CodePage() {
   const { sidebar } = sidebarStore();

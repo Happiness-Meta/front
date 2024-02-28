@@ -1,5 +1,5 @@
 import styles from "./modeToggleBtn.module.css";
-import globalStore from "../../store/globalStore/globalStore";
+import globalStore from "@/store/globalStore/globalStore";
 
 function ModeToggleBtn() {
   const { mode, modeToggle } = globalStore();

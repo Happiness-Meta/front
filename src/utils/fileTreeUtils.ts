@@ -1,4 +1,4 @@
-import { nodeType } from "../types/typesForFileTree";
+import { nodeType } from "@/types/TypesForFileTree";
 
 export const findAndAddNode = (
   nodes: nodeType[],

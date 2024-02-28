@@ -1,14 +1,14 @@
 import { NodeApi, TreeApi } from "react-arborist";
 import styles from "./node.module.css";
 import { CSSProperties } from "react";
-import editorStore from "../../store/CodePageStore/editorStore";
-import SetFileTreeIcon from "../SetFileTreeIcon";
-import FileTreeStore from "../../store/FileTreeStore/FileTreeStore";
+import editorStore from "@/store/CodePageStore/editorStore";
+import SetFileTreeIcon from "@/utils/SetFileTreeIcon";
+import FileTreeStore from "@/store/FileTreeStore/FileTreeStore";
 import { useParams } from "react-router-dom";
-import userAxiosWithAuth from "../../utils/useAxiosWIthAuth";
-import { nodeType } from "../../types/typesForFileTree";
-import useGetData from "../../utils/useGetData";
-import { removeLeadingSlash } from "../../utils/fileTreeUtils";
+import userAxiosWithAuth from "@/utils/useAxiosWIthAuth";
+import { nodeType } from "@/types/TypesForFileTree";
+import useGetData from "@/utils/useGetData";
+import { removeLeadingSlash } from "@/utils/fileTreeUtils";
 
 interface NodeRendererProps {
   node: NodeApi;
@@ -46,11 +46,7 @@ const Node: React.FC<NodeRendererProps> = ({ node, tree, style }) => {
         const body = {
           filepath: sendFilePath,
         };
-        const response = await userAxiosWithAuth.post(
-          `/api/files/${repoId}`,
-          body
-        );
-        console.log(response);
+        await userAxiosWithAuth.post(`/api/files/${repoId}`, body);
       }
     } catch (error) {
       console.log(error);
@@ -69,10 +65,9 @@ const Node: React.FC<NodeRendererProps> = ({ node, tree, style }) => {
       sendFilePath = parentPath + "/" + node.name;
     }
     try {
-      const response = await userAxiosWithAuth.delete(
+      await userAxiosWithAuth.delete(
         `/api/files/${repoId}?filePath=${sendFilePath}`
       );
-      console.log(response.data);
     } catch (error) {
       console.log(error);
     }
@@ -107,12 +102,7 @@ const Node: React.FC<NodeRendererProps> = ({ node, tree, style }) => {
     };
 
     try {
-      console.log(body);
-      const response = await userAxiosWithAuth.put(
-        `/api/files/${repoId}`,
-        body
-      );
-      console.log(response.data);
+      await userAxiosWithAuth.put(`/api/files/${repoId}`, body);
     } catch (error) {
       console.log(error);
     }
@@ -155,7 +145,6 @@ const Node: React.FC<NodeRendererProps> = ({ node, tree, style }) => {
 
   const rename = (nodeData: nodeType, newName: string) => {
     if (checkValue(nodeData.name)) {
-      console.log(nodeData.name, newName);
       updateNodeName(node.id, newName);
       handleRenameFile(nodeData, newName);
       updateTabName(nodeData, newName);

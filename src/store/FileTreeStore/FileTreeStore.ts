@@ -1,11 +1,11 @@
-import { nodeType } from "../../types/typesForFileTree";
+import { nodeType } from "@/types/TypesForFileTree";
 import { create } from "zustand";
 import {
   findAndAddNode,
   nameAndRenameChildren,
   removeNodeById,
   setFilePath,
-} from "../../utils/fileTreeUtils";
+} from "@/utils/fileTreeUtils";
 
 interface aboutFileTree {
   fileTree: nodeType[];

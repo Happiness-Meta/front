@@ -1,7 +1,7 @@
 import { useMutation } from "@tanstack/react-query";
 import userAxiosWithAuth from "./useAxiosWIthAuth";
 import { useParams } from "react-router-dom";
-import FileTreeStore from "../store/FileTreeStore/FileTreeStore";
+import FileTreeStore from "@/store/FileTreeStore/FileTreeStore";
 
 const useGetData = () => {
   const { repoId } = useParams();
@@ -15,7 +15,7 @@ const useGetData = () => {
         );
         getNodes(response.data.data.treeData.children);
       } catch (error) {
-        // return console.log(error);
+        return console.log(error);
       }
     },
   });
