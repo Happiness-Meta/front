@@ -7,9 +7,9 @@ import SignInStore from "@/store/SignInUpPageStore/SignInStore";
 import userAxiosWithAuth from "@/utils/useAxiosWIthAuth";
 import { UserUpdateDto } from "@/types/AboutUsersDto";
 import { MyPageProps } from "@/types/ComponentsProps";
-import NicknameInputSpace from "./backComponents/nicknameInputSpace";
-import EmailInputSpace from "./backComponents/emailInputSpace";
 import PwInputAndErrorMsgSpace from "./backComponents/PwInputAndErrorMsgSpace";
+import NicknameInputSpace from "./backComponents/NicknameInputSpace";
+import EmailInputSpace from "./backComponents/EmailInputSpace";
 
 const Back: React.FC<MyPageProps> = ({ setIsClicked }) => {
   const [, setCookie] = useCookies(["email", "nickname", "token"]);
