@@ -2,8 +2,6 @@ import React, { useEffect, useState } from "react";
 import styles from "./Dashboard.module.css";
 import ReactModal from "react-modal";
 import RepoPage from "../../RepoPage";
-import Recommend from "@/pages/RepoPage/Component/recommend/Recommend";
-import Repositories from "@/pages/RepoPage/Component/Repositories/RepoComponent";
 import DropdownBtn from "@/pages/RepoPage/Component/Dropdown/DropdownBtn";
 import RepoPageStore, { Repository } from "@/store/RepoPageStore/repoPageStore";
 import useModalStore from "@/store/ModalStore/ModalStore";
@@ -11,9 +9,10 @@ import renderLanguageDescription from "../../Component/Dropdown/SelectedLanguage
 import userAxiosWithAuth from "@/utils/useAxiosWIthAuth";
 import { useNavigate } from "react-router-dom";
 import { useCookies } from "react-cookie";
+import EmptyRepositories from "./isEmpty/EmptyRepositories";
+import FillRepositories from "./isEmpty/fillRepositories";
 
 const Dashboard = () => {
-  const [isAnimated, setIsAnimated] = useState(false);
   const { isModalOpen, toggleCreateModal } = useModalStore();
   const { repositories } = RepoPageStore();
   const isEmpty = Object.keys(repositories).length === 0;
@@ -29,8 +28,6 @@ const Dashboard = () => {
       navigate("/");
     }
   }, [cookies, navigate]);
-
-  //
 
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setInputValue(event.target.value);
@@ -84,9 +81,6 @@ const Dashboard = () => {
       setDropdownView(false);
     }, 200);
   };
-  useEffect(() => {
-    setIsAnimated(true);
-  }, []);
 
   const handleSelectTemplate = (key: string) => {
     setSelectedLanguage(key);
@@ -97,7 +91,6 @@ const Dashboard = () => {
     const fetchRepositories = async () => {
       try {
         const response = await userAxiosWithAuth.get(`/api/repos/all`);
-        console.log("Fetched repositories:", response.data); // 변경된 접근 방식 확인
 
         // API 응답 구조가 { data: { data: [...] } } 형태라고 가정.
         const repositoryArray = response.data.data || []; // response.data.data가 배열이라고 가정
@@ -120,102 +113,7 @@ const Dashboard = () => {
 
   return (
     <RepoPage>
-      {isEmpty ? (
-        <div className={`${isAnimated ? styles.fadeIn : styles.dashboardContainer}`}>
-          <div className={styles.repositoriescontainer_empty}>
-            <h1>Home</h1>
-            <p>New on Happiness Meta</p>
-
-            <div className={styles.startbuttoncontainer}>
-              <div className={styles.makeYourFirstRepoText}>
-                <h2>Let's make your first repository!🚀</h2>
-              </div>
-              <button onClick={toggleCreateModal} className={styles.newrepobutton}>
-                CREATE REPOSITORY
-              </button>
-              <div className={styles.repositoriescontainer_empty_text}>
-                <div className={styles.recommendcontainer}>
-                  <div className={styles.recommend}>
-                    <h2>Recommendation Template</h2>
-                  </div>
-                  <div className={styles.recommendComponent}>
-                    <Recommend />
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div className={styles.imgContainer}>
-              <div className={styles.imgcontext}>
-                <a href="https://www.notion.so/aaef50c8b3524ae9a29cf6449e744897" target="_blank">
-                  <div className={styles.p_box}>
-                    <h3>Notion</h3>
-                    <p>Jan 05. 2024</p>
-                  </div>
-                  <img src="https://blog.kakaocdn.net/dn/b096ff/btsEnS31kpu/JWqbMNxuxz4rJL5h8nMsVk/img.jpg"></img>
-                  <div className={styles.textContainer}>
-                    This is the notice page of Happiness meta. We usually record, organize, and plan
-                    our studies here.
-                  </div>
-                </a>
-              </div>
-              <div className={styles.imgcontext}>
-                <a
-                  href="https://www.notion.so/jaeseon-yang-tree/06e2f2d35dd741b1b136f1d0f43487a5?pvs=4"
-                  target="_blank"
-                >
-                  <div className={styles.p_box}>
-                    <h3>Personalization</h3>
-                    <p>Jan 05. 2024</p>
-                  </div>
-                  <img src="https://blog.kakaocdn.net/dn/cd7E76/btsEttWjzlw/vgy6gbezenkYhcMqXPh1nK/img.jpg"></img>
-
-                  <div className={styles.textContainer}>
-                    Click to go to Yang Jae-sun's personal production page.
-                  </div>
-                </a>
-              </div>
-              <div className={styles.imgcontext}>
-                <div className={styles.p_box}>
-                  <h3>Notion</h3>
-                  <p>Jan 05. 2024</p>
-                </div>
-                <img src="https://blog.kakaocdn.net/dn/6fWwh/btsEqwFL7Vv/IAqXIGwlpKnabANPzI7Ww1/img.jpg"></img>
-                <div className={styles.textContainer}>
-                  Last month, we released many new features and improvements designed to boost your
-                  productivity, collaboration, and coding experience on Replit. Some of the key
-                  highlights include:
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      ) : (
-        <div className={`${isAnimated ? styles.fadeIn : styles.dashboardContainer}`}>
-          {/* <div className={`${styles.recentContaier}`}>
-            <div className={styles.recommendcontainer_fill}>
-              <h2>Recent</h2>
-              <Recent />
-            </div>
-          </div> */}
-          <div className={styles.repositoriescontainer}>
-            <div className={styles.recommendcontainer_fill}>
-              <h2>Recommendation Templates</h2>
-            </div>
-            <div className={styles.recommend_fill}>
-              <Recommend />
-            </div>
-            <div className={styles.createRepoContainer}>
-              <button onClick={toggleCreateModal} className={styles.newrepobutton2}>
-                CREATE REPOSITORY
-              </button>
-            </div>
-            <div className={styles.repositories_fill}>
-              <h2>All Repositories</h2>
-              <Repositories />
-            </div>
-          </div>
-        </div>
-      )}
+      {isEmpty ? <EmptyRepositories /> : <FillRepositories />}
       <ReactModal
         isOpen={isModalOpen}
         onRequestClose={toggleCreateModal}

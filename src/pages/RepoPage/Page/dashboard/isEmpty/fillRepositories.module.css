@@ -1,0 +1,67 @@
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+.fadeIn {
+  animation: fadeIn 1.3s;
+}
+
+.dashboardContainer {
+  display: table-column;
+  margin-left: 10px;
+}
+
+.repositoriescontainer {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  padding-top: 50px;
+  padding-left: 20px;
+}
+
+.createRepoContainer {
+  position: absolute;
+  top: 288px;
+  left: 324px;
+}
+.repositories_fill {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  margin-top: 40px;
+}
+
+.newrepobutton2 {
+  width: 150px;
+  height: 15%;
+  border: none;
+  background-color: #068fff;
+  cursor: pointer;
+  border-radius: 20px;
+  padding: 10px;
+  /* animation: float 2s ease-in-out infinite; */
+  transition: background-color 0.3s;
+  margin-top: 30px;
+  position: relative;
+  top: 0px;
+  left: 167px;
+  animation: float 2s ease-in-out infinite;
+}
+@keyframes float {
+  0%,
+  100% {
+    transform: translateY(0); /* 원래 위치 */
+  }
+  50% {
+    transform: translateY(-10px); /* 위로 20px 이동 */
+  }
+}
+
+.newrepobutton2:hover {
+  box-shadow: 0 0 7px black;
+}

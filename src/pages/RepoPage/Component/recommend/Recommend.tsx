@@ -34,7 +34,6 @@ const Recommend = () => {
 
     try {
       const response = await userAxiosWithAuth.post(`/api/repos/template`, data);
-      console.log("프로그래밍 랭귀지:", response.data);
 
       RepoPageStore.getState().setRepositories({
         ...RepoPageStore.getState().repositories, // 기존 저장소 유지
