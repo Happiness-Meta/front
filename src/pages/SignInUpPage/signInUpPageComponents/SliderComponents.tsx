@@ -3,7 +3,7 @@ import styles from "../signInUpPage.module.css";
 import LoginPageStore from "@/store/SignInUpPageStore/SignInUpPageStore";
 import { WidthZeroProps } from "@/types/ComponentsProps";
 
-const SliderComponents: React.FC<WidthZeroProps> = (widthZero) => {
+const SliderComponents: React.FC<WidthZeroProps> = ({ widthZero }) => {
   const { inUp, welcomeMessage } = LoginPageStore();
 
   const [cookies] = useCookies(["token", "nickname"]);
