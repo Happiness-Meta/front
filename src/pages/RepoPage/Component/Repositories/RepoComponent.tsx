@@ -55,6 +55,7 @@ const RepoComponent = () => {
     setEditMode;
   };
 
+  //레포지토리 이름 업데이트하는 함수
   const handleNameUpdate = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault(); // 폼 제출 이벤트의 기본 동작 방지
 
@@ -63,10 +64,9 @@ const RepoComponent = () => {
       return;
     }
     try {
-      const response = await userAxiosWithAuth.patch(`/api/repos/${currentEditingRepoKey}`, {
+      await userAxiosWithAuth.patch(`/api/repos/${currentEditingRepoKey}`, {
         updatedName: editName,
       });
-      console.log("Repository name updated successfully:", response.data);
       // setRepoImg(response.data.data.programmingLanguage.toLowerCase());
       // Zustand 스토어 업데이트
       const updatedRepositories = { ...repositories };
@@ -82,15 +82,6 @@ const RepoComponent = () => {
     setEditName("");
   };
 
-  // const handleSave = ({ key }: NameClickParams) => {
-  //   const newRepositories = {
-  //     ...repositories,
-  //     [key]: { ...repositories[key], name: editName },
-  //   };
-  //   setRepositories(newRepositories);
-  //   setEditMode(null);
-  // };
-
   const handleRepoDelete = async (repoId: string, event: React.MouseEvent) => {
     event.stopPropagation();
     try {
@@ -99,7 +90,7 @@ const RepoComponent = () => {
 
       // 저장소 삭제 후 스토어의 상태 업데이트
       const updatedRepositories = Object.entries(RepoPageStore.getState().repositories)
-        .filter(([key, _]) => key !== repoId) // 삭제하려는 repoId가 아닌 항목만 필터링
+        .filter(([key]) => key !== repoId) // 삭제하려는 repoId가 아닌 항목만 필터링
         .reduce((acc, [key, repo]) => {
           acc[key] = repo; // 필터링된 항목을 새 객체에 추가
           return acc;

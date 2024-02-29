@@ -5,7 +5,7 @@ import { useCookies } from "react-cookie";
 import { useParams } from "react-router-dom";
 import userAxiosWithAuth from "@/utils/useAxiosWIthAuth";
 import editorStore from "@/store/CodePageStore/editorStore";
-
+import useChatStore from "@/store/chatSpaceStore/chatStore";
 interface ChatMessage {
   sender: string;
   content: string;
@@ -25,19 +25,24 @@ interface StompMessagePayload {
 
 function ChatSpace() {
   const { repoId } = useParams();
-  const [messages, setMessages] = useState<ChatMessage[]>([]);
   const { rightSpace, setRightSpace } = editorStore();
-  const [currentMessage, setCurrentMessage] = useState<string>("");
-  const [userName, setUserName] = useState<string>("");
+  const {
+    currentMessage,
+    setCurrentMessage,
+    userName,
+    setUserName,
+    nowExistUser,
+    setNowExistUser,
+  } = useChatStore();
+  const [messages, setMessages] = useState<ChatMessage[]>([]);
+  const [initialDataLoaded, setInitialDataLoaded] = useState(false);
+  const [searchTerm, setSearchTerm] = useState("");
+  const [searchResults, setSearchResults] = useState<SearchResult[]>([]);
   const [cookies] = useCookies(["token", "nickname"]);
   const messagesEndRef = useRef<HTMLUListElement | null>(null);
   const clientRef = useRef<Client | null>(null);
-  const [initialDataLoaded, setInitialDataLoaded] = useState(false);
-  const [nowExistUser, setNowExistUser] = useState("");
-  const [searchTerm, setSearchTerm] = useState("");
   const API_URL = import.meta.env.VITE_WEBSOCKET_URL;
   const messageRefs = useRef<(HTMLLIElement | null)[]>([]);
-  const [searchResults, setSearchResults] = useState<SearchResult[]>([]);
 
   const requestChatInitialData = async () => {
     try {
@@ -125,9 +130,8 @@ function ChatSpace() {
     }
   };
 
+  //웹소켓 연결 , 구독하는 함수
   const onConnected = () => {
-    console.log("웹소켓 연결 완료");
-
     if (!messages.some((m) => m.sender === nowExistUser)) {
       clientRef.current?.send(
         `/pub/chat/enter/${repoId}`,
@@ -135,10 +139,8 @@ function ChatSpace() {
         JSON.stringify({ sender: userName, type: "JOIN" })
       );
       setNowExistUser(userName);
-      console.log("지금 있는 유저:", nowExistUser);
     }
     clientRef.current?.subscribe(`/sub/repo/${repoId}`, onMessageReceived);
-    console.log("구독 완료");
   };
 
   const onError = (error: any) => {
@@ -155,15 +157,13 @@ function ChatSpace() {
         type: "CHAT",
       };
       clientRef.current?.send(`/pub/chat/send/${repoId}`, {}, JSON.stringify(chatMessage));
-      console.log("클라이언트 메시지 전송 메서드 내부 유저아이디:", userName);
-      console.log("클라이언트 메시지 전송 메서드 내부 메시지 리스트", messages);
+
       setCurrentMessage("");
     }
   };
 
   const onMessageReceived = (payload: StompMessagePayload) => {
     const message: ChatMessage = JSON.parse(payload.body);
-    // console.log("방금 받아낸 메시지", message);
     setMessages((prevMessages) => [...prevMessages, message]);
   };
 
